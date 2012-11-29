@@ -44,10 +44,6 @@ function MuuriVarasto() {
         }
     }
     
-    function getMuurit() {
-        return muurit;
-    }
-    
     function tormaako(ohjus) {
         for (var i=0; i < muurit.length; ++i) {
             if (muurit[i].tormaako(ohjus))
@@ -59,7 +55,6 @@ function MuuriVarasto() {
     
     return {
         piirra: piirra,
-        getMuurit: getMuurit,
         tormaako: tormaako
     };
 }

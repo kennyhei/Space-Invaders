@@ -18,8 +18,8 @@ var engine = (function() {
     var movement = {};
     var shootMissile = false;
     
-    
     var walls = new MuuriVarasto();
+    var invaders = new InvaderList();
     
     function input() {
 //        otetaan liikkeet ja toiminta talteen
@@ -31,6 +31,11 @@ var engine = (function() {
     function logic() {
         playerLogic();
         playerMissileLogic();
+        invadersLogic();
+    }
+    
+    function invadersLogic() {
+        // todo
     }
     
     // suoritetaan pelaajaan liittyvä logiikka
@@ -54,7 +59,9 @@ var engine = (function() {
             playerMissile = player.ammu();
         
         if (playerMissile != null) {
-            if (walls.tormaako(playerMissile) || playerMissile.getY() < 0) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
+            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
+                playerMissile = null;
+            else if (playerMissile.getY() < 0)
                 playerMissile = null;
             else 
                 playerMissile.siirra();
@@ -72,6 +79,7 @@ var engine = (function() {
             playerMissile.piirra(context);
         
         walls.piirra(context);
+        invaders.piirra(context);
     }
     
     function tick() {
