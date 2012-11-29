@@ -78,9 +78,9 @@ var engine = (function() {
             playerMissile = player.ammu();
         
         if (playerMissile != null) {
-            walls.tormaako(playerMissile);
-            
-            if (playerMissile.getY() < 0) 
+            if (walls.tormaako(playerMissile)) // jos ohjus törmää johonkin, poistetaan se
+                playerMissile = null;
+            else if (playerMissile.getY() < 0) 
                 playerMissile = null;
             else 
                 playerMissile.siirra();
@@ -226,9 +226,12 @@ function MuuriVarasto(muuriData) {
     }
     
     function tormaako(ohjus) {
-        $.each(muurit, function(index,muuri) {
-            console.log(muuri.tormaako(ohjus));
-        });
+        for (var i=0; i < muurit.length; ++i) {
+            if (muurit[i].tormaako(ohjus))
+                return true;
+        }
+    
+        return false;
     }
     
     return {
