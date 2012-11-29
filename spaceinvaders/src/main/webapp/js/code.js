@@ -67,7 +67,14 @@ var engine = (function() {
     // suoritetaan pelaajaan liittyvä logiikka
     function playerLogic() {
         // onko liikkuminen ok
-        if (!player.tormaakoSeinaan())
+        
+        if (player.tormaakoSeinaan()) {
+            if (player.getX() > 514 && movement[0] < 0)
+                player.siirra(movement[0]);
+            else if (player.getX() < 0 && movement[0] > 0) // jos ollaan kiinni seinässä, mutta liikutaan poispäin siitä, sallitaan liike
+                player.siirra(movement[0]);
+        }
+        else if (!player.tormaakoSeinaan())
             player.siirra(movement[0]);
     }
     
@@ -148,8 +155,9 @@ function Player() {
     }
     
     function tormaakoSeinaan() {
-        if (x > 515 || x < 0)
+        if (x > 514 || x < 0) {
             return true;
+        }
         
         return false;
     }
@@ -187,7 +195,7 @@ function Ohjus(x,y) {
     }
     
     function siirra() {
-        y -= 4;
+        y -= 10;
     }
     
     function getX() {
