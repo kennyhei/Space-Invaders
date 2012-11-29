@@ -1,0 +1,29 @@
+
+body {
+    padding: 5em;
+    width: 60%;
+    min-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+section {
+    padding: 1em;
+
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(73, 69, 69);
+}
+
+.highlight {
+    background-color: gold;
+}
+
+canvas {
+    border: 1px rgb(0, 0, 0) solid;
+}
