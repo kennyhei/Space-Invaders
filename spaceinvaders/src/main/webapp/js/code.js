@@ -1,5 +1,15 @@
 "use strict";
 
+// tiilien koordinaatit, jotka muodostavat yhden muurin
+var muuriData = [
+    [50, 495],
+    [90, 495],
+    [50, 475],
+    [90, 475],
+    [65, 475],
+    [80, 475]
+];
+
 window.requestAnimFrame = (function(){
     return window.requestAnimationFrame       || 
         window.webkitRequestAnimationFrame || 
@@ -17,6 +27,8 @@ var engine = (function() {
     
     var movement = {};
     var shootMissile = false;
+    
+    var muuri = new Muuri(muuriData);
     
     function input() {
 //        otetaan liikkeet ja toiminta talteen
@@ -61,6 +73,8 @@ var engine = (function() {
         
         if (playerMissile != null)
             playerMissile.piirra(context);
+        
+        muuri.piirra(context);
     }
     
     function tick() {
@@ -169,3 +183,39 @@ function Ohjus(x,y) {
     };
 }
 
+// alusta suojaava yksittäinen muuri
+function Muuri(muuriData) {
+    var tiilet = new Array();
+    
+    $.each(muuriData, function(index, koordinaatit) {
+        console.log(koordinaatit[0]+" "+koordinaatit[1]);
+        var tiili = new Tiili(koordinaatit[0], koordinaatit[1]);
+        tiilet.push(tiili);
+    });
+
+    
+    function piirra(context) {
+        for (var i=0; i < tiilet.length; ++i) {
+            tiilet[i].piirra(context);
+        }
+    }
+    
+    return {
+        piirra: piirra
+    };
+}
+
+// muuri koostuu eri tiileistä
+function Tiili(x,y) {
+    var leveys = 15;
+    var korkeus = 20;
+    
+    function piirra(context) {
+        context.fillStyle = "rgb(0,255,0)";
+        context.fillRect(x, y, leveys, korkeus);
+    }
+    
+    return {
+        piirra: piirra
+    };
+}
