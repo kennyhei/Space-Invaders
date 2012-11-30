@@ -14,13 +14,14 @@ window.requestAnimFrame = (function(){
 var engine = (function() {
     var player = new Player();
     var playerMissile;
+    var invaderMissiles = [];
     
     var movement = {};
     var shootMissile = false;
     
     var walls = new MuuriVarasto();
     var invaders = new InvaderList();
-    var directionRight = true;
+    var invaderDirection = true; // jos true, muukalaiset liikkuvat oikealle, muuten vasemmalle
     
     function input() {
 //        otetaan liikkeet ja toiminta talteen
@@ -33,21 +34,20 @@ var engine = (function() {
         playerLogic();
         playerMissileLogic();
         invadersLogic();
+        invadersMissileLogic();
     }
     
     function invadersLogic() {
         // kosketetaan seinää => rivi alemmas ja suunnanvaihdos
         if (invaders.tormaakoSeinaan()) {
-            if (directionRight)
+            if (invaderDirection)
                 invaders.siirra(-1,25);
             else
                 invaders.siirra(1,25);
             
-            directionRight = !directionRight;
-        }
-        
-        if (!invaders.tormaakoSeinaan()) {
-            if (directionRight)
+            invaderDirection = !invaderDirection;
+        } else if (!invaders.tormaakoSeinaan()) {
+            if (invaderDirection)
                 invaders.siirra(1,0);
             else
                 invaders.siirra(-1,0);
@@ -57,7 +57,6 @@ var engine = (function() {
     // suoritetaan pelaajaan liittyvä logiikka
     function playerLogic() {
         // onko liikkuminen ok
-        
         if (player.tormaakoSeinaan()) {
             if (player.getX() > 514 && movement[0] < 0)
                 player.siirra(movement[0]);
@@ -80,7 +79,30 @@ var engine = (function() {
             else if (playerMissile.getY() < 0)
                 playerMissile = null;
             else 
-                playerMissile.siirra();
+                playerMissile.siirra(-10);
+        }
+    }
+    
+    function invadersMissileLogic() {
+        $.each(invaders.getInvaders(), function(index, invader) {
+            if (Math.random() < 0.1 && index > 43)
+                invaderMissiles.push(invader.ammu());
+        });
+        
+        // siirretään ohjuksia / meneekö ohjukset ruudun ulkopuolelle
+        if (invaderMissiles.length > 0) {
+            for (var i=0; i < invaderMissiles.length; ++i) {
+                var missile = invaderMissiles[i];
+                
+                if (player.tormaako(missile) || walls.tormaako(missile)) {
+                    invaderMissiles.splice(i,1);
+                    --i;
+                } else if (missile.getY() > 580) {
+                    invaderMissiles.splice(i, 1);
+                    --i;
+                } else
+                    missile.siirra(1);
+            }
         }
     }
     
@@ -93,6 +115,12 @@ var engine = (function() {
         
         if (playerMissile != null)
             playerMissile.piirra(context);
+        
+        if (invaderMissiles.length > 0) {
+            $.each(invaderMissiles, function(index, missile) {
+                missile.piirra(context);
+            });
+        }
         
         walls.piirra(context);
         invaders.piirra(context);
@@ -152,6 +180,23 @@ function Player() {
         return false;
     }
     
+    function tormaako(ohjus) {
+        if (intersects(x,y,25,25, ohjus.getX(), ohjus.getY(), 3, 5))
+            return true;
+        else
+            return false;
+    }
+    
+    function intersects(x1, y1, w1, h1, x2, y2, w2, h2) {
+        w2 += x2-1;
+        w1 += x1-1;
+        if (x2 > w1 || x1 > w2) return false;
+        h2 += y2-1;
+        h1 += y1-1;
+        if (y2 > h1 || y1 > h2) return false;
+        return true;
+    }
+    
     function ammu() {
         return new Ohjus(x+10, y+5);
     }
@@ -170,7 +215,8 @@ function Player() {
         siirra: siirra,
         piirra: piirra,
         tormaakoSeinaan: tormaakoSeinaan,
-        ammu: ammu
+        ammu: ammu,
+        tormaako: tormaako
     };
 }
 
@@ -184,8 +230,8 @@ function Ohjus(x,y) {
         context.fillRect(x, y, leveys, korkeus);
     }
     
-    function siirra() {
-        y -= 10;
+    function siirra(dy) {
+        y += dy;
     }
     
     function getX() {

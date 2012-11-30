@@ -2,7 +2,7 @@
 var invaderData = [
     
     // 1. rivi    
-    [60, 100],
+    [60, 100], // 0
     [100, 100],
     [140, 100],
     [180, 100],
@@ -15,7 +15,7 @@ var invaderData = [
     [460, 100],
 
     // 2. rivi
-    [60, 140],
+    [60, 140], // 11
     [100, 140],
     [140, 140],
     [180, 140],
@@ -28,7 +28,7 @@ var invaderData = [
     [460, 140],
 
     // 3. rivi
-    [60, 180],
+    [60, 180], // 22
     [100, 180],
     [140, 180],
     [180, 180],
@@ -99,6 +99,10 @@ function InvaderList() {
         return false;
     }
     
+    function getInvaders() {
+        return invaders;
+    }
+    
     function tormaakoSeinaan() {
         for (var i=0; i < invaders.length; ++i) {
             if (invaders[i].tormaakoSeinaan())
@@ -116,7 +120,8 @@ function InvaderList() {
         piirra: piirra,
         tormaako: tormaako,
         tormaakoSeinaan: tormaakoSeinaan,
-        siirra: siirra
+        siirra: siirra,
+        getInvaders: getInvaders
     };
 }
 
