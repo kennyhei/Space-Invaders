@@ -72,6 +72,8 @@ function InvaderList() {
     
     $.each(invaderData, function(index, data) {
         var invader = new Invader(data[0], data[1], data[2]);
+        var sprite = getSprite(data[2]);
+        invader.setSprite(sprite);
         invaders.push(invader);
     });
     
@@ -84,7 +86,6 @@ function InvaderList() {
     function piirra(context) {
         for (var i=0; i < invaders.length; ++i) {
             var row = invaders[i].getRow(); // oikea kuva päätellään invaderin sijaitseman rivin perusteella
-            var sprite = getSprite(row);
             invaders[i].piirra(context, sprite);
         }
     }
@@ -95,8 +96,7 @@ function InvaderList() {
         else if (row == 1 || row == 2)
             return sprite = [70,4,30,25];
         else
-            return sprite = [176,4,30,25];
-            
+            return sprite = [144,4,30,25];     
     }
     
     // jos johonkin invaderiin osuu ohjus, poistetaan se listalta
@@ -141,17 +141,38 @@ function InvaderList() {
 function Invader(x,y,row) {
     var leveys = 25;
     var korkeus = 20;
+    var sprite = [];
     
+    // sprite variables
     var img = new Image();
-    img.src = "invaders.png";
+    img.src = "invaders2.png";
+    
+    var frameTime = 1; // vaihdetaan sprite-animaatiota 3 sekunnin välein
+    var lastUpdateTime = 0;
+    var secondSprite = false;
     
     function siirra(dx, dy) {
         x += dx;
         y += dy;
     }
     
-    function piirra(context, sprite) {
+    function piirra(context) {
+        changeSprite();
         context.drawImage(img, sprite[0], sprite[1], sprite[2], sprite[3], x,y,leveys,korkeus);
+    }
+    
+    // after certain time, change sprite
+    function changeSprite() {
+        var currentTime = new Date().getTime() / 1000;
+        if ((currentTime -  lastUpdateTime) > frameTime) {
+            if (secondSprite)
+                sprite[0] -= 30;
+            else
+                sprite[0] += 30;
+            
+            lastUpdateTime = currentTime;
+            secondSprite = !secondSprite;
+        }
     }
     
     function tormaakoSeinaan() {
@@ -178,6 +199,10 @@ function Invader(x,y,row) {
         return true;
     }
     
+    function setSprite(invaderSprite) {
+        sprite = invaderSprite;
+    }
+    
     function ammu() {
         return new Ohjus(x+10, y+5);
     }
@@ -202,6 +227,7 @@ function Invader(x,y,row) {
         piirra: piirra,
         tormaakoSeinaan: tormaakoSeinaan,
         tormaako: tormaako,
-        ammu: ammu
+        ammu: ammu,
+        setSprite: setSprite
     };
 }

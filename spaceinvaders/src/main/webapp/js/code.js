@@ -48,9 +48,9 @@ var engine = (function() {
             invaderDirection = !invaderDirection;
         } else if (!invaders.tormaakoSeinaan()) {
             if (invaderDirection)
-                invaders.siirra(1,0);
+                invaders.siirra(0.3,0);
             else
-                invaders.siirra(-1,0);
+                invaders.siirra(-0.3,0);
         }
     }
     
