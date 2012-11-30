@@ -127,7 +127,7 @@ var engine = (function() {
         context.clearRect(0, 0, 540, 580);
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0,0,540,580);
-        
+
         renderPlayer(context);
         
         if (playerMissile != null)

@@ -3,9 +3,16 @@ body {
     padding: 2em;
     width: 60%;
     min-width: 600px;
-    margin-left: auto;
     margin-right: auto;
     text-align: center;
+    background-repeat: no-repeat;
+    background-image: url(img/wallpaper.jpg);
+    background-size: 100%;
+    background-position: right; 
+}
+
+#spaceinvaders {
+    border-color: white;
 }
 
 section {
