@@ -20,6 +20,7 @@ var engine = (function() {
     
     var walls = new MuuriVarasto();
     var invaders = new InvaderList();
+    var directionRight = true;
     
     function input() {
 //        otetaan liikkeet ja toiminta talteen
@@ -35,7 +36,22 @@ var engine = (function() {
     }
     
     function invadersLogic() {
-        // todo
+        // kosketetaan seinää => rivi alemmas ja suunnanvaihdos
+        if (invaders.tormaakoSeinaan()) {
+            if (directionRight)
+                invaders.siirra(-1,25);
+            else
+                invaders.siirra(1,25);
+            
+            directionRight = !directionRight;
+        }
+        
+        if (!invaders.tormaakoSeinaan()) {
+            if (directionRight)
+                invaders.siirra(1,0);
+            else
+                invaders.siirra(-1,0);
+        }
     }
     
     // suoritetaan pelaajaan liittyvä logiikka

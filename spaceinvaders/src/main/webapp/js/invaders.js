@@ -75,6 +75,12 @@ function InvaderList() {
         invaders.push(invader);
     });
     
+    function siirra(x,y) {
+        $.each(invaders, function(index, invader) {
+            invader.siirra(x,y);
+        });
+    }
+    
     function piirra(context) {
         for (var i=0; i < invaders.length; ++i) {
             invaders[i].piirra(context);
@@ -93,13 +99,24 @@ function InvaderList() {
         return false;
     }
     
+    function tormaakoSeinaan() {
+        for (var i=0; i < invaders.length; ++i) {
+            if (invaders[i].tormaakoSeinaan())
+                return true;
+        }
+    
+        return false;
+    }
+    
     function poistaInvader(index) {
         invaders.splice(index, 1);
     }
     
     return {
         piirra: piirra,
-        tormaako: tormaako
+        tormaako: tormaako,
+        tormaakoSeinaan: tormaakoSeinaan,
+        siirra: siirra
     };
 }
 
@@ -108,8 +125,9 @@ function Invader(x,y) {
     var korkeus = 25;
     
     // alien voi liikkua vain sivuttaisuunnassa
-    function siirra(dx) {
+    function siirra(dx, dy) {
         x += dx;
+        y += dy;
     }
     
     function piirra(context) {
