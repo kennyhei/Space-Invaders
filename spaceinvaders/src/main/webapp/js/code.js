@@ -19,6 +19,8 @@ var engine = (function() {
     var movement = {};
     var shootMissile = false;
     
+    var gameOver = false;
+    
     var walls = new MuuriVarasto();
     var invaders = new InvaderList();
     var invaderDirection = true; // jos true, muukalaiset liikkuvat oikealle, muuten vasemmalle
@@ -31,10 +33,22 @@ var engine = (function() {
 
     // käsitellään pelaajan syötteet ja tietokoneen toiminta (tito) täällä
     function logic() {
+        if (player.getLives() < 1)
+            gameOver = true;
+        
         playerLogic();
         playerMissileLogic();
         invadersLogic();
         invadersMissileLogic();
+            
+    }
+
+    function endGame(context) {
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(180, 265, 180, 33);
+        context.font = "bold 30px Courier New";
+        context.fillStyle = "rgb(255,255,255)";
+        context.fillText("GAME OVER", 190, 290);
     }
     
     function invadersLogic() {
@@ -85,7 +99,7 @@ var engine = (function() {
     
     function invadersMissileLogic() {
         $.each(invaders.getInvaders(), function(index, invader) {
-            if (Math.random() < 0.001 && index > 43)
+            if (Math.random() < 0.002 && index > 43)
                 invaderMissiles.push(invader.ammu());
         });
         
@@ -97,7 +111,7 @@ var engine = (function() {
                 if (player.tormaako(missile) || walls.tormaako(missile)) {
                     invaderMissiles.splice(i,1);
                     --i;
-                } else if (missile.getY() > 580) {
+                } else if (missile.getY() > 535) {
                     invaderMissiles.splice(i, 1);
                     --i;
                 } else
@@ -126,6 +140,29 @@ var engine = (function() {
         
         walls.piirra(context);
         renderInvaders(context);
+        renderHUD(context);
+        
+        if (gameOver)
+            endGame(context);
+    }
+    
+    function renderHUD(context) {
+        context.lineWidth = 2;
+        context.strokeStyle = "rgb(0,255,0)";
+        context.moveTo(0,540);
+        context.lineTo(540, 540);
+        context.stroke();
+        
+        var playerImg = player.getImg();
+        var xLocation = 50;
+        for (var i=0; i < player.getLives(); ++i) {
+            context.drawImage(playerImg,0,12,80,72,xLocation,550,25,25);
+            xLocation += 30;
+        }
+        
+        context.font = "20px Courier New";
+        context.fillStyle = "rgb(255, 255, 255)";
+        context.fillText(player.getLives()+"x", 20, 570);
     }
     
     function renderInvaders(context) {
@@ -147,7 +184,9 @@ var engine = (function() {
         engine.input();
         engine.logic();
         engine.render();
-        requestAnimFrame(engine.tick);
+        
+        if (!gameOver)
+            requestAnimFrame(engine.tick);
     }
     
     return {

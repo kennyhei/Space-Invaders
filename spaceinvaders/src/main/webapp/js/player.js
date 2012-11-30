@@ -1,8 +1,10 @@
 function Player() {
     var x = 260;
-    var y = 540;
+    var y = 500;
     var leveys = 25;
     var korkeus = 25;
+    
+    var lives = 3;
     
     var img = new Image();
     img.src = "ships2.png";
@@ -26,10 +28,12 @@ function Player() {
     }
     
     function tormaako(ohjus) {
-        if (intersects(x,y,25,25, ohjus.getX(), ohjus.getY(), 3, 5))
+        if (intersects(x,y,25,25, ohjus.getX(), ohjus.getY(), 3, 5)) {
+            --lives;
             return true;
-        else
+        } else {
             return false;
+        }
     }
     
     function intersects(x1, y1, w1, h1, x2, y2, w2, h2) {
@@ -54,7 +58,17 @@ function Player() {
         return y;
     }
     
+    function getLives() {
+        return lives;
+    }
+    
+    function getImg() {
+        return img;
+    }
+    
     return {
+        getImg: getImg,
+        getLives: getLives,
         getX: getX,
         getY: getY,
         siirra: siirra,

@@ -85,8 +85,7 @@ function InvaderList() {
     
     function piirra(context) {
         for (var i=0; i < invaders.length; ++i) {
-            var row = invaders[i].getRow(); // oikea kuva päätellään invaderin sijaitseman rivin perusteella
-            invaders[i].piirra(context, sprite);
+            invaders[i].piirra(context);
         }
     }
     
@@ -147,7 +146,7 @@ function Invader(x,y,row) {
     var img = new Image();
     img.src = "invaders2.png";
     
-    var frameTime = 1; // vaihdetaan sprite-animaatiota 3 sekunnin välein
+    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
     var lastUpdateTime = 0;
     var secondSprite = false;
     
