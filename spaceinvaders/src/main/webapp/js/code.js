@@ -13,6 +13,7 @@ window.requestAnimFrame = (function(){
 
 var engine = (function() {
     var player = new Player();
+    var score = new Score();
     var playerMissile;
     var invaderMissiles = [];
     
@@ -33,7 +34,7 @@ var engine = (function() {
 
     // käsitellään pelaajan syötteet ja tietokoneen toiminta (tito) täällä
     function logic() {
-        if (player.getLives() < 1)
+        if (player.getLives() < 1 || invaders.getInvaders().length < 1)
             gameOver = true;
         
         playerLogic();
@@ -88,9 +89,9 @@ var engine = (function() {
             playerMissile = player.ammu();
         
         if (playerMissile != null) {
-            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
+            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
                 playerMissile = null;
-            else if (playerMissile.getY() < 0)
+            else if (playerMissile.getY() < 70)
                 playerMissile = null;
             else 
                 playerMissile.siirra(-10);
@@ -163,6 +164,8 @@ var engine = (function() {
         context.font = "20px Courier New";
         context.fillStyle = "rgb(255, 255, 255)";
         context.fillText(player.getLives()+"x", 20, 570);
+        context.fillText("SCORE", 20,30);
+        context.fillText(score.getScore(), 20, 50);
     }
     
     function renderInvaders(context) {

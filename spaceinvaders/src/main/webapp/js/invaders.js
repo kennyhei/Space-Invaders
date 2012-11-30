@@ -70,12 +70,43 @@ var invaderData = [
 function InvaderList() {
     var invaders = new Array();
     
+    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
+    var lastUpdateTime = 0;
+    
     $.each(invaderData, function(index, data) {
         var invader = new Invader(data[0], data[1], data[2]);
         var sprite = getSprite(data[2]);
         invader.setSprite(sprite);
         invaders.push(invader);
     });
+    
+    // after certain time, change invaders' sprite
+    // if invader's sprite is "kaboom", delete invader
+    function changeSprite() {
+        var currentTime = new Date().getTime() / 1000;
+        
+        if ((currentTime - lastUpdateTime) > frameTime) {
+            for (var i=0; i < invaders.length; ++i) {
+//                if (invaders[i].getImgSrc().indexOf("kaboom.png") != -1) {
+//                    poistaInvader(i);
+//                    continue;
+//                }
+                
+                var sprite = invaders[i].getSprite();
+            
+                if (invaders[i].getChangeSprite() == true) {
+                    sprite[0] -= 30;
+                    invaders[i].setSprite(sprite);
+                } else {
+                    sprite[0] += 30;
+                    invaders[i].setSprite(sprite);
+                }
+            
+                lastUpdateTime = currentTime;
+                invaders[i].setChangeSprite();
+            }
+        }
+    }
     
     function siirra(x,y) {
         $.each(invaders, function(index, invader) {
@@ -84,6 +115,8 @@ function InvaderList() {
     }
     
     function piirra(context) {
+        changeSprite();
+        
         for (var i=0; i < invaders.length; ++i) {
             invaders[i].piirra(context);
         }
@@ -98,10 +131,18 @@ function InvaderList() {
             return sprite = [144,4,30,25];     
     }
     
-    // jos johonkin invaderiin osuu ohjus, poistetaan se listalta
-    function tormaako(ohjus) {
+    // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
+    function tormaako(ohjus,score) {
         for (var i=0; i < invaders.length; ++i) {
+
             if (invaders[i].tormaako(ohjus)) {
+//                if (invaders[i].getImgSrc().indexOf("kaboom.png") != -1)
+//                    continue;
+//                
+//                invaders[i].setImgSrc("kaboom.png");
+//                var sprite = [0,0,34,23];
+//                invaders[i].setSprite(sprite);
+                score.raiseScore(invaders[i].getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
                 poistaInvader(i);
                 return true;
             }
@@ -146,9 +187,9 @@ function Invader(x,y,row) {
     var img = new Image();
     img.src = "invaders2.png";
     
-    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
-    var lastUpdateTime = 0;
-    var secondSprite = false;
+//    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
+//    var lastUpdateTime = 0;
+    var changeSprite = false;
     
     function siirra(dx, dy) {
         x += dx;
@@ -156,23 +197,23 @@ function Invader(x,y,row) {
     }
     
     function piirra(context) {
-        changeSprite();
+//        changeSprite();
         context.drawImage(img, sprite[0], sprite[1], sprite[2], sprite[3], x,y,leveys,korkeus);
     }
     
-    // after certain time, change sprite
-    function changeSprite() {
-        var currentTime = new Date().getTime() / 1000;
-        if ((currentTime -  lastUpdateTime) > frameTime) {
-            if (secondSprite)
-                sprite[0] -= 30;
-            else
-                sprite[0] += 30;
-            
-            lastUpdateTime = currentTime;
-            secondSprite = !secondSprite;
-        }
-    }
+//    // after certain time, change sprite
+//    function changeSprite() {
+//        var currentTime = new Date().getTime() / 1000;
+//        if ((currentTime -  lastUpdateTime) > frameTime) {
+//            if (secondSprite)
+//                sprite[0] -= 30;
+//            else
+//                sprite[0] += 30;
+//            
+//            lastUpdateTime = currentTime;
+//            secondSprite = !secondSprite;
+//        }
+//    }
     
     function tormaakoSeinaan() {
         if (x > 514 || x < 0)
@@ -202,6 +243,18 @@ function Invader(x,y,row) {
         sprite = invaderSprite;
     }
     
+    function getSprite() {
+        return sprite;
+    }
+    
+    function getChangeSprite() {
+        return changeSprite;
+    }
+    
+    function setChangeSprite() {
+        changeSprite = !changeSprite;
+    }
+    
     function ammu() {
         return new Ohjus(x+10, y+5);
     }
@@ -218,6 +271,14 @@ function Invader(x,y,row) {
         return row;
     }
     
+    function setImgSrc(imgSrc) {
+        img.src = imgSrc;
+    }
+    
+    function getImgSrc() {
+        return img.src;
+    }
+    
     return {
         getX: getX,
         getY: getY,
@@ -227,6 +288,11 @@ function Invader(x,y,row) {
         tormaakoSeinaan: tormaakoSeinaan,
         tormaako: tormaako,
         ammu: ammu,
-        setSprite: setSprite
+        getSprite: getSprite,
+        setSprite: setSprite,
+        setImgSrc: setImgSrc,
+        getImgSrc: getImgSrc,
+        getChangeSprite: getChangeSprite,
+        setChangeSprite: setChangeSprite
     };
 }
