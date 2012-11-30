@@ -85,7 +85,7 @@ var engine = (function() {
     
     function invadersMissileLogic() {
         $.each(invaders.getInvaders(), function(index, invader) {
-            if (Math.random() < 0.1 && index > 43)
+            if (Math.random() < 0.001 && index > 43)
                 invaderMissiles.push(invader.ammu());
         });
         
@@ -110,8 +110,10 @@ var engine = (function() {
         // get context and clear
         var context = $("#spaceinvaders")[0].getContext("2d");
         context.clearRect(0, 0, 540, 580);
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(0,0,540,580);
         
-        player.piirra(context);
+        renderPlayer(context);
         
         if (playerMissile != null)
             playerMissile.piirra(context);
@@ -123,7 +125,24 @@ var engine = (function() {
         }
         
         walls.piirra(context);
+        renderInvaders(context);
+    }
+    
+    function renderInvaders(context) {
+        
+        
         invaders.piirra(context);
+    }
+    
+    function renderPlayer(context) {
+        if (movement[0] == -2)
+            var srcX = 147;
+        else if (movement[0] == 2)
+            srcX = 78;
+        else 
+            srcX = 0;
+        
+        player.piirra(context, srcX);
     }
     
     function tick() {
@@ -163,14 +182,18 @@ function Player() {
     var leveys = 25;
     var korkeus = 25;
     
+    var img = new Image();
+    img.src = "ships2.png";
+    
     // alus voi liikkua vain sivuttaisuunnassa
     function siirra(dx) {
         x += dx;
     }
     
-    function piirra(context) {
-        context.fillStyle = "rgb(0,255,0)";
-        context.fillRect(x, y, leveys, korkeus);
+    function piirra(context, srcX) {
+//        context.fillStyle = "rgb(0,255,0)";
+//        context.fillRect(x, y, leveys, korkeus);
+        context.drawImage(img,srcX,12,80,72, x,y,leveys, korkeus); // 4: vikaa: 2 ekaa: sijainti, 2 tokaa: koko
     }
     
     function tormaakoSeinaan() {
@@ -226,7 +249,7 @@ function Ohjus(x,y) {
     var korkeus = 5;
     
     function piirra(context) {
-        context.fillStyle = "rgb(0,0,0)";
+        context.fillStyle = "rgb(255,255,255)";
         context.fillRect(x, y, leveys, korkeus);
     }
     

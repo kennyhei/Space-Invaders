@@ -2,76 +2,76 @@
 var invaderData = [
     
     // 1. rivi    
-    [60, 100], // 0
-    [100, 100],
-    [140, 100],
-    [180, 100],
-    [220, 100],
-    [260, 100],
-    [300, 100],
-    [340, 100],
-    [380, 100],
-    [420, 100],
-    [460, 100],
+    [60, 100,0], // 0
+    [100, 100,0],
+    [140, 100,0],
+    [180, 100,0],
+    [220, 100,0],
+    [260, 100,0],
+    [300, 100,0],
+    [340, 100,0],
+    [380, 100,0],
+    [420, 100,0],
+    [460, 100,0],
 
     // 2. rivi
-    [60, 140], // 11
-    [100, 140],
-    [140, 140],
-    [180, 140],
-    [220, 140],
-    [260, 140],
-    [300, 140],
-    [340, 140],
-    [380, 140],
-    [420, 140],
-    [460, 140],
+    [60, 140,1], // 11
+    [100, 140,1],
+    [140, 140,1],
+    [180, 140,1],
+    [220, 140,1],
+    [260, 140,1],
+    [300, 140,1],
+    [340, 140,1],
+    [380, 140,1],
+    [420, 140,1],
+    [460, 140,1],
 
     // 3. rivi
-    [60, 180], // 22
-    [100, 180],
-    [140, 180],
-    [180, 180],
-    [220, 180],
-    [260, 180],
-    [300, 180],
-    [340, 180],
-    [380, 180],
-    [420, 180],
-    [460, 180],
+    [60, 180,2], // 22
+    [100, 180,2],
+    [140, 180,2],
+    [180, 180,2],
+    [220, 180,2],
+    [260, 180,2],
+    [300, 180,2],
+    [340, 180,2],
+    [380, 180,2],
+    [420, 180,2],
+    [460, 180,2],
 
     // 4. rivi
-    [60, 220],
-    [100, 220],
-    [140, 220],
-    [180, 220],
-    [220, 220],
-    [260, 220],
-    [300, 220],
-    [340, 220],
-    [380, 220],
-    [420, 220],
-    [460, 220],
+    [60, 220,3],
+    [100, 220,3],
+    [140, 220,3],
+    [180, 220,3],
+    [220, 220,3],
+    [260, 220,3],
+    [300, 220,3],
+    [340, 220,3],
+    [380, 220,3],
+    [420, 220,3],
+    [460, 220,3],
 
     // 5. rivi
-    [60, 260],
-    [100, 260],
-    [140, 260],
-    [180, 260],
-    [220, 260],
-    [260, 260],
-    [300, 260],
-    [340, 260],
-    [380, 260],
-    [420, 260],
-    [460, 260]
+    [60, 260,4],
+    [100, 260,4],
+    [140, 260,4],
+    [180, 260,4],
+    [220, 260,4],
+    [260, 260,4],
+    [300, 260,4],
+    [340, 260,4],
+    [380, 260,4],
+    [420, 260,4],
+    [460, 260,4]
 ];
 
 function InvaderList() {
     var invaders = new Array();
     
     $.each(invaderData, function(index, data) {
-        var invader = new Invader(data[0], data[1]);
+        var invader = new Invader(data[0], data[1], data[2]);
         invaders.push(invader);
     });
     
@@ -83,8 +83,20 @@ function InvaderList() {
     
     function piirra(context) {
         for (var i=0; i < invaders.length; ++i) {
-            invaders[i].piirra(context);
+            var row = invaders[i].getRow(); // kuva päätellään invaderin sijaitseman rivin perusteella
+            var sprite = getSprite(row);
+            invaders[i].piirra(context, sprite);
         }
+    }
+    
+    function getSprite(row) {
+        if (row == 0)
+            return sprite = [1,4,30,25]; // srcX, srcY, width, height
+        else if (row == 1 || row == 2)
+            return sprite = [70,4,30,25];
+        else
+            return sprite = [176,4,30,25];
+            
     }
     
     // jos johonkin invaderiin osuu ohjus, poistetaan se listalta
@@ -125,19 +137,21 @@ function InvaderList() {
     };
 }
 
-function Invader(x,y) {
+// sijainti ja monennella rivillä invader on
+function Invader(x,y,row) {
     var leveys = 25;
-    var korkeus = 25;
+    var korkeus = 20;
     
-    // alien voi liikkua vain sivuttaisuunnassa
+    var img = new Image();
+    img.src = "invaders.png";
+    
     function siirra(dx, dy) {
         x += dx;
         y += dy;
     }
     
-    function piirra(context) {
-        context.fillStyle = "rgb(255,0,0)";
-        context.fillRect(x, y, leveys, korkeus);
+    function piirra(context, sprite) {
+        context.drawImage(img, sprite[0], sprite[1], sprite[2], sprite[3], x,y,leveys,korkeus);
     }
     
     function tormaakoSeinaan() {
@@ -176,9 +190,14 @@ function Invader(x,y) {
         return y;
     }
     
+    function getRow() {
+        return row;
+    }
+    
     return {
         getX: getX,
         getY: getY,
+        getRow: getRow,
         siirra: siirra,
         piirra: piirra,
         tormaakoSeinaan: tormaakoSeinaan,
