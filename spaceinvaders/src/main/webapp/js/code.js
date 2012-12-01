@@ -56,16 +56,18 @@ var engine = (function() {
         // kosketetaan seinää => rivi alemmas ja suunnanvaihdos
         if (invaders.tormaakoSeinaan()) {
             if (invaderDirection)
-                invaders.siirra(-1,25);
+                invaders.siirra(-1-(invaders.getSpeed()),25);
             else
-                invaders.siirra(1,25);
+                invaders.siirra(1+(invaders.getSpeed()),25);
             
             invaderDirection = !invaderDirection;
         } else if (!invaders.tormaakoSeinaan()) {
+            
+            var speed = invaders.getSpeed();
             if (invaderDirection)
-                invaders.siirra(0.3,0);
+                invaders.siirra(speed,0);
             else
-                invaders.siirra(-0.3,0);
+                invaders.siirra(-speed,0);
         }
     }
     

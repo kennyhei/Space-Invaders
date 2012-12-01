@@ -85,6 +85,7 @@ function InvaderList() {
     var invaders = new Array();
     var numOfInvaders = 55;
     var invaderMissiles = [];
+    var invadersSpeed = 0.1;
     
     var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
     var lastUpdateTime = 0;
@@ -172,6 +173,7 @@ function InvaderList() {
 //                var sprite = [0,0,34,23];
 //                invaders[i].setSprite(sprite);
                 score.raiseScore(invaders[i][j].getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
+                increaseSpeed();
                 poistaInvader(i,j);
                 --numOfInvaders;
                 return true;
@@ -182,22 +184,22 @@ function InvaderList() {
     }
     
     function shootLogic() {
-        for (var row = 0; row < invaders.length; ++row) {
-            if (!invaderColumnShot[row]) {
-                if (shoot(invaders[row]))
-                    invaderColumnShot[row] = true;
+        for (var column = 0; column < invaders.length; ++column) {
+            if (!invaderColumnShot[column]) {
+                if (shoot(invaders[column]))
+                    invaderColumnShot[column] = true;
             }
         }
         
         return invaderMissiles;
     }
     
-    function shoot(row) {
+    function shoot(column) {
         
         // jos koko vihollissarake tuhottu, ei jatketa
-        if (row.length > 0) {
+        if (column.length > 0) {
             if (Math.random() < 0.3) {
-                invaderMissiles.push(row[row.length-1].ammu());
+                invaderMissiles.push(column[column.length-1].ammu());
                 return true;
             }
         }
@@ -229,7 +231,16 @@ function InvaderList() {
         invaders[row].splice(column, 1);
     }
     
+    function increaseSpeed() {
+        invadersSpeed += 0.1;
+    }
+    
+    function getSpeed() {
+        return invadersSpeed;
+    }
+    
     return {
+        getSpeed: getSpeed,
         piirra: piirra,
         tormaako: tormaako,
         tormaakoSeinaan: tormaakoSeinaan,
@@ -240,7 +251,7 @@ function InvaderList() {
     };
 }
 
-// sijainti ja monennella rivillä invader on
+// sijainti ja monennella rivillä ja sarakkeella invader on
 function Invader(x,y,row,column) {
     var leveys = 25;
     var korkeus = 20;
