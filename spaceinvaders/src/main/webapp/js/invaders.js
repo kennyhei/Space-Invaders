@@ -2,82 +2,104 @@
 var invaderData = [
     
     // 1. rivi    
-    [60, 135,0], // 0
-    [100, 135,0],
-    [140, 135,0],
-    [180, 135,0],
-    [220, 135,0],
-    [260, 135,0],
-    [300, 135,0],
-    [340, 135,0],
-    [380, 135,0],
-    [420, 135,0],
-    [460, 135,0],
+    [60, 135,0,0], // 0
+    [100, 135,0,1],
+    [140, 135,0,2],
+    [180, 135,0,3],
+    [220, 135,0,4],
+    [260, 135,0,5],
+    [300, 135,0,6],
+    [340, 135,0,7],
+    [380, 135,0,8],
+    [420, 135,0,9],
+    [460, 135,0,10],
 
     // 2. rivi
-    [60, 160,1], // 11
+    [60, 160,0], // 11
     [100, 160,1],
-    [140, 160,1],
-    [180, 160,1],
-    [220, 160,1],
-    [260, 160,1],
-    [300, 160,1],
-    [340, 160,1],
-    [380, 160,1],
-    [420, 160,1],
-    [460, 160,1],
+    [140, 160,2],
+    [180, 160,3],
+    [220, 160,4],
+    [260, 160,5],
+    [300, 160,6],
+    [340, 160,7],
+    [380, 160,8],
+    [420, 160,9],
+    [460, 160,10],
 
     // 3. rivi
-    [60, 185,2], // 22
-    [100, 185,2],
-    [140, 185,2],
-    [180, 185,2],
-    [220, 185,2],
-    [260, 185,2],
-    [300, 185,2],
-    [340, 185,2],
-    [380, 185,2],
-    [420, 185,2],
-    [460, 185,2],
+    [60, 185,2,0], // 22
+    [100, 185,2,1],
+    [140, 185,2,2],
+    [180, 185,2,3],
+    [220, 185,2,4],
+    [260, 185,2,5],
+    [300, 185,2,6],
+    [340, 185,2,7],
+    [380, 185,2,8],
+    [420, 185,2,9],
+    [460, 185,2,10],
 
     // 4. rivi
-    [60, 210,3],
-    [100, 210,3],
-    [140, 210,3],
-    [180, 210,3],
-    [220, 210,3],
-    [260, 210,3],
-    [300, 210,3],
-    [340, 210,3],
-    [380, 210,3],
-    [420, 210,3],
-    [460, 210,3],
+    [60, 210,3,0], // 33
+    [100, 210,3,1],
+    [140, 210,3,2],
+    [180, 210,3,3],
+    [220, 210,3,4],
+    [260, 210,3,5],
+    [300, 210,3,6],
+    [340, 210,3,7],
+    [380, 210,3,8],
+    [420, 210,3,9],
+    [460, 210,3,10],
 
     // 5. rivi
-    [60, 235,4],
-    [100, 235,4],
-    [140, 235,4],
-    [180, 235,4],
-    [220, 235,4],
-    [260, 235,4],
-    [300, 235,4],
-    [340, 235,4],
-    [380, 235,4],
-    [420, 235,4],
-    [460, 235,4]
+    [60, 235,4,0], // 44
+    [100, 235,4,1],
+    [140, 235,4,2],
+    [180, 235,4,3],
+    [220, 235,4,4],
+    [260, 235,4,5],
+    [300, 235,4,6],
+    [340, 235,4,7],
+    [380, 235,4,8],
+    [420, 235,4,9],
+    [460, 235,4,10]
+];
+
+var invaderColumnShot = [
+    [false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false]
 ];
 
 function InvaderList() {
     var invaders = new Array();
+    var numOfInvaders = 55;
+    var invaderMissiles = [];
     
     var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
     var lastUpdateTime = 0;
     
+    // tässä invaderit on lueteltu sarakeittain
     $.each(invaderData, function(index, data) {
-        var invader = new Invader(data[0], data[1], data[2]);
+        var invader = new Invader(data[0], data[1], data[2], data[3]);
+        var realIndex = (index % 11);
+        
+        if (!invaders[realIndex])
+            invaders[realIndex] = [];
+        
         var sprite = getSprite(data[2]);
         invader.setSprite(sprite);
-        invaders.push(invader);
+        invaders[realIndex].push(invader);
     });
     
     // after certain time, change invaders' sprite
@@ -87,30 +109,34 @@ function InvaderList() {
         
         if ((currentTime - lastUpdateTime) > frameTime) {
             for (var i=0; i < invaders.length; ++i) {
+                for (var j=0; j < invaders[i].length; ++j) {
 //                if (invaders[i].getImgSrc().indexOf("kaboom.png") != -1) {
 //                    poistaInvader(i);
 //                    continue;
 //                }
                 
-                var sprite = invaders[i].getSprite();
+                var sprite = invaders[i][j].getSprite();
             
-                if (invaders[i].getChangeSprite() == true) {
+                if (invaders[i][j].getChangeSprite() == true) {
                     sprite[0] -= 30;
-                    invaders[i].setSprite(sprite);
+                    invaders[i][j].setSprite(sprite);
                 } else {
                     sprite[0] += 30;
-                    invaders[i].setSprite(sprite);
+                    invaders[i][j].setSprite(sprite);
                 }
             
                 lastUpdateTime = currentTime;
-                invaders[i].setChangeSprite();
+                invaders[i][j].setChangeSprite();
+                }
             }
         }
     }
     
     function siirra(x,y) {
         $.each(invaders, function(index, invader) {
-            invader.siirra(x,y);
+            for (var i=0; i < invader.length; ++i) {
+                invader[i].siirra(x,y);
+            }
         });
     }
     
@@ -118,7 +144,9 @@ function InvaderList() {
         changeSprite();
         
         for (var i=0; i < invaders.length; ++i) {
-            invaders[i].piirra(context);
+            for (var j=0; j < invaders[i].length; ++j) {
+            invaders[i][j].piirra(context);
+            }
         }
     }
     
@@ -134,21 +162,47 @@ function InvaderList() {
     // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
     function tormaako(ohjus,score) {
         for (var i=0; i < invaders.length; ++i) {
+            for (var j=0; j < invaders[i].length; ++j) {
 
-            if (invaders[i].tormaako(ohjus)) {
+            if (invaders[i][j].tormaako(ohjus)) {
 //                if (invaders[i].getImgSrc().indexOf("kaboom.png") != -1)
 //                    continue;
 //                
 //                invaders[i].setImgSrc("kaboom.png");
 //                var sprite = [0,0,34,23];
 //                invaders[i].setSprite(sprite);
-                score.raiseScore(invaders[i].getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
-                poistaInvader(i);
+                score.raiseScore(invaders[i][j].getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
+                poistaInvader(i,j);
+                --numOfInvaders;
                 return true;
             }
+            }
         }
-    
         return false;
+    }
+    
+    function shootLogic() {
+        for (var row = 0; row < invaders.length; ++row) {
+            if (!invaderColumnShot[row]) {
+                if (shoot(invaders[row]))
+                    invaderColumnShot[row] = true;
+            }
+        }
+        
+        return invaderMissiles;
+    }
+    
+    function shoot(row) {
+        if (Math.random() < 0.3) {
+            invaderMissiles.push(row[row.length-1].ammu());
+            return true;
+        } else
+            return false;
+    }
+    
+    
+    function getNumOfInvaders() {
+        return numOfInvaders;
     }
     
     function getInvaders() {
@@ -157,15 +211,17 @@ function InvaderList() {
     
     function tormaakoSeinaan() {
         for (var i=0; i < invaders.length; ++i) {
-            if (invaders[i].tormaakoSeinaan())
+            for (var j=0; j < invaders[i].length; ++j) {
+            if (invaders[i][j].tormaakoSeinaan())
                 return true;
+            }
         }
     
         return false;
     }
     
-    function poistaInvader(index) {
-        invaders.splice(index, 1);
+    function poistaInvader(row, column) {
+        invaders[row].splice(column, 1);
     }
     
     return {
@@ -173,12 +229,14 @@ function InvaderList() {
         tormaako: tormaako,
         tormaakoSeinaan: tormaakoSeinaan,
         siirra: siirra,
-        getInvaders: getInvaders
+        getInvaders: getInvaders,
+        getNumOfInvaders: getNumOfInvaders,
+        shootLogic: shootLogic
     };
 }
 
 // sijainti ja monennella rivillä invader on
-function Invader(x,y,row) {
+function Invader(x,y,row,column) {
     var leveys = 25;
     var korkeus = 20;
     var sprite = [];
@@ -256,7 +314,7 @@ function Invader(x,y,row) {
     }
     
     function ammu() {
-        return new Ohjus(x+10, y+5);
+        return new Ohjus(x+10, y+5, column);
     }
     
     function getX() {
@@ -271,6 +329,10 @@ function Invader(x,y,row) {
         return row;
     }
     
+    function getColumn() {
+        return column;
+    }
+    
     function setImgSrc(imgSrc) {
         img.src = imgSrc;
     }
@@ -280,6 +342,7 @@ function Invader(x,y,row) {
     }
     
     return {
+        getColumn: getColumn,
         getX: getX,
         getY: getY,
         getRow: getRow,

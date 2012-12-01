@@ -14,17 +14,17 @@ window.requestAnimFrame = (function(){
 var engine = (function() {
     var player = new Player();
     var score = new Score();
+    var walls = new MuuriVarasto();
+    var invaders = new InvaderList();
+    
     var playerMissile;
     var invaderMissiles = [];
     
+    var invaderDirection = true; // jos true, muukalaiset liikkuvat oikealle, muuten vasemmalle
     var movement = {};
     var shootMissile = false;
     
     var gameOver = false;
-    
-    var walls = new MuuriVarasto();
-    var invaders = new InvaderList();
-    var invaderDirection = true; // jos true, muukalaiset liikkuvat oikealle, muuten vasemmalle
     
     function input() {
 //        otetaan liikkeet ja toiminta talteen
@@ -34,7 +34,7 @@ var engine = (function() {
 
     // käsitellään pelaajan syötteet ja tietokoneen toiminta (tito) täällä
     function logic() {
-        if (player.getLives() < 1 || invaders.getInvaders().length < 1)
+        if (player.getLives() < 1 || invaders.getNumOfInvaders() < 1)
             gameOver = true;
         
         playerLogic();
@@ -99,10 +99,7 @@ var engine = (function() {
     }
     
     function invadersMissileLogic() {
-        $.each(invaders.getInvaders(), function(index, invader) {
-            if (Math.random() < 0.002 && index > 43)
-                invaderMissiles.push(invader.ammu());
-        });
+        invaderMissiles = invaders.shootLogic();
         
         // siirretään ohjuksia / meneekö ohjukset ruudun ulkopuolelle
         if (invaderMissiles.length > 0) {
@@ -110,9 +107,11 @@ var engine = (function() {
                 var missile = invaderMissiles[i];
                 
                 if (player.tormaako(missile) || walls.tormaako(missile)) {
+                    invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i,1);
                     --i;
                 } else if (missile.getY() > 535) {
+                    invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i, 1);
                     --i;
                 } else
