@@ -193,11 +193,16 @@ function InvaderList() {
     }
     
     function shoot(row) {
-        if (Math.random() < 0.3) {
-            invaderMissiles.push(row[row.length-1].ammu());
-            return true;
-        } else
-            return false;
+        
+        // jos koko vihollissarake tuhottu, ei jatketa
+        if (row.length > 0) {
+            if (Math.random() < 0.3) {
+                invaderMissiles.push(row[row.length-1].ammu());
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     
