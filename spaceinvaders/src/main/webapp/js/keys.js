@@ -39,7 +39,7 @@ var keyhandler = (function() {
     }
     
     function getAction() {
-        if (up())
+        if (up() || keys[32])
             return true;
         
         return false;
@@ -49,6 +49,7 @@ var keyhandler = (function() {
         keyup(38);
         keyup(175);
         keyup(87);
+        keyup(32);
     }
     
     function getMovement() {
