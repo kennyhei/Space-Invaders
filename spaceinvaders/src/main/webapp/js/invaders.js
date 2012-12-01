@@ -15,17 +15,17 @@ var invaderData = [
     [460, 135,0,10],
 
     // 2. rivi
-    [60, 160,0], // 11
-    [100, 160,1],
-    [140, 160,2],
-    [180, 160,3],
-    [220, 160,4],
-    [260, 160,5],
-    [300, 160,6],
-    [340, 160,7],
-    [380, 160,8],
-    [420, 160,9],
-    [460, 160,10],
+    [60, 160,1,0], // 11
+    [100, 160,1,1],
+    [140, 160,1,2],
+    [180, 160,1,3],
+    [220, 160,1,4],
+    [260, 160,1,5],
+    [300, 160,1,6],
+    [340, 160,1,7],
+    [380, 160,1,8],
+    [420, 160,1,9],
+    [460, 160,1,10],
 
     // 3. rivi
     [60, 185,2,0], // 22
@@ -119,10 +119,10 @@ function InvaderList() {
                 var sprite = invaders[i][j].getSprite();
             
                 if (invaders[i][j].getChangeSprite() == true) {
-                    sprite[0] -= 30;
+                    sprite[0] -= 32;
                     invaders[i][j].setSprite(sprite);
                 } else {
-                    sprite[0] += 30;
+                    sprite[0] += 32;
                     invaders[i][j].setSprite(sprite);
                 }
             
@@ -232,7 +232,8 @@ function InvaderList() {
     }
     
     function increaseSpeed() {
-        invadersSpeed += 0.1;
+        invadersSpeed += 0.025;
+        frameTime -= 0.015;
     }
     
     function getSpeed() {
