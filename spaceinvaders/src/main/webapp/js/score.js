@@ -1,5 +1,9 @@
 function Score() {
     var score = 0;
+    var highScore = 0;
+    
+    if (localStorage.getItem("highScore"))
+        highScore = localStorage.getItem("highScore");
     
     function raiseScore(enemyType) {
         if (enemyType < 1)
@@ -8,6 +12,19 @@ function Score() {
             score += 20;
         else
             score += 10;
+        
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem("highScore", highScore);
+        }
+            
+    }
+
+    function getHighScore() {
+        if (!localStorage.getItem("highScore"))
+            return localStorage.getItem("highScore");
+        else
+            return highScore;
     }
     
     function getScore() {
@@ -16,6 +33,7 @@ function Score() {
     
     return {
         raiseScore: raiseScore,
-        getScore: getScore
+        getScore: getScore,
+        getHighScore: getHighScore
     };
 }

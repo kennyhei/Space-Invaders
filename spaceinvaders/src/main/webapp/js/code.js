@@ -143,6 +143,7 @@ var engine = (function() {
         walls.piirra(context);
         renderInvaders(context);
         renderHUD(context);
+        renderScore(context);
         
         if (gameOver)
             endGame(context);
@@ -165,8 +166,14 @@ var engine = (function() {
         context.font = "20px Courier New";
         context.fillStyle = "rgb(255, 255, 255)";
         context.fillText(player.getLives()+"x", 20, 570);
+    }
+    
+    // current score and high score
+    function renderScore(context) {
         context.fillText("SCORE", 20,30);
         context.fillText(score.getScore(), 20, 50);
+        context.fillText("HIGH SCORE", 140, 30);
+        context.fillText(score.getHighScore(), 140,50);
     }
     
     function renderInvaders(context) {
