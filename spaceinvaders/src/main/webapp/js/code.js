@@ -13,9 +13,10 @@ window.requestAnimFrame = (function(){
 
 var engine = (function() {
     var player = new Player();
-    var score = new Score();
+    var score = new ScoreManager();
     var walls = new MuuriVarasto();
     var invaders = new InvaderList();
+    var level = 1;
     
     var playerMissile;
     var invaderMissiles = [];
@@ -145,8 +146,34 @@ var engine = (function() {
         renderHUD(context);
         renderScore(context);
         
-        if (gameOver)
+        if (gameOver) {
             endGame(context);
+            newGame();
+        }
+            
+    }
+    
+    // start new game with increased difficulty after 3 seconds
+    // if player still has lives
+    function newGame() {
+        
+        if (player.getLives() > 0) {
+            setTimeout(function() {
+                resetData();
+                ++level;
+                tick();
+            }, 3000);
+        }
+    }
+    
+    function resetData() {
+        invaders = new InvaderList();
+        walls = new MuuriVarasto();
+        playerMissile = null;
+        invaderMissiles = [];
+        invaderDirection = true;
+        shootMissile = false;
+        gameOver = false;
     }
     
     function renderHUD(context) {
@@ -166,6 +193,9 @@ var engine = (function() {
         context.font = "20px Courier New";
         context.fillStyle = "rgb(255, 255, 255)";
         context.fillText(player.getLives()+"x", 20, 570);
+        
+        context.fillText("LEVEL", 340, 30);
+        context.fillText(level, 340, 50);
     }
     
     // current score and high score

@@ -1,7 +1,8 @@
-function Score() {
+function ScoreManager() {
     var score = 0;
     var highScore = 0;
     
+    // alustetaan pisteet
     if (localStorage.getItem("highScore"))
         highScore = localStorage.getItem("highScore");
     
@@ -17,11 +18,10 @@ function Score() {
             highScore = score;
             localStorage.setItem("highScore", highScore);
         }
-            
     }
 
     function getHighScore() {
-        if (!localStorage.getItem("highScore"))
+        if (localStorage.getItem("highScore"))
             return localStorage.getItem("highScore");
         else
             return highScore;

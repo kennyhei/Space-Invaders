@@ -42,14 +42,17 @@ var keyhandler = (function() {
         if (up() || keys[32])
             return true;
         
+        if (keys[112])
+            return true;
+        
         return false;
     }
-    
-    function freeAction() {
-        keyup(38);
-        keyup(175);
-        keyup(87);
-        keyup(32);
+
+    function getHighScore() {
+        if (keys[72])
+            return true;
+        else
+            return false;
     }
     
     function getMovement() {
@@ -80,6 +83,6 @@ var keyhandler = (function() {
         getMovement: getMovement,
         keyupAll: keyupAll,
         getAction: getAction,
-        freeAction: freeAction
+        getHighScore: getHighScore
     };
 })()
