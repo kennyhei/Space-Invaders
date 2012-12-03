@@ -7,7 +7,7 @@ function Player() {
     var lives = 3;
     
     var img = new Image();
-    img.src = "ships2.png";
+    img.src = "img/ships2.png";
     
     // alus voi liikkua vain sivuttaisuunnassa
     function siirra(dx) {
@@ -15,8 +15,6 @@ function Player() {
     }
     
     function piirra(context, srcX) {
-//        context.fillStyle = "rgb(0,255,0)";
-//        context.fillRect(x, y, leveys, korkeus);
         context.drawImage(img,srcX,12,80,72, x,y,leveys, korkeus); // 4: vikaa: 2 ekaa: sijainti, 2 tokaa: koko
     }
     
