@@ -16,6 +16,7 @@ var engine = (function() {
     var score = new ScoreManager();
     var walls = new MuuriVarasto();
     var invaders = new InvaderList();
+    
     var level = 1;
     
     var playerMissile;
@@ -54,6 +55,19 @@ var engine = (function() {
     }
     
     function invadersLogic() {
+        
+//        $.each(invaders.getInvaders(), function(index, invaderColumn) {
+//            for (var i=0; i < invaderColumn.length; ++i) {
+//                console.log(invaderColumn.length);
+//                if (invaderColumn[i].getY() > 500 || player.tormaako(invaderColumn[i])) {
+//                    gameOver = true;
+//                    return;
+//                }
+//            }
+//        });
+        
+        invaders.tormaakoMuuriin(walls);
+        
         // kosketetaan seinää => rivi alemmas ja suunnanvaihdos
         if (invaders.tormaakoSeinaan()) {
             if (invaderDirection)
@@ -131,16 +145,7 @@ var engine = (function() {
         context.fillRect(0,0,540,580);
 
         renderPlayer(context);
-        
-        if (playerMissile != null)
-            playerMissile.piirra(context);
-        
-        if (invaderMissiles.length > 0) {
-            $.each(invaderMissiles, function(index, missile) {
-                missile.piirra(context);
-            });
-        }
-        
+        renderMissiles(context);
         walls.piirra(context);
         renderInvaders(context);
         renderHUD(context);
@@ -219,6 +224,17 @@ var engine = (function() {
             srcX = 0;
         
         player.piirra(context, srcX);
+    }
+    
+    function renderMissiles(context) {
+        if (playerMissile != null)
+            playerMissile.piirra(context);
+        
+        if (invaderMissiles.length > 0) {
+            $.each(invaderMissiles, function(index, missile) {
+                missile.piirra(context);
+            });
+        }
     }
     
     function tick() {

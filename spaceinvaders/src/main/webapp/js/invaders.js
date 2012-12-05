@@ -87,10 +87,10 @@ function InvaderList() {
     var invaderMissiles = [];
     var invadersSpeed = 0.1;
     
-    var frameTime = 2; // vaihdetaan sprite-animaatiota 1 sekunnin vï¿½lein
+    var frameTime = 2; // vaihdetaan sprite-animaatiota 1 sekunnin välein
     var lastUpdateTime = 0;
     
-    // tï¿½ssï¿½ invaderit on lueteltu sarakeittain
+    // invaderit on lueteltu sarakeittain
     $.each(invaderData, function(index, data) {
         var invader = new Invader(data[0], data[1], data[2], data[3]);
         var realIndex = (index % 11);
@@ -146,20 +146,31 @@ function InvaderList() {
             return sprite = [144,4,30,25];     
     }
     
-    // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite rï¿½jï¿½hdykseen
-    function tormaako(ohjus,score) {
+    // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
+    function tormaako(ohjus, score) {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
 
                 if (invaders[i][j].tormaako(ohjus)) {
-                    score.raiseScore(invaders[i][j].getRow()); // tuhottiin otus, kasvatetaan siis pisteitï¿½
-                    invaders[i][j].explode(); // osuttiin joten invader rÃ¤jÃ¤htÃ¤Ã¤
+                    score.raiseScore(invaders[i][j].getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
+                    invaders[i][j].explode(); // osuttiin joten invader räjähtää
                     deleteInvaderAfterExplosion(i,j);
                     return true;
                 }
             }
         }
         return false;
+    }
+    
+    function tormaakoMuuriin(walls) {
+        for (var i=0; i < invaders.length; ++i) {
+            for (var j=0; j < invaders[i].length; ++j) {
+                if (walls.tormaako(invaders[i][j])) {
+                    invaders[i][j].explode(); // osuttiin joten invader räjähtää
+                    deleteInvaderAfterExplosion(i,j);
+                }
+            }
+        }
     }
     
     // after invader has been hit, he is allowed to explode (& live) for 100 milliseconds
@@ -186,7 +197,7 @@ function InvaderList() {
         
         // jos koko vihollissarake tuhottu, ei jatketa
         if (column.length > 0) {
-            if (Math.random() < 0.3) {
+            if (Math.random() < 0.1) {
                 invaderMissiles.push(column[column.length-1].ammu());
                 return true;
             }
@@ -233,6 +244,7 @@ function InvaderList() {
         piirra: piirra,
         tormaako: tormaako,
         tormaakoSeinaan: tormaakoSeinaan,
+        tormaakoMuuriin: tormaakoMuuriin,
         siirra: siirra,
         getInvaders: getInvaders,
         getNumOfInvaders: getNumOfInvaders,

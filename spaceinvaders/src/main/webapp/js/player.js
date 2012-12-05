@@ -25,8 +25,8 @@ function Player() {
         return false;
     }
     
-    function tormaako(ohjus) {
-        if (intersects(x,y,25,25, ohjus.getX(), ohjus.getY(), 3, 5)) {
+    function tormaako(object) {
+        if (intersects(x,y,25,25, object.getX(), object.getY(), 3, 5)) {
             --lives;
             return true;
         } else {
