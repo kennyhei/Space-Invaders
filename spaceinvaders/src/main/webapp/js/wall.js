@@ -79,16 +79,15 @@ function Muuri(muuriData) {
         return tiilet;
     }
     
-    // jos muuri havaitsee, että johonkin sen tiileen osuu ohjus, se osaa
+    // jos muuri havaitsee, että johonkin sen tiileen osuu ohjus/invader, se osaa
     // itse poistaa tiilen
-    function tormaako(ohjus) {
+    function tormaako(object) { 
         for (var i=0; i < tiilet.length; ++i) {
-            if (tiilet[i].tormaako(ohjus)) {
+            if (tiilet[i].tormaako(object)) {
                 poistaTiili(i);
-                return true; // ohjus osui johonkin, ei tarvetta jatkaa läpikäyntiä
+                return true; // ohjus/invader osui johonkin, ei tarvetta jatkaa läpikäyntiä
             }
         }
-        
         return false;
     }
     
@@ -114,8 +113,8 @@ function Tiili(x,y) {
     }
 
     // huom. x ja y koordinaatin muodostama piste sijaitsee laatikon vasemmassa yläkulmassa
-    function tormaako(ohjus) {
-        if (intersects(x,y,15,20, ohjus.getX(), ohjus.getY(), 3, 5))
+    function tormaako(object) {
+        if (intersects(x,y,leveys,korkeus, object.getX(), object.getY(), object.getWidth(), object.getHeight()))
             return true;
         else
             return false;

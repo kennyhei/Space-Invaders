@@ -15,7 +15,7 @@ var engine = (function() {
     var player = new Player();
     var score = new ScoreManager();
     var walls = new MuuriVarasto();
-    var invaders = new InvaderList();
+    var invaders = new InvaderManager();
     
     var level = 1;
     
@@ -161,7 +161,6 @@ var engine = (function() {
     // start new game with increased difficulty after 3 seconds
     // if player still has lives
     function newGame() {
-        
         if (player.getLives() > 0) {
             setTimeout(function() {
                 resetData();
@@ -172,7 +171,7 @@ var engine = (function() {
     }
     
     function resetData() {
-        invaders = new InvaderList();
+        invaders = new InvaderManager();
         walls = new MuuriVarasto();
         playerMissile = null;
         invaderMissiles = [];

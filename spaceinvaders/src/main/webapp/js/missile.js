@@ -19,6 +19,14 @@ function Ohjus(x,y,column) {
     function getY() {
         return y;
     }
+    
+    function getWidth() {
+        return leveys;
+    }
+    
+    function getHeight() {
+        return korkeus;
+    }
 
     function getColumn() {
         return column;
@@ -27,6 +35,8 @@ function Ohjus(x,y,column) {
     return {
         getX: getX,
         getY: getY,
+        getWidth: getWidth,
+        getHeight: getHeight,
         getColumn: getColumn,
         siirra: siirra,
         piirra: piirra

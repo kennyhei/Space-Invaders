@@ -81,7 +81,7 @@ var invaderColumnShot = [
     false]
 ];
 
-function InvaderList() {
+function InvaderManager() {
     var invaders = new Array();
     var numOfInvaders = 55;
     var invaderMissiles = [];
@@ -151,7 +151,8 @@ function InvaderList() {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
 
-                if (invaders[i][j].tormaako(ohjus)) {
+                // check collision only if invader hasn't already collided
+                if (!invaders[i][j].hasCollided() && invaders[i][j].tormaako(ohjus)) {
                     score.raiseScore(invaders[i][j].getRow()); // tuhottiin otus, kasvatetaan siis pisteit‰
                     invaders[i][j].explode(); // osuttiin joten invader r‰j‰ht‰‰
                     deleteInvaderAfterExplosion(i,j);
@@ -165,7 +166,9 @@ function InvaderList() {
     function tormaakoMuuriin(walls) {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-                if (walls.tormaako(invaders[i][j])) {
+                
+                // check collision only if invader hasn't already collided
+                if (!invaders[i][j].hasCollided() && walls.tormaako(invaders[i][j])) {
                     invaders[i][j].explode(); // osuttiin joten invader r‰j‰ht‰‰
                     deleteInvaderAfterExplosion(i,j);
                 }
@@ -197,7 +200,7 @@ function InvaderList() {
         
         // jos koko vihollissarake tuhottu, ei jatketa
         if (column.length > 0) {
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.001) {
                 invaderMissiles.push(column[column.length-1].ammu());
                 return true;
             }
@@ -257,6 +260,7 @@ function Invader(x,y,row,column) {
     var leveys = 25;
     var korkeus = 20;
     var sprite = [];
+    var collision = false;
     
     // sprite variables
     var img = new Image();
@@ -282,8 +286,8 @@ function Invader(x,y,row,column) {
     
     function tormaako(ohjus) {
         
-        if (img.src.indexOf("kaboom.png") != -1) // invader has been already hit because it's exploding, cannot be hit anymore
-            return false;
+//        if (img.src.indexOf("kaboom.png") != -1) // invader has been already hit because it's exploding, cannot be hit anymore
+//            return false;
         
         if (intersects(x,y,25,25, ohjus.getX(), ohjus.getY(), 3, 5))
             return true;
@@ -292,11 +296,11 @@ function Invader(x,y,row,column) {
     }
     
     function intersects(x1, y1, w1, h1, x2, y2, w2, h2) {
-        w2 += x2-1;
-        w1 += x1-1;
+        w2 += x2;
+        w1 += x1;
         if (x2 > w1 || x1 > w2) return false;
-        h2 += y2-1;
-        h1 += y1-1;
+        h2 += y2;
+        h1 += y1;
         if (y2 > h1 || y1 > h2) return false;
         return true;
     }
@@ -330,16 +334,32 @@ function Invader(x,y,row,column) {
         return column;
     }
     
+    function getWidth() {
+        return leveys;
+    }
+    
+    function getHeight() {
+        return korkeus;
+    }
+    
+    function hasCollided() {
+        return collision;
+    }
+    
     function explode() {
-        img.src = "kaboom.png"; // vaihdetaan kuva r√§j√§hdykseen
-        animation = new Animation(img, 0,0,34,23); // animaatio vaihtuu my√∂s
+        img.src = "kaboom.png"; // vaihdetaan kuva r‰j‰hdykseen
+        animation = new Animation(img, 0,0,34,23); // animaatio vaihtuu myˆs
+        collision = true;
     }
     
     return {
+        hasCollided: hasCollided,
         getColumn: getColumn,
+        getRow: getRow,
         getX: getX,
         getY: getY,
-        getRow: getRow,
+        getWidth: getWidth,
+        getHeight: getHeight,
         siirra: siirra,
         piirra: piirra,
         tormaakoSeinaan: tormaakoSeinaan,
