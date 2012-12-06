@@ -1,4 +1,4 @@
-// tiilien koordinaatit jokaista neljää muuria varten
+// tiilien x ja y-koordinaatit jokaista neljää muuria varten
 var muuriData = [
     [[70, 455],
     [110, 455],

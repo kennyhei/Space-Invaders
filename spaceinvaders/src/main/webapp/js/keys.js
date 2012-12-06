@@ -30,14 +30,6 @@ var keyhandler = (function() {
         keys[keycode] = false;
     }
     
-    function keyupAll() {
-        var i = 0;
-        while(i < 256) {
-            keys[i] = false;
-            i = i + 1;
-        }
-    }
-    
     function getAction() {
         if (up() || keys[32])
             return true;
@@ -47,42 +39,24 @@ var keyhandler = (function() {
         
         return false;
     }
-
-    function getHighScore() {
-        if (keys[72])
-            return true;
-        else
-            return false;
-    }
     
     function getMovement() {
-        var movement = [0, 0];
-        if(up()) {
-            movement[1] = -2;
-        }
-        if(down()) {
-            movement[1] = 2;
-        }
+        var movement = 0;
+
         if(left()) {
-            movement[0] = -2;
+            movement = -2;
         }
         if(right()) {
-            movement[0] = 2;
+            movement = 2;
         }
         
         return movement;
     }
     
     return {
-        up: up,
-        down: down,
-        left: left,
-        right: right,
         keydown: keydown,
         keyup: keyup,
         getMovement: getMovement,
-        keyupAll: keyupAll,
-        getAction: getAction,
-        getHighScore: getHighScore
+        getAction: getAction
     };
 })()

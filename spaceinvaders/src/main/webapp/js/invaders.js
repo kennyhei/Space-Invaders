@@ -1,5 +1,7 @@
-// yksittï¿½isen muukalaisen koordinaatit per rivi
+// yksittäisen muukalaisen koordinaatit per rivi
 var invaderData = [
+    
+    // x-coordinate, y-coordinate, row, column
     
     // 1. rivi    
     [60, 135,0,0], // 0
@@ -67,6 +69,7 @@ var invaderData = [
     [460, 235,4,10]
 ];
 
+// 11 different columns, only 1 invader from 1 column can shoot 1 missile
 var invaderColumnShot = [
     [false,
     false,
@@ -85,10 +88,12 @@ function InvaderManager() {
     var invaders = new Array();
     var numOfInvaders = 55;
     var invaderMissiles = [];
-    var invadersSpeed = 0.1;
+    var invadersSpeed = 3;
     
-    var frameTime = 2; // vaihdetaan sprite-animaatiota 1 sekunnin välein
+    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
     var lastUpdateTime = 0;
+    
+    var directionRight = true;
     
     // invaderit on lueteltu sarakeittain
     $.each(invaderData, function(index, data) {
@@ -104,11 +109,16 @@ function InvaderManager() {
     });
     
 //    // after certain time, change invaders' sprite
-//    // if invader's sprite is "kaboom", delete invader
     function changeSprite() {
         var currentTime = new Date().getTime() / 1000;
         
         if ((currentTime - lastUpdateTime) > frameTime) {
+            
+            if (directionRight)
+                siirra(invadersSpeed,0);
+            else
+                siirra(-invadersSpeed,0);
+            
             for (var i=0; i < invaders.length; ++i) {
                 for (var j=0; j < invaders[i].length; ++j) {
                     
@@ -132,30 +142,31 @@ function InvaderManager() {
         
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-            invaders[i][j].piirra(context);
+                invaders[i][j].piirra(context);
             }
         }
     }
     
     function getSprite(row) {
         if (row == 0)
-            return sprite = [1,4,30,25]; // srcX, srcY, width, height
+            return sprite = [0,4,30,25]; // srcX, srcY, width, height
         else if (row == 1 || row == 2)
-            return sprite = [70,4,30,25];
+            return sprite = [69,4,30,25];
         else
-            return sprite = [144,4,30,25];     
+            return sprite = [143,4,30,25];     
     }
     
     // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
     function tormaako(ohjus, score) {
-        for (var i=0; i < invaders.length; ++i) {
-            for (var j=0; j < invaders[i].length; ++j) {
-
+        for (var column=0; column < invaders.length; ++column) {
+            for (var row=0; row < invaders[column].length; ++row) {
+                var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
-                if (!invaders[i][j].hasCollided() && invaders[i][j].tormaako(ohjus)) {
-                    score.raiseScore(invaders[i][j].getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
-                    invaders[i][j].explode(); // osuttiin joten invader räjähtää
-                    deleteInvaderAfterExplosion(i,j);
+                if (!invader.hasCollided() && invader.tormaako(ohjus)) {
+                    score.raiseScore(invader.getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
+                    invader.explode(); // osuttiin joten invader räjähtää
+                    deleteInvaderAfterExplosion(column,row);
+                    
                     return true;
                 }
             }
@@ -164,13 +175,13 @@ function InvaderManager() {
     }
     
     function tormaakoMuuriin(walls) {
-        for (var i=0; i < invaders.length; ++i) {
-            for (var j=0; j < invaders[i].length; ++j) {
-                
+        for (var column=0; column < invaders.length; ++column) {
+            for (var row=0; row < invaders[column].length; ++row) {
+                var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
-                if (!invaders[i][j].hasCollided() && walls.tormaako(invaders[i][j])) {
-                    invaders[i][j].explode(); // osuttiin joten invader räjähtää
-                    deleteInvaderAfterExplosion(i,j);
+                if (!invader.hasCollided() && walls.tormaako(invader)) {
+                    invader.explode(); // osuttiin joten invader räjähtää
+                    deleteInvaderAfterExplosion(column,row);
                 }
             }
         }
@@ -221,8 +232,10 @@ function InvaderManager() {
     function tormaakoSeinaan() {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-            if (invaders[i][j].tormaakoSeinaan())
+            if (invaders[i][j].tormaakoSeinaan()) {
+                directionRight = !directionRight;
                 return true;
+            }
             }
         }
     
@@ -234,7 +247,7 @@ function InvaderManager() {
     }
     
     function increaseSpeed() {
-        invadersSpeed += 0.025;
+        invadersSpeed += 0.04;
         frameTime -= 0.015;
     }
     
@@ -255,7 +268,7 @@ function InvaderManager() {
     };
 }
 
-// sijainti ja monennella rivillï¿½ ja sarakkeella invader on
+// sijainti ja monennella rivillä ja sarakkeella invader on
 function Invader(x,y,row,column) {
     var leveys = 25;
     var korkeus = 20;
@@ -264,7 +277,7 @@ function Invader(x,y,row,column) {
     
     // sprite variables
     var img = new Image();
-    img.src = "img/invaders2.png";
+    img.src = "img/invaders3.png";
     var animation = {};
 
     function siirra(dx, dy) {

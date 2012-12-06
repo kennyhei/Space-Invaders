@@ -15,7 +15,7 @@ function Player() {
     }
     
     function piirra(context, srcX) {
-        context.drawImage(img,srcX,12,80,72, x,y,leveys, korkeus); // 4: vikaa: 2 ekaa: sijainti, 2 tokaa: koko
+        context.drawImage(img,srcX,12,80,72, x,y,leveys, korkeus);
     }
     
     function tormaakoSeinaan() {

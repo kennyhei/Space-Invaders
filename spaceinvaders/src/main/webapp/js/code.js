@@ -12,6 +12,7 @@ window.requestAnimFrame = (function(){
 })();  
 
 var engine = (function() {
+    var context = $("#spaceinvaders")[0].getContext("2d");
     var player = new Player();
     var score = new ScoreManager();
     var walls = new MuuriVarasto();
@@ -23,7 +24,7 @@ var engine = (function() {
     var invaderMissiles = [];
     
     var invaderDirection = true; // jos true, muukalaiset liikkuvat oikealle, muuten vasemmalle
-    var movement = {};
+    var movement;
     var shootMissile = false;
     
     var gameOver = false;
@@ -46,7 +47,7 @@ var engine = (function() {
             
     }
 
-    function endGame(context) {
+    function endGame() {
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(180, 265, 180, 33);
         context.font = "bold 30px Courier New";
@@ -55,17 +56,6 @@ var engine = (function() {
     }
     
     function invadersLogic() {
-        
-//        $.each(invaders.getInvaders(), function(index, invaderColumn) {
-//            for (var i=0; i < invaderColumn.length; ++i) {
-//                console.log(invaderColumn.length);
-//                if (invaderColumn[i].getY() > 500 || player.tormaako(invaderColumn[i])) {
-//                    gameOver = true;
-//                    return;
-//                }
-//            }
-//        });
-        
         invaders.tormaakoMuuriin(walls);
         
         // kosketetaan seinää => rivi alemmas ja suunnanvaihdos
@@ -78,11 +68,11 @@ var engine = (function() {
             invaderDirection = !invaderDirection;
         } else if (!invaders.tormaakoSeinaan()) {
             
-            var speed = invaders.getSpeed();
-            if (invaderDirection)
-                invaders.siirra(speed,0);
-            else
-                invaders.siirra(-speed,0);
+//            var speed = invaders.getSpeed();
+//            if (invaderDirection)
+//                invaders.siirra(speed,0);
+//            else
+//                invaders.siirra(-speed,0);
         }
     }
     
@@ -90,13 +80,13 @@ var engine = (function() {
     function playerLogic() {
         // onko liikkuminen ok
         if (player.tormaakoSeinaan()) {
-            if (player.getX() > 514 && movement[0] < 0)
-                player.siirra(movement[0]);
-            else if (player.getX() < 0 && movement[0] > 0) // jos ollaan kiinni seinässä, mutta liikutaan poispäin siitä, sallitaan liike
-                player.siirra(movement[0]);
+            if (player.getX() > 514 && movement < 0)
+                player.siirra(movement);
+            else if (player.getX() < 0 && movement > 0) // jos ollaan kiinni seinässä, mutta liikutaan poispäin siitä, sallitaan liike
+                player.siirra(movement);
         }
         else if (!player.tormaakoSeinaan())
-            player.siirra(movement[0]);
+            player.siirra(movement);
     }
     
     // ohjuksen logiikka
@@ -123,13 +113,9 @@ var engine = (function() {
             for (var i=0; i < invaderMissiles.length; ++i) {
                 var missile = invaderMissiles[i];
                 
-                if (player.tormaako(missile) || walls.tormaako(missile)) {
+                if (player.tormaako(missile) || walls.tormaako(missile) || missile.getY() > 535) {
                     invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i,1);
-                    --i;
-                } else if (missile.getY() > 535) {
-                    invaderColumnShot[missile.getColumn()] = false;
-                    invaderMissiles.splice(i, 1);
                     --i;
                 } else
                     missile.siirra(1);
@@ -138,21 +124,19 @@ var engine = (function() {
     }
     
     function render() {
-        // get context and clear
-        var context = $("#spaceinvaders")[0].getContext("2d");
-        context.clearRect(0, 0, 540, 580);
+        context.clearRect(0, 0, 540, 580); // clear canvas
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0,0,540,580);
 
-        renderPlayer(context);
-        renderMissiles(context);
+        renderPlayer();
+        renderMissiles();
         walls.piirra(context);
-        renderInvaders(context);
-        renderHUD(context);
-        renderScore(context);
+        renderInvaders();
+        renderHUD();
+        renderScore();
         
         if (gameOver) {
-            endGame(context);
+            endGame();
             newGame();
         }
             
@@ -166,7 +150,7 @@ var engine = (function() {
                 resetData();
                 ++level;
                 tick();
-            }, 3000);
+            }, 2000);
         }
     }
     
@@ -180,7 +164,8 @@ var engine = (function() {
         gameOver = false;
     }
     
-    function renderHUD(context) {
+    // player lives & current level
+    function renderHUD() {
         context.lineWidth = 2;
         context.strokeStyle = "rgb(0,255,0)";
         context.moveTo(0,540);
@@ -203,29 +188,29 @@ var engine = (function() {
     }
     
     // current score and high score
-    function renderScore(context) {
+    function renderScore() {
         context.fillText("SCORE", 20,30);
         context.fillText(score.getScore(), 20, 50);
         context.fillText("HIGH SCORE", 140, 30);
         context.fillText(score.getHighScore(), 140,50);
     }
     
-    function renderInvaders(context) {
+    function renderInvaders() {
         invaders.piirra(context);
     }
     
-    function renderPlayer(context) {
-        if (movement[0] == -2)
+    function renderPlayer() {
+        if (movement == -2)
             var srcX = 147;
-        else if (movement[0] == 2)
+        else if (movement == 2)
             srcX = 78;
         else 
             srcX = 0;
-        
+
         player.piirra(context, srcX);
     }
     
-    function renderMissiles(context) {
+    function renderMissiles() {
         if (playerMissile != null)
             playerMissile.piirra(context);
         
