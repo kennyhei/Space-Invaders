@@ -220,17 +220,7 @@ var engine = (function() {
             });
         }
     }
-    
-    function menu() {
-        context.fillStyle = "rgb(0,0,0)";
-        context.fillRect(0,0,540,580);
-        context.fillStyle = "rgb(255,255,255)";
-        context.font = "bold 30px Courier New";
-        context.fillText("START GAME", 180, 270);
-        
-        context.fillText("HIGH SCORES", 180, 310);
-    }
-    
+
     function tick() {
         engine.input();
         engine.logic();
@@ -238,6 +228,24 @@ var engine = (function() {
         
         if (!gameOver)
             requestAnimFrame(engine.tick);
+    }
+    
+    function menu() {
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(0,0,540,580);
+        
+        context.fillStyle = "rgb(255,255,255)";
+        context.font = "bold 30px Courier New";
+        context.fillText("START GAME", 180, 270);
+        
+        context.fillText("HIGH SCORES", 180, 310);
+
+        var logo = new Image();
+        logo.src = "img/logo.png";
+        
+        logo.onload = function() {
+            context.drawImage(logo, 51,20);
+        };
     }
     
     return {
@@ -267,3 +275,11 @@ $(document).ready(function() {
             engine.tick();
     });
 });
+
+// spritemanager (changesprite pois invadermanagerista)
+// textrectangle
+// jokin keino palauttaa lista niin, että ei tarvita kahta sisäkkäistä foria
+// invadereiden logiikka manager-luokkaan kokonaisuudessaan
+// perintää, koska invaderilla, playerilla, missilellä ja tiilillä samoja ominaisuuksia
+// kuvien lisenssit (space invaders spritesheet, wallpaper, space invaders logo)
+// pisteille backbone?
