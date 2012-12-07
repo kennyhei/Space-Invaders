@@ -360,8 +360,8 @@ function Invader(x,y,row,column) {
     }
     
     function explode() {
-        img.src = "kaboom.png"; // vaihdetaan kuva rï¿½jï¿½hdykseen
-        animation = new Animation(img, 0,0,34,23); // animaatio vaihtuu myï¿½s
+        img.src = "img/kaboom.png"; // vaihdetaan kuva räjähdykseen
+        animation = new Animation(img, 0,0,34,23); // animaatio vaihtuu myös
         collision = true;
     }
     
