@@ -263,6 +263,7 @@ $(document).ready(function() {
     engine.menu(); // show menu first
     
     $("#spaceinvaders").click(function(eventInfo) {
-        engine.tick();
+        if ( (eventInfo.pageX >= 503 && eventInfo.pageX <= 683) && (eventInfo.pageY >= 371 && eventInfo.pageY <= 392))
+            engine.tick();
     });
 });

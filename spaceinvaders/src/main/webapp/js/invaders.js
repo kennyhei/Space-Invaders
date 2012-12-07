@@ -90,7 +90,7 @@ function InvaderManager() {
     var invaderMissiles = [];
     var invadersSpeed = 3;
     
-    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin v�lein
+    var frameTime = 0.5; // vaihdetaan sprite-animaatiota 1 sekunnin v�lein
     var lastUpdateTime = 0;
     
     var directionRight = true;
@@ -247,8 +247,8 @@ function InvaderManager() {
     }
     
     function increaseSpeed() {
-        invadersSpeed += 0.04;
-        frameTime -= 0.015;
+        invadersSpeed += 0.06;
+        frameTime -= 0.009;
     }
     
     function getSpeed() {
