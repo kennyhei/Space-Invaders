@@ -1,4 +1,4 @@
-// yksittäisen muukalaisen koordinaatit per rivi
+// yksittï¿½isen muukalaisen koordinaatit per rivi
 var invaderData = [
     
     // x-coordinate, y-coordinate, row, column
@@ -90,7 +90,7 @@ function InvaderManager() {
     var invaderMissiles = [];
     var invadersSpeed = 3;
     
-    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin välein
+    var frameTime = 1; // vaihdetaan sprite-animaatiota 1 sekunnin vï¿½lein
     var lastUpdateTime = 0;
     
     var directionRight = true;
@@ -156,15 +156,15 @@ function InvaderManager() {
             return sprite = [143,4,30,25];     
     }
     
-    // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
+    // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite rï¿½jï¿½hdykseen
     function tormaako(ohjus, score) {
         for (var column=0; column < invaders.length; ++column) {
             for (var row=0; row < invaders[column].length; ++row) {
                 var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
                 if (!invader.hasCollided() && invader.tormaako(ohjus)) {
-                    score.raiseScore(invader.getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
-                    invader.explode(); // osuttiin joten invader räjähtää
+                    score.raiseScore(invader.getRow()); // tuhottiin otus, kasvatetaan siis pisteitï¿½
+                    invader.explode(); // osuttiin joten invader rï¿½jï¿½htï¿½ï¿½
                     deleteInvaderAfterExplosion(column,row);
                     
                     return true;
@@ -180,7 +180,7 @@ function InvaderManager() {
                 var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
                 if (!invader.hasCollided() && walls.tormaako(invader)) {
-                    invader.explode(); // osuttiin joten invader räjähtää
+                    invader.explode(); // osuttiin joten invader rï¿½jï¿½htï¿½ï¿½
                     deleteInvaderAfterExplosion(column,row);
                 }
             }
@@ -211,7 +211,7 @@ function InvaderManager() {
         
         // jos koko vihollissarake tuhottu, ei jatketa
         if (column.length > 0) {
-            if (Math.random() < 0.001) {
+            if (Math.random() < 0.01) {
                 invaderMissiles.push(column[column.length-1].ammu());
                 return true;
             }
@@ -268,7 +268,7 @@ function InvaderManager() {
     };
 }
 
-// sijainti ja monennella rivillä ja sarakkeella invader on
+// sijainti ja monennella rivillï¿½ ja sarakkeella invader on
 function Invader(x,y,row,column) {
     var leveys = 25;
     var korkeus = 20;
@@ -360,8 +360,8 @@ function Invader(x,y,row,column) {
     }
     
     function explode() {
-        img.src = "kaboom.png"; // vaihdetaan kuva räjähdykseen
-        animation = new Animation(img, 0,0,34,23); // animaatio vaihtuu myös
+        img.src = "kaboom.png"; // vaihdetaan kuva rï¿½jï¿½hdykseen
+        animation = new Animation(img, 0,0,34,23); // animaatio vaihtuu myï¿½s
         collision = true;
     }
     

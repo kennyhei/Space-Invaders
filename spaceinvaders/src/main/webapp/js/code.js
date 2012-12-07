@@ -35,7 +35,7 @@ var engine = (function() {
         shootMissile = keyhandler.getAction();
     }
 
-    // käsitellään pelaajan syötteet ja tietokoneen toiminta (tito) täällä
+    // kï¿½sitellï¿½ï¿½n pelaajan syï¿½tteet ja tietokoneen toiminta (tito) tï¿½ï¿½llï¿½
     function logic() {
         if (player.getLives() < 1 || invaders.getNumOfInvaders() < 1)
             gameOver = true;
@@ -58,7 +58,7 @@ var engine = (function() {
     function invadersLogic() {
         invaders.tormaakoMuuriin(walls);
         
-        // kosketetaan seinää => rivi alemmas ja suunnanvaihdos
+        // kosketetaan seinï¿½ï¿½ => rivi alemmas ja suunnanvaihdos
         if (invaders.tormaakoSeinaan()) {
             if (invaderDirection)
                 invaders.siirra(-1-(invaders.getSpeed()),25);
@@ -76,13 +76,13 @@ var engine = (function() {
         }
     }
     
-    // suoritetaan pelaajaan liittyvä logiikka
+    // suoritetaan pelaajaan liittyvï¿½ logiikka
     function playerLogic() {
         // onko liikkuminen ok
         if (player.tormaakoSeinaan()) {
             if (player.getX() > 514 && movement < 0)
                 player.siirra(movement);
-            else if (player.getX() < 0 && movement > 0) // jos ollaan kiinni seinässä, mutta liikutaan poispäin siitä, sallitaan liike
+            else if (player.getX() < 0 && movement > 0) // jos ollaan kiinni seinï¿½ssï¿½, mutta liikutaan poispï¿½in siitï¿½, sallitaan liike
                 player.siirra(movement);
         }
         else if (!player.tormaakoSeinaan())
@@ -91,12 +91,12 @@ var engine = (function() {
     
     // ohjuksen logiikka
     function playerMissileLogic() {
-        // vain yksi pelaajan ohjus saa olla kentällä
+        // vain yksi pelaajan ohjus saa olla kentï¿½llï¿½
         if (shootMissile && playerMissile == null)
             playerMissile = player.ammu();
         
         if (playerMissile != null) {
-            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
+            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus tï¿½rmï¿½ï¿½ johonkin tai katoaa ruudulta, poistetaan se
                 playerMissile = null;
             else if (playerMissile.getY() < 70)
                 playerMissile = null;
@@ -108,7 +108,7 @@ var engine = (function() {
     function invadersMissileLogic() {
         invaderMissiles = invaders.shootLogic();
         
-        // siirretään ohjuksia / meneekö ohjukset ruudun ulkopuolelle
+        // siirretï¿½ï¿½n ohjuksia / meneekï¿½ ohjukset ruudun ulkopuolelle
         if (invaderMissiles.length > 0) {
             for (var i=0; i < invaderMissiles.length; ++i) {
                 var missile = invaderMissiles[i];
@@ -221,6 +221,16 @@ var engine = (function() {
         }
     }
     
+    function menu() {
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(0,0,540,580);
+        context.fillStyle = "rgb(255,255,255)";
+        context.font = "bold 30px Courier New";
+        context.fillText("START GAME", 180, 270);
+        
+        context.fillText("HIGH SCORES", 180, 310);
+    }
+    
     function tick() {
         engine.input();
         engine.logic();
@@ -234,7 +244,8 @@ var engine = (function() {
         input: input,
         logic: logic,
         render: render,
-        tick: tick
+        tick: tick,
+        menu: menu
     };
     
 })();
@@ -249,5 +260,9 @@ $(document).ready(function() {
         keyhandler.keyup(eventInformation.which);
     });
     
-    engine.tick();
+    engine.menu(); // show menu first
+    
+    $("#spaceinvaders").click(function(eventInfo) {
+        engine.tick();
+    });
 });
