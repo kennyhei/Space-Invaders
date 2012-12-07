@@ -238,8 +238,6 @@ var engine = (function() {
         context.font = "bold 30px Courier New";
         context.fillText("START GAME", 180, 270);
         
-        context.fillText("HIGH SCORES", 180, 310);
-
         var logo = new Image();
         logo.src = "img/logo.png";
         
@@ -271,15 +269,18 @@ $(document).ready(function() {
     engine.menu(); // show menu first
     
     $("#spaceinvaders").click(function(eventInfo) {
-        if ( (eventInfo.pageX >= 503 && eventInfo.pageX <= 683) && (eventInfo.pageY >= 371 && eventInfo.pageY <= 392))
+        var x = Math.floor((eventInfo.pageX-$(this).offset().left));
+        var y = Math.floor((eventInfo.pageY-$(this).offset().top));
+        
+        if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273))
             engine.tick();
     });
 });
 
 // spritemanager (changesprite pois invadermanagerista)
 // textrectangle
-// jokin keino palauttaa lista niin, ettÃ¤ ei tarvita kahta sisÃ¤kkÃ¤istÃ¤ foria
+// jokin keino palauttaa lista niin, että ei tarvita kahta sisäkkäistä foria
 // invadereiden logiikka manager-luokkaan kokonaisuudessaan
-// perintÃ¤Ã¤, koska invaderilla, playerilla, missilellÃ¤ ja tiilillÃ¤ samoja ominaisuuksia
+// perintää, koska invaderilla, playerilla, missilellä ja tiilillä samoja ominaisuuksia
 // kuvien lisenssit (space invaders spritesheet, wallpaper, space invaders logo)
 // pisteille backbone?
