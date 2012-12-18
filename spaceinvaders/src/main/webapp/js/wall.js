@@ -81,7 +81,7 @@ function Muuri(muuriData) {
     
     // jos muuri havaitsee, että johonkin sen tiileen osuu ohjus/invader, se osaa
     // itse poistaa tiilen
-    function tormaako(object) { 
+    function tormaako(object) {
         for (var i=0; i < tiilet.length; ++i) {
             if (tiilet[i].tormaako(object)) {
                 poistaTiili(i);
@@ -102,19 +102,22 @@ function Muuri(muuriData) {
     };
 }
 
+Tiili.prototype = new Drawable();
+Tiili.prototype.constructor = Tiili;
+
 // muuri koostuu eri tiileistä
 function Tiili(x,y) {
-    var leveys = 15;
-    var korkeus = 20;
     
-    function piirra(context) {
+    Drawable.call(this,x,y,15,20);
+    
+    Tiili.prototype.piirra = function(context) {
         context.fillStyle = "rgb(0,255,0)";
-        context.fillRect(x, y, leveys, korkeus);
+        context.fillRect(this.x, this.y, this.width, this.height);
     }
 
     // huom. x ja y koordinaatin muodostama piste sijaitsee laatikon vasemmassa yläkulmassa
-    function tormaako(object) {
-        if (intersects(x,y,leveys,korkeus, object.getX(), object.getY(), object.getWidth(), object.getHeight()))
+    Tiili.prototype.tormaako = function(object) {
+        if (intersects(this.x,this.y,this.width,this.height, object.getX(), object.getY(), object.getWidth(), object.getHeight()))
             return true;
         else
             return false;
@@ -129,9 +132,4 @@ function Tiili(x,y) {
         if (y2 > h1 || y1 > h2) return false;
         return true;
     }
-    
-    return {
-        piirra: piirra,
-        tormaako: tormaako
-    };
 }

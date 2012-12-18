@@ -34,9 +34,6 @@ var keyhandler = (function() {
         if (up() || keys[32])
             return true;
         
-        if (keys[112])
-            return true;
-        
         return false;
     }
     

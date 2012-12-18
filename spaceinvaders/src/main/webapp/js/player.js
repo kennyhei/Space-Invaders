@@ -1,9 +1,9 @@
 Player.prototype = new Drawable();
 Player.prototype.constructor = Player;
 
-function Player(x,y,leveys,korkeus) {
+function Player() {
     
-    Drawable.call(this,x,y,leveys,korkeus);
+    Drawable.call(this,260,500,25,25);
     this.lives = 3;
     
     this.img = new Image();

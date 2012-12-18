@@ -13,7 +13,7 @@ window.requestAnimFrame = (function(){
 
 var engine = (function() {
     var context = $("#spaceinvaders")[0].getContext("2d");
-    var player = new Player(260,500,25,25);
+    var player = new Player();
     var score = new ScoreManager();
     var walls = new MuuriVarasto();
     var invaders = new InvaderManager();
@@ -35,7 +35,7 @@ var engine = (function() {
         shootMissile = keyhandler.getAction();
     }
 
-    // kï¿½sitellï¿½ï¿½n pelaajan syï¿½tteet ja tietokoneen toiminta (tito) tï¿½ï¿½llï¿½
+    // käsitellään pelaajan syötteet ja tietokoneen toiminta (tito)
     function logic() {
         if (player.getLives() < 1 || invaders.getNumOfInvaders() < 1)
             gameOver = true;
@@ -58,7 +58,7 @@ var engine = (function() {
     function invadersLogic() {
         invaders.tormaakoMuuriin(walls);
         
-        // kosketetaan seinï¿½ï¿½ => rivi alemmas ja suunnanvaihdos
+        // kosketetaan seinïää => rivi alemmas ja suunnanvaihdos
         if (invaders.tormaakoSeinaan()) {
             if (invaderDirection)
                 invaders.siirra(-1-(invaders.getSpeed()),25);
@@ -91,12 +91,14 @@ var engine = (function() {
     
     // ohjuksen logiikka
     function playerMissileLogic() {
-        // vain yksi pelaajan ohjus saa olla kentï¿½llï¿½
+        // vain yksi pelaajan ohjus saa olla kentällä
         if (shootMissile && playerMissile == null)
             playerMissile = player.ammu();
         
         if (playerMissile != null) {
-            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus tï¿½rmï¿½ï¿½ johonkin tai katoaa ruudulta, poistetaan se
+            if (walls.tormaako(playerMissile)) { // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
+                playerMissile = null;
+            } else if (invaders.tormaako(playerMissile, score))
                 playerMissile = null;
             else if (playerMissile.getY() < 70)
                 playerMissile = null;
@@ -108,7 +110,7 @@ var engine = (function() {
     function invadersMissileLogic() {
         invaderMissiles = invaders.shootLogic();
         
-        // siirretï¿½ï¿½n ohjuksia / meneekï¿½ ohjukset ruudun ulkopuolelle
+        // siirretään ohjuksia / meneekö ohjukset ruudun ulkopuolelle
         if (invaderMissiles.length > 0) {
             for (var i=0; i < invaderMissiles.length; ++i) {
                 var missile = invaderMissiles[i];
