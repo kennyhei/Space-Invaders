@@ -13,7 +13,7 @@ window.requestAnimFrame = (function(){
 
 var engine = (function() {
     var context = $("#spaceinvaders")[0].getContext("2d");
-    var player = new Player();
+    var player = new Player(260,500,25,25);
     var score = new ScoreManager();
     var walls = new MuuriVarasto();
     var invaders = new InvaderManager();
@@ -76,17 +76,17 @@ var engine = (function() {
         }
     }
     
-    // suoritetaan pelaajaan liittyvï¿½ logiikka
+    // suoritetaan pelaajaan liittyvä logiikka
     function playerLogic() {
         // onko liikkuminen ok
         if (player.tormaakoSeinaan()) {
             if (player.getX() > 514 && movement < 0)
-                player.siirra(movement);
-            else if (player.getX() < 0 && movement > 0) // jos ollaan kiinni seinï¿½ssï¿½, mutta liikutaan poispï¿½in siitï¿½, sallitaan liike
-                player.siirra(movement);
+                player.siirra(movement, 0);
+            else if (player.getX() < 0 && movement > 0) // jos ollaan kiinni seinässä, mutta liikutaan poispäin siitä, sallitaan liike
+                player.siirra(movement, 0);
         }
         else if (!player.tormaakoSeinaan())
-            player.siirra(movement);
+            player.siirra(movement, 0);
     }
     
     // ohjuksen logiikka
@@ -101,7 +101,7 @@ var engine = (function() {
             else if (playerMissile.getY() < 70)
                 playerMissile = null;
             else 
-                playerMissile.siirra(-10);
+                playerMissile.siirra(0,-10);
         }
     }
     
@@ -118,7 +118,7 @@ var engine = (function() {
                     invaderMissiles.splice(i,1);
                     --i;
                 } else
-                    missile.siirra(1);
+                    missile.siirra(0,1);
             }
         }
     }

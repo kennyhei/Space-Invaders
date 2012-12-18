@@ -1,44 +1,18 @@
+Ohjus.prototype = new Drawable();
+Ohjus.prototype.constructor = Ohjus;
+
 // pelaajan tai muukalaisten ampumat ohjukset
 function Ohjus(x,y,column) {
-    var leveys = 3;
-    var korkeus = 5;
     
-    function piirra(context) {
+    Drawable.call(this,x,y,3,5); 
+    this.column = column;
+    
+    Ohjus.prototype.piirra = function(context) {
         context.fillStyle = "rgb(255,255,255)";
-        context.fillRect(x, y, leveys, korkeus);
+        context.fillRect(this.x, this.y, this.width, this.height);
     }
     
-    function siirra(dy) {
-        y += dy;
+    Ohjus.prototype.getColumn = function() {
+        return this.column;
     }
-    
-    function getX() {
-        return x;
-    }
-    
-    function getY() {
-        return y;
-    }
-    
-    function getWidth() {
-        return leveys;
-    }
-    
-    function getHeight() {
-        return korkeus;
-    }
-
-    function getColumn() {
-        return column;
-    }
-    
-    return {
-        getX: getX,
-        getY: getY,
-        getWidth: getWidth,
-        getHeight: getHeight,
-        getColumn: getColumn,
-        siirra: siirra,
-        piirra: piirra
-    };
 }

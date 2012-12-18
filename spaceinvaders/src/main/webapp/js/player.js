@@ -1,33 +1,28 @@
-function Player() {
-    var x = 260;
-    var y = 500;
-    var leveys = 25;
-    var korkeus = 25;
+Player.prototype = new Drawable();
+Player.prototype.constructor = Player;
+
+function Player(x,y,leveys,korkeus) {
     
-    var lives = 3;
+    Drawable.call(this,x,y,leveys,korkeus);
+    this.lives = 3;
     
-    var img = new Image();
-    img.src = "img/ships2.png";
-    
-    // alus voi liikkua vain sivuttaisuunnassa
-    function siirra(dx) {
-        x += dx;
+    this.img = new Image();
+    this.img.src = "img/ships2.png";
+
+    Player.prototype.piirra = function(context, srcX) {
+        context.drawImage(this.img,srcX,12,80,72, this.x,this.y,this.width, this.height);
     }
     
-    function piirra(context, srcX) {
-        context.drawImage(img,srcX,12,80,72, x,y,leveys, korkeus);
-    }
-    
-    function tormaakoSeinaan() {
-        if (x > 514 || x < 0)
+    Player.prototype.tormaakoSeinaan = function() {
+        if (this.x > 514 || this.x < 0)
             return true;
         
         return false;
     }
     
-    function tormaako(object) {
-        if (intersects(x,y,25,25, object.getX(), object.getY(), 3, 5)) {
-            --lives;
+    Player.prototype.tormaako = function(object) {
+        if (intersects(this.x,this.y,this.width,this.height, object.getX(), object.getY(), 3, 5)) {
+            --this.lives;
             return true;
         } else {
             return false;
@@ -44,35 +39,15 @@ function Player() {
         return true;
     }
     
-    function ammu() {
-        return new Ohjus(x+10, y+5);
+    Player.prototype.ammu = function() {
+        return new Ohjus(this.x+10, this.y+5);
     }
     
-    function getX() {
-        return x;
+    Player.prototype.getLives = function() {
+        return this.lives;
     }
     
-    function getY() {
-        return y;
+    Player.prototype.getImg = function() {
+        return this.img;
     }
-    
-    function getLives() {
-        return lives;
-    }
-    
-    function getImg() {
-        return img;
-    }
-    
-    return {
-        getImg: getImg,
-        getLives: getLives,
-        getX: getX,
-        getY: getY,
-        siirra: siirra,
-        piirra: piirra,
-        tormaakoSeinaan: tormaakoSeinaan,
-        ammu: ammu,
-        tormaako: tormaako
-    };
 }
