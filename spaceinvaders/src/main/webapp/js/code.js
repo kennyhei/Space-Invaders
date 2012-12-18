@@ -15,7 +15,7 @@ var engine = (function() {
     var context = $("#spaceinvaders")[0].getContext("2d");
     var player = new Player();
     var score = new ScoreManager();
-    var walls = new MuuriVarasto();
+    var walls = new WallManager();
     var invaders = new InvaderManager();
     
     var level = 1;
@@ -146,7 +146,7 @@ var engine = (function() {
     
     function resetData() {
         invaders = new InvaderManager();
-        walls = new MuuriVarasto();
+        walls = new WallManager();
         playerMissile = null;
         invaderMissiles = [];
         spritemanager.resetFrametime();
@@ -232,7 +232,7 @@ var engine = (function() {
         logo.src = "img/logo.png";
         
         logo.onload = function() {
-            context.drawImage(logo, 51,20);
+            context.drawImage(logo, 51, 20);
         };
     }
     

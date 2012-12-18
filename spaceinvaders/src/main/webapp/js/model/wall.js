@@ -1,5 +1,5 @@
 // tiilien x ja y-koordinaatit jokaista nelj‰‰ muuria varten
-var muuriData = [
+var wallData = [
     [[70, 455],
     [110, 455],
     [70, 435],
@@ -30,23 +30,23 @@ var muuriData = [
 ];
 
 // pelimoottorilla on lista muureista
-function MuuriVarasto() {
-    var muurit = new Array();
+function WallManager() {
+    var walls = new Array();
     
-    $.each(muuriData, function(index, data) {
-        var muuri = new Muuri(data);
-        muurit.push(muuri);
+    $.each(wallData, function(index, data) {
+        var wall = new Wall(data);
+        walls.push(wall);
     });
     
     function piirra(context) {
-        for (var i=0; i < muurit.length; ++i) {
-            muurit[i].piirra(context);
+        for (var i=0; i < walls.length; ++i) {
+            walls[i].piirra(context);
         }
     }
     
     function tormaako(ohjus) {
-        for (var i=0; i < muurit.length; ++i) {
-            if (muurit[i].tormaako(ohjus))
+        for (var i=0; i < walls.length; ++i) {
+            if (walls[i].tormaako(ohjus))
                 return true;
         }
     
@@ -60,11 +60,11 @@ function MuuriVarasto() {
 }
 
 // alusta suojaava yksitt‰inen muuri
-function Muuri(muuriData) {
+function Wall(wallData) {
     var tiilet = new Array();
     
-    $.each(muuriData, function(index, koordinaatit) {
-        var tiili = new Tiili(koordinaatit[0], koordinaatit[1]);
+    $.each(wallData, function(index, coordinates) {
+        var tiili = new Tiili(coordinates[0], coordinates[1]);
         tiilet.push(tiili);
     });
 

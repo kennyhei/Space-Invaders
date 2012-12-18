@@ -197,7 +197,6 @@ function InvaderManager() {
     }
     
     function shoot(column) {
-        
         // jos koko vihollissarake tuhottu, ei jatketa
         if (column.length > 0) {
             if (Math.random() < 0.01) {
@@ -243,7 +242,6 @@ function InvaderManager() {
     }
     
     return {
-        getSpeed: getSpeed,
         piirra: piirra,
         tormaako: tormaako,
         tormaakoSeinaan: tormaakoSeinaan,
@@ -274,7 +272,6 @@ function Invader(x,y,row,column) {
     
     Invader.prototype.piirra = function(context) {
         this.animation.draw(context, this.x, this.y, this.width, this.height)
-//        context.drawImage(img, sprite[0], sprite[1], sprite[2], sprite[3], x,y,leveys,korkeus);
     }
     
     Invader.prototype.tormaakoSeinaan = function() {
