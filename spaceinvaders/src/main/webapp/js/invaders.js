@@ -86,7 +86,7 @@ var invaderColumnShot = [
 
 function InvaderManager() {
     var invaders = new Array();
-    var numOfInvaders = 1;
+    var numOfInvaders = 55;
     var invaderMissiles = [];
     var invadersSpeed = 3;
     var chanceOfShooting = 0.01;
