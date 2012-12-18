@@ -212,12 +212,12 @@ function InvaderManager() {
     function shoot(column) {
         
         // jos koko vihollissarake tuhottu, ei jatketa
-//        if (column.length > 0) {
-//            if (Math.random() < 0.01) {
-//                invaderMissiles.push(column[column.length-1].ammu());
-//                return true;
-//            }
-//        }
+        if (column.length > 0) {
+            if (Math.random() < 0.01) {
+                invaderMissiles.push(column[column.length-1].ammu());
+                return true;
+            }
+        }
         
         return false;
     }
@@ -298,33 +298,13 @@ function Invader(x,y,row,column) {
         return false;
     }
     
-    Invader.prototype.tormaako = function(ohjus) {   
-//        if (img.src.indexOf("kaboom.png") != -1) // invader has been already hit because it's exploding, cannot be hit anymore
-//            return false;
-        
-        if (intersects(this.x,this.y,25,25, ohjus.getX(), ohjus.getY(), ohjus.getWidth(), ohjus.getHeight()))
-            return true;
-        else
-            return false;
-    }
-    
-    function intersects(x1, y1, w1, h1, x2, y2, w2, h2) {
-        w2 += x2;
-        w1 += x1;
-        if (x2 > w1 || x1 > w2) return false;
-        h2 += y2;
-        h1 += y1;
-        if (y2 > h1 || y1 > h2) return false;
-        return true;
-    }
-    
     Invader.prototype.createAnimation = function(invaderSprite) {
         this.sprite = invaderSprite;
-        this.animation = new Animation(this.img, this.sprite[0], this.sprite[1], this.sprite[2], this.sprite[3]);
+        this.animation = new Animation(this.img, this.sprite[0], this.sprite[1], this.sprite[2], this.sprite[3], 32);
     }
     
     Invader.prototype.animate = function() {
-        this.animation.next(32, this.sprite[0]);
+        this.animation.next();
     }
     
     Invader.prototype.ammu = function() {
@@ -337,7 +317,7 @@ function Invader(x,y,row,column) {
     
     Invader.prototype.explode = function() {
         this.img.src = "img/kaboom.png"; // vaihdetaan kuva räjähdykseen
-        this.animation = new Animation(this.img, 0,0,34,23); // animaatio vaihtuu myös
+        this.animation = new Animation(this.img, 0,0,34,23, 0); // animaatio vaihtuu myös
         this.collision = true;
     }
 }

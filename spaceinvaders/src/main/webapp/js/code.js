@@ -115,7 +115,13 @@ var engine = (function() {
             for (var i=0; i < invaderMissiles.length; ++i) {
                 var missile = invaderMissiles[i];
                 
-                if (player.tormaako(missile) || walls.tormaako(missile) || missile.getY() > 535) {
+                if (player.tormaako(missile)) {
+                    player.lives -= 1;
+                    invaderColumnShot[missile.getColumn()] = false;
+                    invaderMissiles.splice(i,1);
+                    --i;
+                    
+                } else if (walls.tormaako(missile) || missile.getY() > 535) {
                     invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i,1);
                     --i;

@@ -114,22 +114,4 @@ function Tiili(x,y) {
         context.fillStyle = "rgb(0,255,0)";
         context.fillRect(this.x, this.y, this.width, this.height);
     }
-
-    // huom. x ja y koordinaatin muodostama piste sijaitsee laatikon vasemmassa yläkulmassa
-    Tiili.prototype.tormaako = function(object) {
-        if (intersects(this.x,this.y,this.width,this.height, object.getX(), object.getY(), object.getWidth(), object.getHeight()))
-            return true;
-        else
-            return false;
-    }
-    
-    function intersects(x1, y1, w1, h1, x2, y2, w2, h2) {
-        w2 += x2;
-        w1 += x1;
-        if (x2 > w1 || x1 > w2) return false;
-        h2 += y2;
-        h1 += y1;
-        if (y2 > h1 || y1 > h2) return false;
-        return true;
-    }
 }
