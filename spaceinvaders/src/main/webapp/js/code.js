@@ -145,8 +145,8 @@ var engine = (function() {
         context.fillRect(180, 265, 180, 33);
         context.font = "20px Courier New";
         context.fillStyle = "rgb(255,255,255)";
-        context.fillText("CONGRATULATIONS!", 190, 250);
-        context.fillText("Proceeding to the next level...", 100, 280);
+        context.fillText("CONGRATULATIONS!", 178, 250);
+        context.fillText("Proceeding to the next level...", 80, 280);
         
         setTimeout(function() {
             resetData();
@@ -157,7 +157,7 @@ var engine = (function() {
                 invaders.setChance(0.01+(level/200));
             
             tick();
-        }, 10000);
+        }, 3000);
     }
     
     function resetData() {
