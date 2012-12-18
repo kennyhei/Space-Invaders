@@ -23,7 +23,6 @@ var engine = (function() {
     var playerMissile;
     var invaderMissiles = [];
     
-    var invaderDirection = true; // jos true, muukalaiset liikkuvat oikealle, muuten vasemmalle
     var movement;
     var shootMissile = false;
     
@@ -56,24 +55,7 @@ var engine = (function() {
     }
     
     function invadersLogic() {
-        invaders.tormaakoMuuriin(walls);
-        
-        // kosketetaan seinïää => rivi alemmas ja suunnanvaihdos
-        if (invaders.tormaakoSeinaan()) {
-            if (invaderDirection)
-                invaders.siirra(-1-(invaders.getSpeed()),25);
-            else
-                invaders.siirra(1+(invaders.getSpeed()),25);
-            
-            invaderDirection = !invaderDirection;
-        } else if (!invaders.tormaakoSeinaan()) {
-            
-//            var speed = invaders.getSpeed();
-//            if (invaderDirection)
-//                invaders.siirra(speed,0);
-//            else
-//                invaders.siirra(-speed,0);
-        }
+        invaders.update(walls);
     }
     
     // suoritetaan pelaajaan liittyvä logiikka
@@ -167,7 +149,7 @@ var engine = (function() {
         walls = new MuuriVarasto();
         playerMissile = null;
         invaderMissiles = [];
-        invaderDirection = true;
+        spritemanager.resetFrametime();
         shootMissile = false;
         gameOver = false;
     }

@@ -1,4 +1,4 @@
-// yksittï¿½isen muukalaisen koordinaatit per rivi
+// yksittäisen muukalaisen koordinaatit per rivi
 var invaderData = [
     
     // x-coordinate, y-coordinate, row, column
@@ -69,7 +69,7 @@ var invaderData = [
     [460, 235,4,10]
 ];
 
-// 11 different columns, only 1 invader from 1 column can shoot 1 missile
+// 11 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or out of the game screen
 var invaderColumnShot = [
     [false,
     false,
@@ -90,9 +90,6 @@ function InvaderManager() {
     var invaderMissiles = [];
     var invadersSpeed = 3;
     
-    var frameTime = 0.5; // vaihdetaan sprite-animaatiota 1 sekunnin vï¿½lein
-    var lastUpdateTime = 0;
-    
     var directionRight = true;
     
     // invaderit on lueteltu sarakeittain
@@ -103,29 +100,30 @@ function InvaderManager() {
         if (!invaders[realIndex])
             invaders[realIndex] = [];
         
-        var sprite = getSprite(data[2]);
+        var sprite = spritemanager.getSprite(data[2]);
         invader.createAnimation(sprite);
         invaders[realIndex].push(invader);
     });
     
-//    // after certain time, change invaders' sprite
-    function changeSprite() {
-        var currentTime = new Date().getTime() / 1000;
+    function update(walls) {
+        tormaakoMuuriin(walls);
         
-        if ((currentTime - lastUpdateTime) > frameTime) {
+        // kosketetaan seinïää => rivi alemmas ja suunnanvaihdos
+        if (tormaakoSeinaan()) {
+            if (directionRight)
+                siirra(-1-(invadersSpeed),25);
+            else
+                siirra(1+(invadersSpeed),25);
             
+            directionRight = !directionRight;
+        }
+        
+        // move only if sprite changes
+        if (spritemanager.changeSprite(invaders)) {
             if (directionRight)
                 siirra(invadersSpeed,0);
             else
                 siirra(-invadersSpeed,0);
-            
-            for (var i=0; i < invaders.length; ++i) {
-                for (var j=0; j < invaders[i].length; ++j) {
-                    
-                    invaders[i][j].animate();
-                    lastUpdateTime = currentTime;
-                }
-            }
         }
     }
     
@@ -138,22 +136,11 @@ function InvaderManager() {
     }
     
     function piirra(context) {
-        changeSprite();
-        
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
                 invaders[i][j].piirra(context);
             }
         }
-    }
-    
-    function getSprite(row) {
-        if (row == 0)
-            return sprite = [0,4,30,25]; // srcX, srcY, width, height
-        else if (row == 1 || row == 2)
-            return sprite = [69,4,30,25];
-        else
-            return sprite = [143,4,30,25];     
     }
     
     // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
@@ -234,10 +221,8 @@ function InvaderManager() {
     function tormaakoSeinaan() {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-            if (invaders[i][j].tormaakoSeinaan()) {
-                directionRight = !directionRight;
+            if (invaders[i][j].tormaakoSeinaan())
                 return true;
-            }
             }
         }
     
@@ -250,7 +235,7 @@ function InvaderManager() {
     
     function increaseSpeed() {
         invadersSpeed += 0.06;
-        frameTime -= 0.009;
+        spritemanager.decreaseFrametime();
     }
     
     function getSpeed() {
@@ -266,7 +251,8 @@ function InvaderManager() {
         siirra: siirra,
         getInvaders: getInvaders,
         getNumOfInvaders: getNumOfInvaders,
-        shootLogic: shootLogic
+        shootLogic: shootLogic,
+        update: update
     };
 }
 
