@@ -69,7 +69,7 @@ var invaderData = [
     [460, 235,4,10]
 ];
 
-// 11 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or out of the game screen
+// 11 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or is out of the game screen
 var invaderColumnShot = [
     [false,
     false,
@@ -212,11 +212,7 @@ function InvaderManager() {
     function getNumOfInvaders() {
         return numOfInvaders;
     }
-    
-    function getInvaders() {
-        return invaders;
-    }
-    
+
     function tormaakoSeinaan() {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
@@ -244,10 +240,6 @@ function InvaderManager() {
     return {
         piirra: piirra,
         tormaako: tormaako,
-        tormaakoSeinaan: tormaakoSeinaan,
-        tormaakoMuuriin: tormaakoMuuriin,
-        siirra: siirra,
-        getInvaders: getInvaders,
         getNumOfInvaders: getNumOfInvaders,
         shootLogic: shootLogic,
         update: update
