@@ -24,10 +24,6 @@ function Player() {
         return new Ohjus(this.x+10, this.y+5);
     }
     
-    Player.prototype.getLives = function() {
-        return this.lives;
-    }
-    
     Player.prototype.getImg = function() {
         return this.img;
     }

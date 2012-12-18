@@ -89,6 +89,7 @@ function InvaderManager() {
     var numOfInvaders = 55;
     var invaderMissiles = [];
     var invadersSpeed = 3;
+    var chanceOfShooting = 0.01;
     
     var directionRight = true;
     
@@ -199,7 +200,7 @@ function InvaderManager() {
     function shoot(column) {
         // jos koko vihollissarake tuhottu, ei jatketa
         if (column.length > 0) {
-            if (Math.random() < 0.01) {
+            if (Math.random() < chanceOfShooting) {
                 invaderMissiles.push(column[column.length-1].ammu());
                 return true;
             }
@@ -236,13 +237,23 @@ function InvaderManager() {
         spritemanager.decreaseFrametime();
     }
     
+    function setSpeed(speed) {
+        invadersSpeed = speed;
+    }
+
+    function setChanceOfShooting(chance) {
+        chanceOfShooting = chance;
+    }
+    
     return {
         piirra: piirra,
         tormaako: tormaako,
         getNumOfInvaders: getNumOfInvaders,
         shootLogic: shootLogic,
         update: update,
-        getInvaders: getInvaders
+        getInvaders: getInvaders,
+        setSpeed: setSpeed,
+        setChance: setChanceOfShooting
     };
 }
 

@@ -29,14 +29,13 @@ var engine = (function() {
     var gameOver = false;
     
     function input() {
-//        otetaan liikkeet ja toiminta talteen
         movement = keyhandler.getMovement();
         shootMissile = keyhandler.getAction();
     }
 
     // käsitellään pelaajan syötteet ja tietokoneen toiminta (tito)
     function logic() {
-        if (player.getLives() < 1 || invaders.getNumOfInvaders() < 1)
+        if (player.lives < 1 || invaders.getNumOfInvaders() < 1)
             gameOver = true;
         
         $.each(invaders.getInvaders(), function(index, invader) {
@@ -61,10 +60,9 @@ var engine = (function() {
         context.fillRect(180, 265, 180, 33);
         context.font = "bold 30px Courier New";
         context.fillStyle = "rgb(255,255,255)";
-        context.fillText("GAME OVER", 190, 290);
+        context.fillText("GAME OVER", 190, 280);
     }
     
-    // suoritetaan pelaajaan liittyvä logiikka
     function playerLogic() {
         // onko liikkuminen ok
         if (player.tormaakoSeinaan()) {
@@ -77,7 +75,6 @@ var engine = (function() {
             player.siirra(movement, 0);
     }
     
-    // ohjuksen logiikka
     function playerMissileLogic() {
         // vain yksi pelaajan ohjus saa olla kentällä
         if (shootMissile && playerMissile == null)
@@ -134,22 +131,33 @@ var engine = (function() {
         renderScore();
         
         if (gameOver) {
-            endGame();
-            newGame();
+            if (player.lives > 0)
+                newGame();
+            else
+                endGame();
         }
-            
     }
     
     // start new game with increased difficulty after 3 seconds
     // if player still has lives
     function newGame() {
-        if (player.getLives() > 0) {
-            setTimeout(function() {
-                resetData();
-                ++level;
-                tick();
-            }, 2000);
-        }
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(180, 265, 180, 33);
+        context.font = "20px Courier New";
+        context.fillStyle = "rgb(255,255,255)";
+        context.fillText("CONGRATULATIONS!", 190, 250);
+        context.fillText("Proceeding to the next level...", 100, 280);
+        
+        setTimeout(function() {
+            resetData();
+            ++level;
+            
+            invaders.setSpeed(3+(level/10));
+            if (level % 3 == 0)
+                invaders.setChance(0.01+(level/200));
+            
+            tick();
+        }, 10000);
     }
     
     function resetData() {
@@ -172,14 +180,14 @@ var engine = (function() {
         
         var playerImg = player.getImg();
         var xLocation = 50;
-        for (var i=0; i < player.getLives(); ++i) {
+        for (var i=0; i < player.lives; ++i) {
             context.drawImage(playerImg,0,12,80,72,xLocation,550,25,25);
             xLocation += 30;
         }
         
         context.font = "20px Courier New";
         context.fillStyle = "rgb(255, 255, 255)";
-        context.fillText(player.getLives()+"x", 20, 570);
+        context.fillText(player.lives+"x", 20, 570);
         
         context.fillText("LEVEL", 340, 30);
         context.fillText(level, 340, 50);
