@@ -117,7 +117,6 @@ function InvaderManager() {
             
             directionRight = !directionRight;
         }
-        
         // move only if sprite changes
         if (spritemanager.changeSprite(invaders)) {
             if (directionRight)
@@ -166,6 +165,7 @@ function InvaderManager() {
     function tormaakoMuuriin(walls) {
         for (var column=0; column < invaders.length; ++column) {
             for (var row=0; row < invaders[column].length; ++row) {
+                
                 var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
                 if (!invader.hasCollided() && walls.tormaako(invader)) {
@@ -208,9 +208,12 @@ function InvaderManager() {
         return false;
     }
     
-    
     function getNumOfInvaders() {
         return numOfInvaders;
+    }
+    
+    function getInvaders() {
+        return invaders;
     }
 
     function tormaakoSeinaan() {
@@ -233,16 +236,13 @@ function InvaderManager() {
         spritemanager.decreaseFrametime();
     }
     
-    function getSpeed() {
-        return invadersSpeed;
-    }
-    
     return {
         piirra: piirra,
         tormaako: tormaako,
         getNumOfInvaders: getNumOfInvaders,
         shootLogic: shootLogic,
-        update: update
+        update: update,
+        getInvaders: getInvaders
     };
 }
 

@@ -39,6 +39,16 @@ var engine = (function() {
         if (player.getLives() < 1 || invaders.getNumOfInvaders() < 1)
             gameOver = true;
         
+        $.each(invaders.getInvaders(), function(index, invader) {
+            for (var i=0; i < invader.length; ++i) {
+                if (invader[i].getY() > 460) {
+                    player.lives = 0;
+                    gameOver = true;
+                    return;
+                }
+            }
+        });
+        
         playerLogic();
         playerMissileLogic();
         invadersLogic();
@@ -52,10 +62,6 @@ var engine = (function() {
         context.font = "bold 30px Courier New";
         context.fillStyle = "rgb(255,255,255)";
         context.fillText("GAME OVER", 190, 290);
-    }
-    
-    function invadersLogic() {
-        invaders.update(walls);
     }
     
     // suoritetaan pelaajaan liittyvä logiikka
@@ -78,15 +84,17 @@ var engine = (function() {
             playerMissile = player.ammu();
         
         if (playerMissile != null) {
-            if (walls.tormaako(playerMissile)) { // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
-                playerMissile = null;
-            } else if (invaders.tormaako(playerMissile, score))
+            if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
                 playerMissile = null;
             else if (playerMissile.getY() < 70)
                 playerMissile = null;
             else 
                 playerMissile.siirra(0,-10);
         }
+    }
+    
+    function invadersLogic() {
+        invaders.update(walls);
     }
     
     function invadersMissileLogic() {
@@ -269,7 +277,7 @@ $(document).ready(function() {
 
 // spritemanager (changesprite pois invadermanagerista)
 // textrectangle
-// jokin keino palauttaa lista niin, että ei tarvita kahta sisäkkäistä foria
+// jokin keino palauttaa lista niin, että ei tarvita kahta sisäkkäistä foria => funktio, joka käsittelee matriiseja listana?
 // invadereiden logiikka manager-luokkaan kokonaisuudessaan
 // perintää, koska invaderilla, playerilla, missilellä ja tiilillä samoja ominaisuuksia
 // kuvien lisenssit (space invaders spritesheet, wallpaper, space invaders logo)
