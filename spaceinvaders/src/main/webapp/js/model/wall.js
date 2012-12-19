@@ -1,3 +1,5 @@
+'use strict';
+
 // tiilien x ja y-koordinaatit jokaista nelj‰‰ muuria varten
 var wallData = [
     [[70, 455],
@@ -31,7 +33,7 @@ var wallData = [
 
 // pelimoottorilla on lista muureista
 function WallManager() {
-    var walls = new Array();
+    var walls = [];
     
     $.each(wallData, function(index, data) {
         var wall = new Wall(data);

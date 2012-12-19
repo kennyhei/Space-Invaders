@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 window.requestAnimFrame = (function(){
     return window.requestAnimationFrame       || 
@@ -12,7 +12,6 @@ window.requestAnimFrame = (function(){
 })();  
 
 var engine = (function() {
-    var context = $("#spaceinvaders")[0].getContext("2d");
     var player = new Player();
     var score = new ScoreManager();
     var walls = new WallManager();
@@ -48,6 +47,9 @@ var engine = (function() {
             }
         });
         
+        if (gameOver)
+            return;
+        
         playerLogic();
         playerMissileLogic();
         invadersLogic();
@@ -55,7 +57,7 @@ var engine = (function() {
             
     }
 
-    function endGame() {
+    function endGame(context) {
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(180, 265, 180, 33);
         context.font = "bold 30px Courier New";
@@ -119,28 +121,31 @@ var engine = (function() {
     }
     
     function render() {
+        var context = $("#spaceinvaders")[0].getContext("2d");
         context.clearRect(0, 0, 540, 580); // clear canvas
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0,0,540,580);
 
-        renderPlayer();
-        renderMissiles();
+        renderPlayer(context);
+        renderMissiles(context);
         walls.piirra(context);
-        renderInvaders();
-        renderHUD();
-        renderScore();
+        renderInvaders(context);
+        renderHUD(context);
+        renderScore(context);
         
         if (gameOver) {
             if (player.lives > 0)
-                newGame();
+                newGame(context);
             else
-                endGame();
+                endGame(context);
         }
+        
+        context = null;
     }
     
     // start new game with increased difficulty after 3 seconds
     // if player still has lives
-    function newGame() {
+    function newGame(context) {
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(180, 265, 180, 33);
         context.font = "20px Courier New";
@@ -154,7 +159,7 @@ var engine = (function() {
             
             invaders.setSpeed(3+(level/10));
             if (level % 3 == 0)
-                invaders.setChance(0.01+(level/200));
+                invaders.setChance(0.01+(level/100));
             
             tick();
         }, 3000);
@@ -164,14 +169,14 @@ var engine = (function() {
         invaders = new InvaderManager();
         walls = new WallManager();
         playerMissile = null;
-        invaderMissiles = [];
+        invaderMissiles = null;
         spritemanager.resetFrametime();
         shootMissile = false;
         gameOver = false;
     }
     
     // player lives & current level
-    function renderHUD() {
+    function renderHUD(context) {
         context.lineWidth = 2;
         context.strokeStyle = "rgb(0,255,0)";
         context.moveTo(0,540);
@@ -194,18 +199,18 @@ var engine = (function() {
     }
     
     // current score and high score
-    function renderScore() {
+    function renderScore(context) {
         context.fillText("SCORE", 20,30);
         context.fillText(score.getScore(), 20, 50);
         context.fillText("HIGH SCORE", 140, 30);
         context.fillText(score.getHighScore(), 140,50);
     }
     
-    function renderInvaders() {
+    function renderInvaders(context) {
         invaders.piirra(context);
     }
     
-    function renderPlayer() {
+    function renderPlayer(context) {
         if (movement == -2)
             var srcX = 147;
         else if (movement == 2)
@@ -216,7 +221,7 @@ var engine = (function() {
         player.piirra(context, srcX);
     }
     
-    function renderMissiles() {
+    function renderMissiles(context) {
         if (playerMissile != null)
             playerMissile.piirra(context);
         
@@ -237,6 +242,7 @@ var engine = (function() {
     }
     
     function menu() {
+        var context = $("#spaceinvaders")[0].getContext("2d");
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0,0,540,580);
         
@@ -249,6 +255,7 @@ var engine = (function() {
         
         logo.onload = function() {
             context.drawImage(logo, 51, 20);
+            context = null;
         };
     }
     

@@ -85,7 +85,7 @@ var invaderColumnShot = [
 ];
 
 function InvaderManager() {
-    var invaders = new Array();
+    var invaders = [];
     var numOfInvaders = 55;
     var invaderMissiles = [];
     var invadersSpeed = 3;
@@ -268,9 +268,6 @@ function Invader(x,y,row,column) {
     this.sprite = [];
     this.collision = false;
     
-    // sprite variables
-    this.img = new Image();
-    this.img.src = "img/invaders3.png";
     this.animation = {};
     
     Invader.prototype.piirra = function(context) {
@@ -286,7 +283,7 @@ function Invader(x,y,row,column) {
     
     Invader.prototype.createAnimation = function(invaderSprite) {
         this.sprite = invaderSprite;
-        this.animation = new Animation(this.img, this.sprite[0], this.sprite[1], this.sprite[2], this.sprite[3], 32);
+        this.animation = new Animation($("#invaders")[0], this.sprite[0], this.sprite[1], this.sprite[2], this.sprite[3], 32);
     }
     
     Invader.prototype.animate = function() {
@@ -302,8 +299,7 @@ function Invader(x,y,row,column) {
     }
     
     Invader.prototype.explode = function() {
-        this.img.src = "img/kaboom.png"; // vaihdetaan kuva räjähdykseen
-        this.animation = new Animation(this.img, 0,0,34,23, 0); // animaatio vaihtuu myös
+        this.animation = new Animation($("#kaboom")[0], 0,0,34,23, 0); // vaihdetaan kuva räjähdykseen, animaatio vaihtuu myös
         this.collision = true;
     }
 }
