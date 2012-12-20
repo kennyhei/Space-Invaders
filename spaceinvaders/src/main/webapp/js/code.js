@@ -63,6 +63,18 @@ var engine = (function() {
         context.font = "bold 30px Courier New";
         context.fillStyle = "rgb(255,255,255)";
         context.fillText("GAME OVER", 190, 280);
+        
+        renderScoreList(context);
+    }
+    
+    function renderScoreList(context) {
+        var highScores = score.showScores();
+        context.font = "20px Courier New";
+        var y = 305;
+        for (var i=0; i < highScores.length; ++i) {
+            context.fillText((i+1)+": "+ highScores[i], 230, y);
+            y += 30;
+        }
     }
     
     function playerLogic() {
@@ -245,6 +257,7 @@ var engine = (function() {
     
     function menu() {
         var context = $("#spaceinvaders")[0].getContext("2d");
+        context.clearRect(0,0,540,580);
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0,0,540,580);
         
@@ -252,13 +265,39 @@ var engine = (function() {
         context.font = "bold 30px Courier New";
         context.fillText("START GAME", 180, 270);
         
+        context.fillText("HIGH SCORES", 180, 320);
+        
         var logo = new Image();
         logo.src = "img/logo.png";
+
+        var menuImg = new Image();
+        menuImg.src = "img/invaderlogo4.png";
+        var menuImg2 = new Image();
+        menuImg2.src = "img/invaderlogo5.png";
         
-        logo.onload = function() {
+        menuImg2.onload = function() {
             context.drawImage(logo, 51, 20);
+            context.drawImage(menuImg, 20, 300);
+            context.drawImage(menuImg2, 30, 470);
             context = null;
         };
+    }
+    
+    function highscore() {
+        var context = $("#spaceinvaders")[0].getContext("2d");
+
+        context.fillStyle = "rgb(0,0,0)";
+        context.fillRect(0,250,540,580);
+        context.fillStyle = "rgb(255,255,255)";
+        
+        renderScoreList(context);
+        
+        var handler = function() {
+            menu();
+            $("#spaceinvaders").unbind('click', handler);
+        }
+        
+        $("#spaceinvaders").bind('click', handler);
     }
     
     return {
@@ -266,7 +305,8 @@ var engine = (function() {
         logic: logic,
         render: render,
         tick: tick,
-        menu: menu
+        menu: menu,
+        highscore: highscore
     };
     
 })();
@@ -286,16 +326,11 @@ $(document).ready(function() {
     $("#spaceinvaders").click(function(eventInfo) {
         var x = Math.floor((eventInfo.pageX-$(this).offset().left));
         var y = Math.floor((eventInfo.pageY-$(this).offset().top));
-        
+
         if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273))
             engine.tick();
+        else if ((x >= 176 && x <= 379) && (y >= 299 && y <= 322))
+            engine.highscore();
+        
     });
 });
-
-// spritemanager (changesprite pois invadermanagerista)
-// textrectangle
-// jokin keino palauttaa lista niin, ett‰ ei tarvita kahta sis‰kk‰ist‰ foria => funktio, joka k‰sittelee matriiseja listana?
-// invadereiden logiikka manager-luokkaan kokonaisuudessaan
-// perint‰‰, koska invaderilla, playerilla, missilell‰ ja tiilill‰ samoja ominaisuuksia
-// kuvien lisenssit (space invaders spritesheet, wallpaper, space invaders logo)
-// pisteille backbone?
