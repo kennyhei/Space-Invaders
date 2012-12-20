@@ -34,13 +34,18 @@ function ScoreManager() {
         return score;
     }
     
+    // send current score to server
+    function update() {
+        // todo
+    }
+    
     function showScores() {
         // fetch scores
         var scoreList = scores.slice(0); // copy array by VALUE, no reference!
+        
         // add current score to list and highscore
         scoreList.push(score);
         scoreList.push(getHighScore());
-        // arrange scores in to descending order
         scoreList = bubbleSort(scoreList);
         // show only top 5 scores
         return scoreList = scoreList.slice(0,5);
@@ -48,7 +53,6 @@ function ScoreManager() {
     
     function bubbleSort(list) {
         for (var i=0; i < list.length; i++) {
-
             for (var j=0; j < list.length-1; j++) {
                 if (list[j] < list[j+1]) {
                     // exchange elements
@@ -58,7 +62,6 @@ function ScoreManager() {
                 }
             }
         }
-        
         return list;
     }
     
@@ -66,6 +69,7 @@ function ScoreManager() {
         raiseScore: raiseScore,
         getScore: getScore,
         getHighScore: getHighScore,
-        showScores: showScores
+        showScores: showScores,
+        update: update
     };
 }

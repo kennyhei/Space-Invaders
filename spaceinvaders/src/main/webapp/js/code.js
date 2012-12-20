@@ -65,6 +65,13 @@ var engine = (function() {
         context.fillText("GAME OVER", 190, 280);
         
         renderScoreList(context);
+        
+        var handler = function() {
+            menu();
+            $("#spaceinvaders").unbind('click', handler);
+        }
+        
+        $("#spaceinvaders").bind('click', handler);
     }
     
     function renderScoreList(context) {
