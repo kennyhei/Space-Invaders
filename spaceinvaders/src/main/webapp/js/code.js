@@ -179,6 +179,8 @@ var engine = (function() {
     function renderHUD(context) {
         context.lineWidth = 2;
         context.strokeStyle = "rgb(0,255,0)";
+        
+        context.beginPath();
         context.moveTo(0,540);
         context.lineTo(540, 540);
         context.stroke();
