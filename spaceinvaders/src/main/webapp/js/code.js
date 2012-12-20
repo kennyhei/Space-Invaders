@@ -67,6 +67,7 @@ var engine = (function() {
         renderScoreList(context);
         
         var handler = function() {
+            resetData();
             menu();
             $("#spaceinvaders").unbind('click', handler);
         }
@@ -173,13 +174,18 @@ var engine = (function() {
             
             invaders.setSpeed(3+(level/10));
             if (level % 3 == 0)
-                invaders.setChance(0.01+(level/100));
+                invaders.setChance(0.01+(level/50));
             
             tick();
         }, 3000);
     }
     
     function resetData() {
+        if (player.lives < 1) {
+            player = new Player();
+            score = new ScoreManager();
+        }
+        
         invaders = new InvaderManager();
         walls = new WallManager();
         playerMissile = null;

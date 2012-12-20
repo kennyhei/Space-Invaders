@@ -54,13 +54,10 @@ function ScoreManager() {
         
         query.find({
             success: function(results) {
-                alert("Successfully retrieved " + results.length + " scores.");
-                var scores = results;
-                
                 context.font = "20px Courier New";
                 var y = 305;
-                for (var i=0; i < scores.length; ++i) {
-                    context.fillText((i+1)+": "+ scores[i].attributes.score, 230, y);
+                for (var i=0; i < results.length; ++i) {
+                    context.fillText((i+1)+": "+ results[i].attributes.score, 230, y);
                     y += 30;
                 }
             }
