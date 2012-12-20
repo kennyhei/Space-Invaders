@@ -320,6 +320,7 @@ var engine = (function() {
 })();
 
 $(document).ready(function() {
+    createCookie();
     
     $(document).keydown(function(eventInformation) {
         keyhandler.keydown(eventInformation.which);
@@ -342,3 +343,21 @@ $(document).ready(function() {
         
     });
 });
+
+function createCookie() {
+    if ($.cookie('userId') != null)
+        return;
+    
+    var uniqueID = makeId(); // unique id for user-specific scores
+    $.cookie('userId', uniqueID);
+}
+    
+function makeId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}

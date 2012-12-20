@@ -9,12 +9,15 @@ function ScoreManager() {
     var query = new Parse.Query(GameScore);
     
     // initialize highscore
-    query.exists("score");
+    query.equalTo("userID", $.cookie('userId'));
     query.descending("score");
     query.limit(1);
     query.find({
         success: function(results) {
-            highScore = results[0].attributes.score;
+            if (results.length == 0)
+                highScore = 0;
+            else
+                highScore = results[0].attributes.score;
         }
     });
     
@@ -42,13 +45,16 @@ function ScoreManager() {
     function update() {
         // save score to Parse
         gameScore.save({
+            userID: $.cookie('userId'),
             score: score
         });
     }
     
     function showScores(context) {
         // fetch scores
+        query.equalTo("userID", $.cookie('userId'));
         query.exists("score");
+        
         query.descending("score");
         query.limit(5); // only top 5 scores will be fetched
         
