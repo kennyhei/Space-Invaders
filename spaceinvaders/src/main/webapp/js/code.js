@@ -75,13 +75,8 @@ var engine = (function() {
     }
     
     function renderScoreList(context) {
-        var highScores = score.showScores();
-        context.font = "20px Courier New";
-        var y = 305;
-        for (var i=0; i < highScores.length; ++i) {
-            context.fillText((i+1)+": "+ highScores[i], 230, y);
-            y += 30;
-        }
+        score.update();
+        score.showScores(context);
     }
     
     function playerLogic() {

@@ -1,13 +1,22 @@
-// for testing purposes
-var scores = [1000, 1500, 2000, 2500, 3000];
+var GameScore = Parse.Object.extend("GameScore");
 
 function ScoreManager() {
+    Parse.initialize("xR4SolA0VPCzrf7Pp9zuBDVOM6EB6KodPAnWbgso", "JoAmAsdAt3lHQCkqAIVPVDDyYMVCRIo9PZrrQfMM");
+    
     var score = 0;
     var highScore = 0;
+    var gameScore = new GameScore();
+    var query = new Parse.Query(GameScore);
     
     // initialize highscore
-    if (localStorage.getItem("highScore"))
-        highScore = localStorage.getItem("highScore");
+    query.exists("score");
+    query.descending("score");
+    query.limit(1);
+    query.find({
+        success: function(results) {
+            highScore = results[0].attributes.score;
+        }
+    });
     
     function raiseScore(enemyType) {
         if (enemyType < 1)
@@ -17,16 +26,11 @@ function ScoreManager() {
         else
             score += 10;
         
-        if (score > highScore) {
+        if (score > highScore)
             highScore = score;
-            localStorage.setItem("highScore", highScore);
-        }
     }
 
     function getHighScore() {
-        if (localStorage.getItem("highScore"))
-            return localStorage.getItem("highScore");
-        else
             return highScore;
     }
     
@@ -36,33 +40,31 @@ function ScoreManager() {
     
     // send current score to server
     function update() {
-        // todo
+        // save score to Parse
+        gameScore.save({
+            score: score
+        });
     }
     
-    function showScores() {
+    function showScores(context) {
         // fetch scores
-        var scoreList = scores.slice(0); // copy array by VALUE, no reference!
+        query.exists("score");
+        query.descending("score");
+        query.limit(5); // only top 5 scores will be fetched
         
-        // add current score to list and highscore
-        scoreList.push(score);
-        scoreList.push(getHighScore());
-        scoreList = bubbleSort(scoreList);
-        // show only top 5 scores
-        return scoreList = scoreList.slice(0,5);
-    }
-    
-    function bubbleSort(list) {
-        for (var i=0; i < list.length; i++) {
-            for (var j=0; j < list.length-1; j++) {
-                if (list[j] < list[j+1]) {
-                    // exchange elements
-                    var temp = list[j];
-                    list[j] = list[j+1];
-                    list[j+1] = temp;
+        query.find({
+            success: function(results) {
+                alert("Successfully retrieved " + results.length + " scores.");
+                var scores = results;
+                
+                context.font = "20px Courier New";
+                var y = 305;
+                for (var i=0; i < scores.length; ++i) {
+                    context.fillText((i+1)+": "+ scores[i].attributes.score, 230, y);
+                    y += 30;
                 }
             }
-        }
-        return list;
+        });
     }
     
     return {
