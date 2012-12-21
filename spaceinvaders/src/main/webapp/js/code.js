@@ -74,7 +74,9 @@ var engine = (function() {
     }
     
     function renderScoreList(context) {
-        score.update();
+        if (gameOver)
+            score.update();
+        
         score.showScores(context);
     }
     
@@ -179,10 +181,8 @@ var engine = (function() {
     }
     
     function resetData() {
-        if (player.lives < 1) {
+        if (player.lives < 1)
             player = new Player();
-            score = new ScoreManager();
-        }
         
         invaders = new InvaderManager();
         walls = new WallManager();
@@ -295,6 +295,7 @@ var engine = (function() {
 
             if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273)) {
                 $("#spaceinvaders").off('click.menu');
+                score = new ScoreManager();
                 engine.tick();
             } else if ((x >= 176 && x <= 379) && (y >= 299 && y <= 322)) {
                 $("#spaceinvaders").off('click.menu');
