@@ -282,10 +282,12 @@ var engine = (function() {
         menuImg2.src = "img/invaderlogo5.png";
         
         menuImg2.onload = function() {
-            context.drawImage(logo, 51, 20);
-            context.drawImage(menuImg, 20, 300);
-            context.drawImage(menuImg2, 30, 470);
-            context = null;
+            logo.onload = function() {
+                context.drawImage(logo, 51, 20);
+                context.drawImage(menuImg, 20, 300);
+                context.drawImage(menuImg2, 30, 470);
+                context = null;
+            }
         };
         
     
@@ -345,7 +347,7 @@ $(document).ready(function() {
 });
 
 function createCookie() {
-    if (localStorage.getItem("userId")) {
+    if (localStorage.getItem("userId") != null) {
         $.cookie('userId', localStorage.getItem("userId"), {expires: 30});
         return;
     }
