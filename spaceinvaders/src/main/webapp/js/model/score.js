@@ -61,6 +61,12 @@ function ScoreManager() {
         query.find({
             success: function(results) {
                 context.font = "20px Courier New";
+
+                if (results.length < 1) {
+                    context.fillText("No scores yet! Go and play!", 115, 305);
+                    return;
+                }
+                
                 var y = 305;
                 for (var i=0; i < results.length; ++i) {
                     context.fillText((i+1)+": "+ results[i].attributes.score, 230, y);
