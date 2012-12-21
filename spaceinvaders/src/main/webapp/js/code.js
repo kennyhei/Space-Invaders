@@ -345,10 +345,16 @@ $(document).ready(function() {
 });
 
 function createCookie() {
+    if (localStorage.getItem("userId")) {
+        $.cookie('userId', localStorage.getItem("userId"), {expires: 30});
+        return;
+    }
+    
     if ($.cookie('userId') != null)
         return;
     
     var uniqueID = makeId(); // unique id for user-specific scores
+    localStorage.setItem("userId", uniqueID);
     $.cookie('userId', uniqueID, { expires: 30});
 }
     
