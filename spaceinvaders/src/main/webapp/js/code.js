@@ -66,13 +66,11 @@ var engine = (function() {
         
         renderScoreList(context);
         
-        var handler = function() {
+        $("#spaceinvaders").on('click.endGame', function(eventInfo) {
             resetData();
             menu();
-            $("#spaceinvaders").unbind('click', handler);
-        }
-        
-        $("#spaceinvaders").bind('click', handler);
+            $("#spaceinvaders").off('click.endGame');
+        });
     }
     
     function renderScoreList(context) {
@@ -289,6 +287,19 @@ var engine = (function() {
             context.drawImage(menuImg2, 30, 470);
             context = null;
         };
+        
+    
+        $("#spaceinvaders").on('click.menu', function(eventInfo) {
+            var x = Math.floor((eventInfo.pageX-$(this).offset().left));
+            var y = Math.floor((eventInfo.pageY-$(this).offset().top));
+
+            if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273))
+                engine.tick();
+            else if ((x >= 176 && x <= 379) && (y >= 299 && y <= 322))
+                engine.highscore();
+            
+            $("#spaceinvaders").off('click.menu');
+        });
     }
     
     function highscore() {
@@ -300,12 +311,10 @@ var engine = (function() {
         
         renderScoreList(context);
         
-        var handler = function() {
+        $("#spaceinvaders").on('click.highscore', function(eventInfo) {
             menu();
-            $("#spaceinvaders").unbind('click', handler);
-        }
-        
-        $("#spaceinvaders").bind('click', handler);
+            $("#spaceinvaders").off('click.highscore');
+        });
     }
     
     return {
@@ -331,17 +340,6 @@ $(document).ready(function() {
     });
     
     engine.menu(); // show menu first
-    
-    $("#spaceinvaders").click(function(eventInfo) {
-        var x = Math.floor((eventInfo.pageX-$(this).offset().left));
-        var y = Math.floor((eventInfo.pageY-$(this).offset().top));
-
-        if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273))
-            engine.tick();
-        else if ((x >= 176 && x <= 379) && (y >= 299 && y <= 322))
-            engine.highscore();
-        
-    });
 });
 
 function createCookie() {
@@ -349,7 +347,7 @@ function createCookie() {
         return;
     
     var uniqueID = makeId(); // unique id for user-specific scores
-    $.cookie('userId', uniqueID);
+    $.cookie('userId', uniqueID, { expires: 30});
 }
     
 function makeId() {
