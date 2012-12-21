@@ -67,9 +67,9 @@ var engine = (function() {
         renderScoreList(context);
         
         $("#spaceinvaders").on('click.endGame', function(eventInfo) {
+            $("#spaceinvaders").off('click.endGame');
             resetData();
             menu();
-            $("#spaceinvaders").off('click.endGame');
         });
     }
     
@@ -293,12 +293,13 @@ var engine = (function() {
             var x = Math.floor((eventInfo.pageX-$(this).offset().left));
             var y = Math.floor((eventInfo.pageY-$(this).offset().top));
 
-            if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273))
+            if ( (x >= 176 && x <= 361) && (y >= 251 && y <= 273)) {
+                $("#spaceinvaders").off('click.menu');
                 engine.tick();
-            else if ((x >= 176 && x <= 379) && (y >= 299 && y <= 322))
+            } else if ((x >= 176 && x <= 379) && (y >= 299 && y <= 322)) {
+                $("#spaceinvaders").off('click.menu');
                 engine.highscore();
-            
-            $("#spaceinvaders").off('click.menu');
+            }
         });
     }
     
@@ -312,8 +313,8 @@ var engine = (function() {
         renderScoreList(context);
         
         $("#spaceinvaders").on('click.highscore', function(eventInfo) {
-            menu();
             $("#spaceinvaders").off('click.highscore');
+            menu();
         });
     }
     
