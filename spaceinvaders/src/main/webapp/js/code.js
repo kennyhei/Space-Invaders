@@ -275,21 +275,11 @@ var engine = (function() {
         
         var logo = new Image();
         logo.src = "img/logo.png";
-
-        var menuImg = new Image();
-        menuImg.src = "img/invaderlogo4.png";
-        var menuImg2 = new Image();
-        menuImg2.src = "img/invaderlogo5.png";
         
-        menuImg2.onload = function() {
-            logo.onload = function() {
-                context.drawImage(logo, 51, 20);
-                context.drawImage(menuImg, 20, 300);
-                context.drawImage(menuImg2, 30, 470);
-                context = null;
-            }
+        logo.onload = function() {
+            context.drawImage(logo, 51, 20);
+            context = null;
         };
-        
     
         $("#spaceinvaders").on('click.menu', function(eventInfo) {
             var x = Math.floor((eventInfo.pageX-$(this).offset().left));
@@ -337,20 +327,22 @@ $(document).ready(function() {
     
     $(document).keydown(function(eventInformation) {
         keyhandler.keydown(eventInformation.which);
+        eventInformation.preventDefault();
     });
     
     $(document).keyup(function(eventInformation) {
         keyhandler.keyup(eventInformation.which);
+        eventInformation.preventDefault();
     });
     
     engine.menu(); // show menu first
 });
 
 function createCookie() {
-    if (localStorage.getItem("userId") != null) {
-        $.cookie('userId', localStorage.getItem("userId"), {expires: 30});
-        return;
-    }
+    var id = localStorage.getItem("userId");
+    
+    if (id != null)
+        $.cookie('userId', id);
     
     if ($.cookie('userId') != null)
         return;
