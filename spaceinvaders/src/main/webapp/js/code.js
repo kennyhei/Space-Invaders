@@ -143,7 +143,7 @@ var engine = (function() {
 
         renderPlayer(context);
         renderMissiles(context);
-        walls.piirra(context);
+        walls.draw(context);
         renderInvaders(context);
         renderHUD(context);
         renderScore(context);

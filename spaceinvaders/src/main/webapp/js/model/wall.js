@@ -40,15 +40,15 @@ function WallManager() {
         walls.push(wall);
     });
     
-    function piirra(context) {
+    function draw(context) {
         for (var i=0; i < walls.length; ++i) {
-            walls[i].piirra(context);
+            walls[i].draw(context);
         }
     }
     
-    function tormaako(ohjus) {
+    function tormaako(missile) {
         for (var i=0; i < walls.length; ++i) {
-            if (walls[i].tormaako(ohjus))
+            if (walls[i].tormaako(missile))
                 return true;
         }
     
@@ -56,63 +56,63 @@ function WallManager() {
     }
     
     return {
-        piirra: piirra,
+        draw: draw,
         tormaako: tormaako
     };
 }
 
-// alusta suojaava yksittäinen muuri
+// wall protecting the player
 function Wall(wallData) {
-    var tiilet = new Array();
+    var tiles = new Array();
     
     $.each(wallData, function(index, coordinates) {
-        var tiili = new Tiili(coordinates[0], coordinates[1]);
-        tiilet.push(tiili);
+        var tile = new Tile(coordinates[0], coordinates[1]);
+        tiles.push(tile);
     });
 
     
-    function piirra(context) {
-        for (var i=0; i < tiilet.length; ++i) {
-            tiilet[i].piirra(context);
+    function draw(context) {
+        for (var i=0; i < tiles.length; ++i) {
+            tiles[i].draw(context);
         }
     }
     
-    function getTiilet() {
-        return tiilet;
+    function getTiles() {
+        return tiles;
     }
     
-    // jos muuri havaitsee, että johonkin sen tiileen osuu ohjus/invader, se osaa
-    // itse poistaa tiilen
+    // checks if random object hits the wall and removes single tile based on
+    // where the wall was hit
     function tormaako(object) {
-        for (var i=0; i < tiilet.length; ++i) {
-            if (tiilet[i].tormaako(object)) {
-                poistaTiili(i);
-                return true; // ohjus/invader osui johonkin, ei tarvetta jatkaa läpikäyntiä
+        for (var i=0; i < tiles.length; ++i) {
+            if (tiles[i].tormaako(object)) {
+                removeTile(i);
+                return true;
             }
         }
         return false;
     }
     
-    function poistaTiili(index) {
-        tiilet.splice(index, 1);
+    function removeTile(index) {
+        tiles.splice(index, 1);
     }
     
     return {
-        piirra: piirra,
-        getTiilet: getTiilet,
+        draw: draw,
+        getTiles: getTiles,
         tormaako: tormaako
     };
 }
 
-Tiili.prototype = new Drawable();
-Tiili.prototype.constructor = Tiili;
+Tile.prototype = new Drawable();
+Tile.prototype.constructor = Tile;
 
-// muuri koostuu eri tiileistä
-function Tiili(x,y) {
+// wall consists of tiles
+function Tile(x,y) {
     
     Drawable.call(this,x,y,15,20);
     
-    Tiili.prototype.piirra = function(context) {
+    Tile.prototype.draw = function(context) {
         context.fillStyle = "rgb(0,255,0)";
         context.fillRect(this.x, this.y, this.width, this.height);
     }
