@@ -337,17 +337,17 @@ $(document).ready(function() {
     
     $("#spaceinvaders").swipe({
         swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
-            if (phase == "start" && direction == null) {
-                keyhandler.clear();
-                keyhandler.pressUp();
-            }
-            else if (phase == "move" && direction == "left") {
+
+            if (phase == "move" && direction == "left") {
                 keyhandler.clear();
                 keyhandler.pressLeft();
             }
             else if (phase == "move" && direction == "right") {
                 keyhandler.clear();
                 keyhandler.pressRight();
+            } else  if (phase == "start" && direction == null) {
+                keyhandler.clear();
+                keyhandler.pressUp();
             }
             
             if (phase == "end" || phase == "cancel")
