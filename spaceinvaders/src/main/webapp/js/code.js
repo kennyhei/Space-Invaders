@@ -339,8 +339,7 @@ $(document).ready(function() {
         swipeStatus:function(event, phase, direction, distance, duration, fingerCount) {
             if (phase == "start" || phase == "move")
                 keyhandler.pressRight();
-            
-            if (phase == "end" || phase == "cancel")
+            else if (phase == "end" || phase == "cancel")
                 keyhandler.clear();
         }
     });
@@ -349,8 +348,7 @@ $(document).ready(function() {
         swipeStatus:function(event, phase, direction, distance, duration, fingerCount) {
             if (phase == "start" || phase == "move")
                 keyhandler.pressLeft();
-            
-            if (phase == "end" || phase == "cancel")
+            else if (phase == "end" || phase == "cancel")
                 keyhandler.clear();
         }
     });
@@ -359,8 +357,7 @@ $(document).ready(function() {
         swipeStatus:function(event, phase, direction, distance, duration, fingerCount) {
             if (phase == "start" || phase == "move")
                 keyhandler.pressUp();
-            
-            if (phase == "end" || phase == "cancel")
+            else if (phase == "end" || phase == "cancel")
                 keyhandler.releaseUp();
         }
     });
