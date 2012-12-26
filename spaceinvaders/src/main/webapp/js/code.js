@@ -335,28 +335,6 @@ $(document).ready(function() {
         eventInformation.preventDefault();
     });
     
-    $("#spaceinvaders").swipe({
-        swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
-
-            if (phase == "move" && direction == "left") {
-                keyhandler.clear();
-                keyhandler.pressLeft();
-            }
-            else if (phase == "move" && direction == "right") {
-                keyhandler.clear();
-                keyhandler.pressRight();
-            } else  if (phase == "start" && direction == null) {
-                keyhandler.clear();
-                keyhandler.pressUp();
-            }
-            
-            if (phase == "end" || phase == "cancel")
-                keyhandler.clear();
-        },
-        
-        threshold:1
-    });
-    
     $("#left").mousedown(function(eventInformation) {
         keyhandler.pressLeft();
         eventInformation.preventDefault();
@@ -413,3 +391,25 @@ function makeId() {
 
     return text;
 }
+
+//    $("#spaceinvaders").swipe({
+//        swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
+//
+//            if (phase == "move" && direction == "left") {
+//                keyhandler.clear();
+//                keyhandler.pressLeft();
+//            }
+//            else if (phase == "move" && direction == "right") {
+//                keyhandler.clear();
+//                keyhandler.pressRight();
+//            } else  if (phase == "start" && direction == null) {
+//                keyhandler.clear();
+//                keyhandler.pressUp();
+//            }
+//            
+//            if (phase == "end" || phase == "cancel")
+//                keyhandler.clear();
+//        },
+//        
+//        threshold:1
+//    });
