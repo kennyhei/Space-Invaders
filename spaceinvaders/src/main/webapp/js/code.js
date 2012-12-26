@@ -243,11 +243,11 @@ var engine = (function() {
     
     function renderMissiles(context) {
         if (playerMissile != null)
-            playerMissile.piirra(context);
+            playerMissile.draw(context);
         
         if (invaderMissiles.length > 0) {
             $.each(invaderMissiles, function(index, missile) {
-                missile.piirra(context);
+                missile.draw(context);
             });
         }
     }

@@ -143,14 +143,14 @@ function InvaderManager() {
         }
     }
     
-    // jos johonkin invaderiin osuu ohjus, vaihdetaan sen sprite räjähdykseen
-    function tormaako(ohjus, score) {
+    // if invader is hit by a missile, change its sprite to explosion
+    function tormaako(missile, score) {
         for (var column=0; column < invaders.length; ++column) {
             for (var row=0; row < invaders[column].length; ++row) {
                 
                 var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
-                if (!invader.hasCollided() && invader.tormaako(ohjus)) {
+                if (!invader.hasCollided() && invader.tormaako(missile)) {
                     
                     score.raiseScore(invader.getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
                     invader.explode(); // osuttiin joten invader räjähtää
@@ -291,7 +291,7 @@ function Invader(x,y,row,column) {
     }
     
     Invader.prototype.ammu = function() {
-        return new Ohjus(this.x+10, this.y+5, this.column);
+        return new Missile(this.x+10, this.y+5, this.column);
     }
     
     Invader.prototype.hasCollided = function() {

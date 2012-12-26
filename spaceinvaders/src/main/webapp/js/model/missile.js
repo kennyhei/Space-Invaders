@@ -1,12 +1,12 @@
-Ohjus.prototype = new Drawable();
-Ohjus.prototype.constructor = Ohjus;
+Missile.prototype = new Drawable();
+Missile.prototype.constructor = Missile;
 
-// pelaajan tai muukalaisten ampumat ohjukset
-function Ohjus(x,y,column) {
+// missiles of player & invaders
+function Missile(x,y,column) {
     
     Drawable.call(this,x,y,3,5,column); 
     
-    Ohjus.prototype.piirra = function(context) {
+    Missile.prototype.draw = function(context) {
         context.fillStyle = "rgb(255,255,255)";
         context.fillRect(this.x, this.y, this.width, this.height);
     }

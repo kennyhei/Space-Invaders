@@ -21,7 +21,7 @@ function Player() {
     }
     
     Player.prototype.ammu = function() {
-        return new Ohjus(this.x+10, this.y+5);
+        return new Missile(this.x+10, this.y+5);
     }
     
     Player.prototype.getImg = function() {
