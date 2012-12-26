@@ -347,40 +347,21 @@ $(document).ready(function() {
         eventInformation.preventDefault();
     });
     
-    $("#shoot").click(function(eventInformation) {
-        keyhandler.clear();
-        keyhandler.pressUp();
-        eventInformation.preventDefault();
-    });
-//    $("#left").mousedown(function(eventInformation) {
-//        keyhandler.pressLeft();
-//        eventInformation.preventDefault();
-//    });
-//    
-//    $("#left").mouseup(function(eventInformation) {
+//    $("#shoot").click(function(eventInformation) {
 //        keyhandler.clear();
-//        eventInformation.preventDefault();
-//    })
-//    
-//    $("#right").mousedown(function(eventInformation) {
-//        keyhandler.pressRight();
-//        eventInformation.preventDefault();
-//    });
-//    
-//    $("#right").mouseup(function(eventInformation) {
-//        keyhandler.clear();
-//        eventInformation.preventDefault();
-//    });
-//    
-//    $("#shoot").mousedown(function(eventInformation) {
 //        keyhandler.pressUp();
 //        eventInformation.preventDefault();
 //    });
-//    
-//    $("#shoot").mouseup(function(eventInformation) {
-//        keyhandler.clear();
-//        eventInformation.preventDefault();
-//    })
+    
+    $("#shoot").swipe({
+        swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
+            if (phase == "start" || phase == "move")
+                keyhandler.pressUp();
+            
+            if (phase == "end" || phase == "cancel")
+                keyhandler.clear();
+        }
+    });
     
     engine.menu(); // show menu first
 });
