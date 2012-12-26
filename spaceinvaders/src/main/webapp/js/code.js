@@ -335,35 +335,52 @@ $(document).ready(function() {
         eventInformation.preventDefault();
     });
     
-    $("#left").mousedown(function(eventInformation) {
+    $("#left").click(function(eventInformation) {
+        keyhandler.clear();
         keyhandler.pressLeft();
         eventInformation.preventDefault();
     });
     
-    $("#left").mouseup(function(eventInformation) {
+    $("#right").click(function(eventInformation) {
         keyhandler.clear();
-        eventInformation.preventDefault();
-    })
-    
-    $("#right").mousedown(function(eventInformation) {
         keyhandler.pressRight();
         eventInformation.preventDefault();
     });
     
-    $("#right").mouseup(function(eventInformation) {
+    $("#shoot").click(function(eventInformation) {
         keyhandler.clear();
-        eventInformation.preventDefault();
-    });
-    
-    $("#shoot").mousedown(function(eventInformation) {
         keyhandler.pressUp();
         eventInformation.preventDefault();
     });
-    
-    $("#shoot").mouseup(function(eventInformation) {
-        keyhandler.clear();
-        eventInformation.preventDefault();
-    })
+//    $("#left").mousedown(function(eventInformation) {
+//        keyhandler.pressLeft();
+//        eventInformation.preventDefault();
+//    });
+//    
+//    $("#left").mouseup(function(eventInformation) {
+//        keyhandler.clear();
+//        eventInformation.preventDefault();
+//    })
+//    
+//    $("#right").mousedown(function(eventInformation) {
+//        keyhandler.pressRight();
+//        eventInformation.preventDefault();
+//    });
+//    
+//    $("#right").mouseup(function(eventInformation) {
+//        keyhandler.clear();
+//        eventInformation.preventDefault();
+//    });
+//    
+//    $("#shoot").mousedown(function(eventInformation) {
+//        keyhandler.pressUp();
+//        eventInformation.preventDefault();
+//    });
+//    
+//    $("#shoot").mouseup(function(eventInformation) {
+//        keyhandler.clear();
+//        eventInformation.preventDefault();
+//    })
     
     engine.menu(); // show menu first
 });
