@@ -335,6 +335,65 @@ $(document).ready(function() {
         eventInformation.preventDefault();
     });
     
+    $("#spaceinvaders").swipe( {
+        swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
+            if (phase == "move" && direction == "left") {
+                keyhandler.clear();
+                keyhandler.keydown(37);
+                keyhandler.keydown(178);
+                keyhandler.keydown(65);
+            }
+            
+            if (phase == "move" && direction == "right") {
+                keyhandler.clear();
+                keyhandler.keydown(39);
+                keyhandler.keydown(177);
+                keyhandler.keydown(68);
+            }
+
+            if (phase == "end")
+                keyhandler.clear();
+        },
+        threshold:1
+    });
+    
+    $("#left").mousedown(function(eventInformation) {
+        keyhandler.keydown(37);
+        keyhandler.keydown(178);
+        keyhandler.keydown(65);
+        eventInformation.preventDefault();
+    });
+    
+    $("#left").mouseup(function(eventInformation) {
+        keyhandler.clear();
+        eventInformation.preventDefault();
+    })
+    
+    $("#right").mousedown(function(eventInformation) {
+        keyhandler.keydown(39);
+        keyhandler.keydown(177);
+        keyhandler.keydown(68);
+        eventInformation.preventDefault();
+    });
+    
+    $("#right").mouseup(function(eventInformation) {
+        keyhandler.clear();
+        eventInformation.preventDefault();
+    });
+    
+    $("#shoot").mousedown(function(eventInformation) {
+        keyhandler.keydown(38);
+        keyhandler.keydown(175);
+        keyhandler.keydown(87);
+        keyhandler.keydown(32);
+        eventInformation.preventDefault();
+    });
+    
+    $("#shoot").mouseup(function(eventInformation) {
+        keyhandler.clear();
+        eventInformation.preventDefault();
+    })
+    
     engine.menu(); // show menu first
 });
 

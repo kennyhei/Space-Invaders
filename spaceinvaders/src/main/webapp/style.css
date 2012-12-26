@@ -20,7 +20,7 @@ body {
     display: none;
 }
 
-section {
+.credits {
     margin: auto;
     width: 40%;
 
@@ -39,4 +39,30 @@ h2, p {
 
 canvas {
     border: 1px rgb(0, 0, 0) solid;
+}
+
+.buttons {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+.buttons div {
+    background-color: rgb(0,0,0);
+    color: rgb(255,255,255);
+    padding: 1em;
+    margin-left: 1em;
+    display: inline;
+    
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    
+    border-style: solid;
+    border-width: 1px;
+}
+
+.buttons div:hover {
+    background-color: rgb(255,255,255);
+    color: rgb(0,0,0);
 }

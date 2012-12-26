@@ -50,10 +50,19 @@ var keyhandler = (function() {
         return movement;
     }
     
+    function clear() {
+        var i = 0;
+        while(i < 256) {
+            keys[i] = false;
+            i = i + 1;
+        }
+    }
+    
     return {
         keydown: keydown,
         keyup: keyup,
         getMovement: getMovement,
-        getAction: getAction
+        getAction: getAction,
+        clear: clear
     };
 })()
