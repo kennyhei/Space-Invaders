@@ -339,16 +339,12 @@ $(document).ready(function() {
         swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
             if (phase == "move" && direction == "left") {
                 keyhandler.clear();
-                keyhandler.keydown(37);
-                keyhandler.keydown(178);
-                keyhandler.keydown(65);
+                keyhandler.pressLeft();
             }
             
             if (phase == "move" && direction == "right") {
                 keyhandler.clear();
-                keyhandler.keydown(39);
-                keyhandler.keydown(177);
-                keyhandler.keydown(68);
+                keyhandler.pressRight();
             }
 
             if (phase == "end")
@@ -358,9 +354,7 @@ $(document).ready(function() {
     });
     
     $("#left").mousedown(function(eventInformation) {
-        keyhandler.keydown(37);
-        keyhandler.keydown(178);
-        keyhandler.keydown(65);
+        keyhandler.pressLeft();
         eventInformation.preventDefault();
     });
     
@@ -370,9 +364,7 @@ $(document).ready(function() {
     })
     
     $("#right").mousedown(function(eventInformation) {
-        keyhandler.keydown(39);
-        keyhandler.keydown(177);
-        keyhandler.keydown(68);
+        keyhandler.pressRight();
         eventInformation.preventDefault();
     });
     
@@ -382,10 +374,7 @@ $(document).ready(function() {
     });
     
     $("#shoot").mousedown(function(eventInformation) {
-        keyhandler.keydown(38);
-        keyhandler.keydown(175);
-        keyhandler.keydown(87);
-        keyhandler.keydown(32);
+        keyhandler.pressUp();
         eventInformation.preventDefault();
     });
     

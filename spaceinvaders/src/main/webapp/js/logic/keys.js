@@ -30,6 +30,25 @@ var keyhandler = (function() {
         keys[keycode] = false;
     }
     
+    function pressUp() {
+        keydown(38);
+        keydown(175);
+        keydown(87);
+        keydown(32);
+    }
+    
+    function pressLeft() {
+        keydown(37);
+        keydown(178);
+        keydown(65);
+    }
+    
+    function pressRight() {
+        keydown(39);
+        keydown(177);
+        keydown(68);
+    }
+    
     function getAction() {
         if (up() || keys[32])
             return true;
@@ -63,6 +82,9 @@ var keyhandler = (function() {
         keyup: keyup,
         getMovement: getMovement,
         getAction: getAction,
-        clear: clear
+        clear: clear,
+        pressLeft: pressLeft,
+        pressRight: pressRight,
+        pressUp: pressUp
     };
 })()
