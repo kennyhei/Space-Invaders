@@ -1,9 +1,9 @@
-// yksittäisen muukalaisen koordinaatit per rivi
+// invader coordinates per row
 var invaderData = [
     
     // x-coordinate, y-coordinate, row, column
     
-    // 1. rivi    
+    // 1. row   
     [60, 135,0,0], // 0
     [100, 135,0,1],
     [140, 135,0,2],
@@ -16,7 +16,7 @@ var invaderData = [
     [420, 135,0,9],
     [460, 135,0,10],
 
-    // 2. rivi
+    // 2. row
     [60, 160,1,0], // 11
     [100, 160,1,1],
     [140, 160,1,2],
@@ -29,7 +29,7 @@ var invaderData = [
     [420, 160,1,9],
     [460, 160,1,10],
 
-    // 3. rivi
+    // 3. row
     [60, 185,2,0], // 22
     [100, 185,2,1],
     [140, 185,2,2],
@@ -42,7 +42,7 @@ var invaderData = [
     [420, 185,2,9],
     [460, 185,2,10],
 
-    // 4. rivi
+    // 4. row
     [60, 210,3,0], // 33
     [100, 210,3,1],
     [140, 210,3,2],
@@ -55,7 +55,7 @@ var invaderData = [
     [420, 210,3,9],
     [460, 210,3,10],
 
-    // 5. rivi
+    // 5. row
     [60, 235,4,0], // 44
     [100, 235,4,1],
     [140, 235,4,2],
@@ -168,6 +168,7 @@ function InvaderManager() {
             for (var row=0; row < invaders[column].length; ++row) {
                 
                 var invader = invaders[column][row];
+                
                 // check collision only if invader hasn't already collided
                 if (!invader.hasCollided() && walls.tormaako(invader)) {
                     invader.explode(); // osuttiin joten invader räjähtää
