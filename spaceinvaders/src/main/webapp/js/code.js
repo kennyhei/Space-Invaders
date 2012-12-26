@@ -341,7 +341,7 @@ $(document).ready(function() {
                 keyhandler.pressRight();
             
             if (phase == "end" || phase == "cancel")
-                keyhandler.releaseRight();
+                keyhandler.clear();
         }
     });
     
@@ -351,7 +351,7 @@ $(document).ready(function() {
                 keyhandler.pressLeft();
             
             if (phase == "end" || phase == "cancel")
-                keyhandler.releaseLeft();
+                keyhandler.clear();
         }
     });
     
