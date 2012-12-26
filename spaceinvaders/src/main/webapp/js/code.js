@@ -335,21 +335,25 @@ $(document).ready(function() {
         eventInformation.preventDefault();
     });
     
-    $("#spaceinvaders").swipe( {
+    $("#spaceinvaders").swipe({
         swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
-            if (phase == "move" && direction == "left") {
+            if (phase == "start" && direction == null) {
+                keyhandler.clear();
+                keyhandler.pressUp();
+            }
+            else if (phase == "move" && direction == "left") {
                 keyhandler.clear();
                 keyhandler.pressLeft();
             }
-            
-            if (phase == "move" && direction == "right") {
+            else if (phase == "move" && direction == "right") {
                 keyhandler.clear();
                 keyhandler.pressRight();
             }
-
-            if (phase == "end")
+            
+            if (phase == "end" || phase == "cancel")
                 keyhandler.clear();
         },
+        
         threshold:1
     });
     
