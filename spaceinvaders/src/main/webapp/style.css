@@ -9,7 +9,9 @@ body {
     background-repeat: repeat;
     background-image: url(img/wallpaper4.jpg);
     background-size: 100%;
-    background-position: right; 
+    background-position: right;
+    
+    -webkit-user-select: none;
 }
 
 #spaceinvaders {
@@ -56,8 +58,6 @@ canvas {
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    
-    -webkit-user-select: none;
     
     border-style: solid;
     border-width: 1px;
