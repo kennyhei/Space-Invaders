@@ -335,26 +335,28 @@ $(document).ready(function() {
         eventInformation.preventDefault();
     });
     
-    $("#left").click(function(eventInformation) {
-        keyhandler.clear();
-        keyhandler.pressLeft();
-        eventInformation.preventDefault();
+    $("#right").swipe({
+        swipeStatus:function(event, phase, direction, distance, duration, fingerCount) {
+            if (phase == "start" || phase == "move")
+                keyhandler.pressRight();
+            
+            if (phase == "end" || phase == "cancel")
+                keyhandler.clear();
+        }
     });
     
-    $("#right").click(function(eventInformation) {
-        keyhandler.clear();
-        keyhandler.pressRight();
-        eventInformation.preventDefault();
+    $("#left").swipe({
+        swipeStatus:function(event, phase, direction, distance, duration, fingerCount) {
+            if (phase == "start" || phase == "move")
+                keyhandler.pressLeft();
+            
+            if (phase == "end" || phase == "cancel")
+                keyhandler.clear();
+        }
     });
-    
-//    $("#shoot").click(function(eventInformation) {
-//        keyhandler.clear();
-//        keyhandler.pressUp();
-//        eventInformation.preventDefault();
-//    });
     
     $("#shoot").swipe({
-        swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
+        swipeStatus:function(event, phase, direction, distance, duration, fingerCount) {
             if (phase == "start" || phase == "move")
                 keyhandler.pressUp();
             
@@ -389,25 +391,3 @@ function makeId() {
 
     return text;
 }
-
-//    $("#spaceinvaders").swipe({
-//        swipeStatus:function(event,phase, direction, distance, duration, fingerCount) {
-//
-//            if (phase == "move" && direction == "left") {
-//                keyhandler.clear();
-//                keyhandler.pressLeft();
-//            }
-//            else if (phase == "move" && direction == "right") {
-//                keyhandler.clear();
-//                keyhandler.pressRight();
-//            } else  if (phase == "start" && direction == null) {
-//                keyhandler.clear();
-//                keyhandler.pressUp();
-//            }
-//            
-//            if (phase == "end" || phase == "cancel")
-//                keyhandler.clear();
-//        },
-//        
-//        threshold:1
-//    });
