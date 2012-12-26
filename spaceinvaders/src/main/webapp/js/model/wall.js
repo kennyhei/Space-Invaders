@@ -31,7 +31,7 @@ var wallData = [
     [430, 435]]
 ];
 
-// pelimoottorilla on lista muureista
+// list of walls
 function WallManager() {
     var walls = [];
     

@@ -109,8 +109,8 @@ function InvaderManager() {
     function update(walls) {
         tormaakoMuuriin(walls);
         
-        // kosketetaan seinïää => rivi alemmas ja suunnanvaihdos
-        if (tormaakoSeinaan()) {
+        // invaders touch wall => change direction and go one row lower
+        if (collidesWithWall()) {
             if (directionRight)
                 siirra(-1-(invadersSpeed),25);
             else
@@ -135,10 +135,10 @@ function InvaderManager() {
         });
     }
     
-    function piirra(context) {
+    function draw(context) {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-                invaders[i][j].piirra(context);
+                invaders[i][j].draw(context);
             }
         }
     }
@@ -201,7 +201,7 @@ function InvaderManager() {
         // jos koko vihollissarake tuhottu, ei jatketa
         if (column.length > 0) {
             if (Math.random() < chanceOfShooting) {
-                invaderMissiles.push(column[column.length-1].ammu());
+                invaderMissiles.push(column[column.length-1].shoot());
                 return true;
             }
         }
@@ -217,10 +217,10 @@ function InvaderManager() {
         return invaders;
     }
 
-    function tormaakoSeinaan() {
+    function collidesWithWall() {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-            if (invaders[i][j].tormaakoSeinaan())
+            if (invaders[i][j].collidesWithWall())
                 return true;
             }
         }
@@ -246,7 +246,7 @@ function InvaderManager() {
     }
     
     return {
-        piirra: piirra,
+        draw: draw,
         tormaako: tormaako,
         getNumOfInvaders: getNumOfInvaders,
         shootLogic: shootLogic,
@@ -260,7 +260,6 @@ function InvaderManager() {
 Invader.prototype = new Drawable();
 Invader.prototype.constructor = Invader;
 
-// sijainti ja monennella rivillä ja sarakkeella invader on
 function Invader(x,y,row,column) {
     
     Drawable.call(this,x,y,25,20,column,row);
@@ -270,11 +269,11 @@ function Invader(x,y,row,column) {
     
     this.animation = {};
     
-    Invader.prototype.piirra = function(context) {
+    Invader.prototype.draw = function(context) {
         this.animation.draw(context, this.x, this.y, this.width, this.height)
     }
     
-    Invader.prototype.tormaakoSeinaan = function() {
+    Invader.prototype.collidesWithWall = function() {
         if (this.x > 514 || this.x < 0)
             return true;
         
@@ -290,7 +289,7 @@ function Invader(x,y,row,column) {
         this.animation.next();
     }
     
-    Invader.prototype.ammu = function() {
+    Invader.prototype.shoot = function() {
         return new Missile(this.x+10, this.y+5, this.column);
     }
     

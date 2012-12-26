@@ -227,7 +227,7 @@ var engine = (function() {
     }
     
     function renderInvaders(context) {
-        invaders.piirra(context);
+        invaders.draw(context);
     }
     
     function renderPlayer(context) {
