@@ -31,22 +31,22 @@ var keyhandler = (function() {
     }
     
     function pressUp() {
-        keydown(38);
-        keydown(175);
-        keydown(87);
-        keydown(32);
+        keys[38] = true;
+        keys[175] = true;
+        keys[87] = true;
+        keys[32] = true;
     }
     
     function pressLeft() {
-        keydown(37);
-        keydown(178);
-        keydown(65);
+        keys[37] = true;
+        keys[178] = true;
+        keys[65] = true;
     }
     
     function pressRight() {
-        keydown(39);
-        keydown(177);
-        keydown(68);
+        keys[39] = true;
+        keys[177] = true;
+        keys[68] = true;
     }
     
     function getAction() {
