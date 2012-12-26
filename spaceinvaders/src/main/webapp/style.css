@@ -45,21 +45,27 @@ canvas {
     margin-top: 2em;
     margin-bottom: 2em;
     width: 100%;
+    background-color: rgb(0,0,0);
+    color: rgb(255,255,255);
 }
 
 .buttons div {
-    background-color: rgb(0,0,0);
-    color: rgb(255,255,255);
     padding: 1em;
-    margin-left: 1em;
     display: inline;
     
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     
+    -webkit-user-select: none;
+    
     border-style: solid;
     border-width: 1px;
+}
+
+#shoot {
+    margin-left: 9em;
+    margin-right: 9em;
 }
 
 .buttons div:hover {
