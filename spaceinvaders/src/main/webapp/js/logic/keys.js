@@ -49,13 +49,6 @@ var keyhandler = (function() {
         keys[68] = true;
     }
     
-    function releaseUp() {
-        keys[38] = false;
-        keys[175] = false;
-        keys[87] = false;
-        keys[32] = false;
-    }
-    
     function getAction() {
         if (up() || keys[32])
             return true;
@@ -92,7 +85,6 @@ var keyhandler = (function() {
         clear: clear,
         pressLeft: pressLeft,
         pressRight: pressRight,
-        pressUp: pressUp,
-        releaseUp: releaseUp
+        pressUp: pressUp
     };
 })()
