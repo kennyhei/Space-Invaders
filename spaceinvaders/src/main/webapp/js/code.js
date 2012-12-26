@@ -82,20 +82,20 @@ var engine = (function() {
     
     function playerLogic() {
         // onko liikkuminen ok
-        if (player.tormaakoSeinaan()) {
+        if (player.collidesWithWall()) {
             if (player.getX() > 514 && movement < 0)
                 player.siirra(movement, 0);
             else if (player.getX() < 0 && movement > 0) // jos ollaan kiinni seinässä, mutta liikutaan poispäin siitä, sallitaan liike
                 player.siirra(movement, 0);
         }
-        else if (!player.tormaakoSeinaan())
+        else if (!player.collidesWithWall())
             player.siirra(movement, 0);
     }
     
     function playerMissileLogic() {
-        // vain yksi pelaajan ohjus saa olla kentällä
+        // only one player missile at a time is allowed to be in game screen
         if (shootMissile && playerMissile == null)
-            playerMissile = player.ammu();
+            playerMissile = player.shoot();
         
         if (playerMissile != null) {
             if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
@@ -238,7 +238,7 @@ var engine = (function() {
         else 
             srcX = 0;
 
-        player.piirra(context, srcX);
+        player.draw(context, srcX);
     }
     
     function renderMissiles(context) {
