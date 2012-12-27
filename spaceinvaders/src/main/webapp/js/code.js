@@ -79,9 +79,7 @@ var engine = (function() {
     
     function renderScoreList(context) {
         if (gameOver)
-            score.update();
-        
-        score.showScores(context);
+            score.update(context); // update scores and show scorelist
     }
     
     function playerLogic() {
@@ -362,7 +360,7 @@ var engine = (function() {
         context.fillRect(0,250,540,580);
         context.fillStyle = "rgb(255,255,255)";
         
-        renderScoreList(context);
+        score.showScores(context);
         
         $("#spaceinvaders").on('click.highscore', function(eventInfo) {
             $("#spaceinvaders").off('click.highscore');
