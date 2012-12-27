@@ -68,7 +68,7 @@ function Explosion(x,y) {
     
             particle.x += particle.vx;
             particle.y += particle.vy;
-            particle.radius -= .05;
+            particle.radius -= .20;
         }
     }
 }
@@ -79,7 +79,7 @@ function Particle(x,y) {
     this.x = x;
     this.y = y;
     
-    this.radius = 2 + Math.random()*2;
+    this.radius = 3 + Math.random()*4;
     
     //Random colors
     this.r = Math.round(Math.random())*255;
