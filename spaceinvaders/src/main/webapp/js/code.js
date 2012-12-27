@@ -107,7 +107,7 @@ var engine = (function() {
                 playerMissile = null;
                 explosions.newExplosion(bonusInvader.getX(), bonusInvader.getY());
                 bonusInvader = null;
-                score.raiseScore(4);
+                score.raiseScore(5);
             }
             else if (playerMissile.getY() < 70)
                 playerMissile = null;

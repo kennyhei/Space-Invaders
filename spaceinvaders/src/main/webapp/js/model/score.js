@@ -26,7 +26,7 @@ function ScoreManager() {
             score += 30;
         else if (enemyType < 3)
             score += 20;
-        else if (enemyType == 4)
+        else if (enemyType == 5)
             score += 100;
         else
             score += 10;
