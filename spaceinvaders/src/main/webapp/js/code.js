@@ -358,6 +358,7 @@ var engine = (function() {
         var context = $("#spaceinvaders")[0].getContext("2d");
 
         context.fillStyle = "rgb(0,0,0)";
+        context.clearRect(0,250,540,580);
         context.fillRect(0,250,540,580);
         context.fillStyle = "rgb(255,255,255)";
         
