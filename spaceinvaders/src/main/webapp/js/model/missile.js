@@ -8,6 +8,6 @@ function Missile(x,y,column) {
     
     Missile.prototype.draw = function(context) {
         context.fillStyle = "rgb(255,255,255)";
-        context.fillRect(this.x, this.y, this.width, this.height);
+        context.fillRect(this.x, this.y+10, this.width, this.height);
     }
 }
