@@ -288,6 +288,11 @@ function Invader(x,y,row,column) {
     }
     
     Invader.prototype.explode = function() {
+        var audio = new Audio();
+        audio.src = "audio/8bit_bomb_explosion.wav";
+        audio.volume = 0.4;
+        audio.play();
+        
         this.animation = new Animation($("#kaboom")[0], 0,0,34,23, 0);
         this.collision = true;
     }
@@ -303,9 +308,14 @@ function BonusInvader() {
     this.img = new Image();
     this.img.src = "img/bonus.png";
     
+    this.audio = new Audio();
+    this.audio.src = "audio/5.wav";
+    this.audio.volume = 0.1;
+    
     this.directionRight = true;
     
     BonusInvader.prototype.draw = function(context) {
+        this.audio.play();
         context.drawImage(this.img,0,0,52,27, this.x,this.y,this.width, this.height);
     }
 }

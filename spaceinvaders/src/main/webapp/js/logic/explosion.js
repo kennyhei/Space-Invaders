@@ -3,6 +3,10 @@ function ExplosionManager() {
     
     function newExplosion(x,y) {
         explosions.push(new Explosion(x,y));
+        var audio = new Audio();
+        audio.src = "audio/explodemini.wav";
+        audio.volume = 0.6;
+        audio.play();
     }
     
     function update(context) {
