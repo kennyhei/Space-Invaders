@@ -23,8 +23,4 @@ function Player() {
     Player.prototype.shoot = function() {
         return new Missile(this.x+10, this.y+5);
     }
-    
-    Player.prototype.getImg = function() {
-        return this.img;
-    }
 }

@@ -69,7 +69,7 @@ var invaderData = [
     [460, 235,4,10]
 ];
 
-// 11 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or is out of the game screen
+// 12 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or is out of the game screen
 var invaderColumnShot = [
     [false,
     false,
@@ -245,7 +245,7 @@ function InvaderManager() {
     function setChanceOfShooting(chance) {
         chanceOfShooting = chance;
     }
-    
+
     return {
         draw: draw,
         tormaako: tormaako,
@@ -301,5 +301,33 @@ function Invader(x,y,row,column) {
     Invader.prototype.explode = function() {
         this.animation = new Animation($("#kaboom")[0], 0,0,34,23, 0); // vaihdetaan kuva räjähdykseen, animaatio vaihtuu myös
         this.collision = true;
+    }
+}
+
+BonusInvader.prototype = new Drawable();
+BonusInvader.prototype.constructor = BonusInvader;
+
+function BonusInvader() {
+    
+    Drawable.call(this, 10, 80, 30, 20);
+    
+    this.img = new Image();
+    this.img.src = "img/bonus.png";
+    
+    this.directionRight = true;
+    
+    BonusInvader.prototype.draw = function(context) {
+        context.drawImage(this.img,0,0,52,27, this.x,this.y,this.width, this.height);
+    }
+    
+    BonusInvader.prototype.collidesWithWall = function() {
+        if (this.x > 510 || this.x < 0)
+            return true;
+        
+        return false;
+    }
+    
+    BonusInvader.prototype.shoot = function() {
+        return new Missile(this.x+10, this.y+5);
     }
 }

@@ -16,10 +16,12 @@ var engine = (function() {
     var score = new ScoreManager();
     var walls = new WallManager();
     var invaders = new InvaderManager();
+    var bonusInvader;
     
     var level = 1;
     
     var playerMissile;
+    var bonusInvaderMissile;
     var invaderMissiles = [];
     
     var movement;
@@ -52,6 +54,7 @@ var engine = (function() {
         
         playerLogic();
         playerMissileLogic();
+        bonusInvaderLogic();
         invadersLogic();
         invadersMissileLogic();
             
@@ -100,10 +103,37 @@ var engine = (function() {
         if (playerMissile != null) {
             if (walls.tormaako(playerMissile) || invaders.tormaako(playerMissile, score)) // jos ohjus törmää johonkin tai katoaa ruudulta, poistetaan se
                 playerMissile = null;
+            else if (bonusInvader != null && bonusInvader.tormaako(playerMissile)) {
+                playerMissile = null;
+                bonusInvader = null;
+                score.raiseScore(4);
+            }
             else if (playerMissile.getY() < 70)
                 playerMissile = null;
             else 
                 playerMissile.siirra(0,-10);
+        }
+    }
+    
+    function bonusInvaderLogic() {
+        if (bonusInvader == null) {
+            if (invaders.getNumOfInvaders() < 30 && Math.random() < 0.05)
+                bonusInvader = new BonusInvader();
+        }
+        
+        if (bonusInvader != null) {
+            if (bonusInvader.collidesWithWall())
+                bonusInvader.directionRight = !bonusInvader.directionRight;
+        
+            if (bonusInvader.directionRight)
+                bonusInvader.siirra(3,0);
+            else
+                bonusInvader.siirra(-3,0);
+        
+            if (bonusInvaderMissile == null) {
+                if (Math.random() < 0.5)
+                    bonusInvaderMissile = bonusInvader.shoot();
+            }
         }
     }
     
@@ -132,6 +162,16 @@ var engine = (function() {
                 } else
                     missile.siirra(0,1);
             }
+        }
+        
+        if (bonusInvaderMissile != null) {
+            if (player.tormaako(bonusInvaderMissile)) {
+                player.lives -= 1;
+                bonusInvaderMissile = null;
+            } else if (walls.tormaako(bonusInvaderMissile) || bonusInvaderMissile.getY() > 535) {
+                bonusInvaderMissile = null;
+            } else
+                bonusInvaderMissile.siirra(0,3);
         }
     }
     
@@ -203,7 +243,7 @@ var engine = (function() {
         context.lineTo(540, 540);
         context.stroke();
         
-        var playerImg = player.getImg();
+        var playerImg = player.img;
         var xLocation = 50;
         for (var i=0; i < player.lives; ++i) {
             context.drawImage(playerImg,0,12,80,72,xLocation,550,25,25);
@@ -227,6 +267,9 @@ var engine = (function() {
     }
     
     function renderInvaders(context) {
+        if (bonusInvader != null)
+            bonusInvader.draw(context);
+        
         invaders.draw(context);
     }
     
@@ -244,6 +287,9 @@ var engine = (function() {
     function renderMissiles(context) {
         if (playerMissile != null)
             playerMissile.draw(context);
+        
+        if (bonusInvaderMissile != null)
+            bonusInvaderMissile.draw(context);
         
         if (invaderMissiles.length > 0) {
             $.each(invaderMissiles, function(index, missile) {
