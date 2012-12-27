@@ -19,6 +19,7 @@ var engine = (function() {
     var bonusInvader;
     
     var level = 1;
+    var bonus = 1; // only one bonus invader allowed per level
     
     var playerMissile;
     var bonusInvaderMissile;
@@ -116,9 +117,14 @@ var engine = (function() {
     }
     
     function bonusInvaderLogic() {
-        if (bonusInvader == null) {
-            if (invaders.getNumOfInvaders() < 30 && Math.random() < 0.025)
-                bonusInvader = new BonusInvader();
+        if (bonusInvader == null && bonus > 0) {
+            if (invaders.getNumOfInvaders() < 30) {
+                
+                if (Math.floor((Math.random()*1000)+1) < 5) {
+                    bonusInvader = new BonusInvader();
+                    bonus = 0;
+                }
+            }
         }
         
         if (bonusInvader != null) {
@@ -214,6 +220,8 @@ var engine = (function() {
             
             invaders.setSpeed(3+(level/10));
             if (level % 3 == 0)
+                invaders.setChance(0.01+(level/25));
+            else
                 invaders.setChance(0.01+(level/50));
             
             tick();
@@ -227,6 +235,8 @@ var engine = (function() {
         invaders = new InvaderManager();
         walls = new WallManager();
         playerMissile = null;
+        bonusInvader = null;
+        bonus = 1;
         invaderMissiles = null;
         spritemanager.resetFrametime();
         shootMissile = false;
