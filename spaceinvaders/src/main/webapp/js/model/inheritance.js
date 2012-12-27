@@ -62,7 +62,10 @@ function Movable(x,y,width,height,column,row) {
     Drawable.call(this,x,y,width,height,column,row);
     
     Movable.prototype.shoot = function() {
-        return new Missile(this.x+10, this.y+5, this.column);
+        if (this.column != null)
+            return new Missile(this.x+10, this.y+15, this.column); // if Movable has column, it is invader
+        else
+            return new Missile(this.x+10, this.y+5, this.column);
     }
     
     Movable.prototype.collidesWithEdge = function() {

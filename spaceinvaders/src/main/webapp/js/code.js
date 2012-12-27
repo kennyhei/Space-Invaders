@@ -162,7 +162,7 @@ var engine = (function() {
                     invaderMissiles.splice(i,1);
                     --i;
                     
-                } else if (walls.doesCollide(missile, explosions) || missile.getY() > 535) {
+                } else if (walls.doesCollide(missile, explosions) || missile.getY() > 533) {
                     invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i,1);
                     --i;
@@ -176,7 +176,7 @@ var engine = (function() {
                 player.lives -= 1;
                 explosions.newExplosion(player.getX(), player.getY());
                 bonusInvaderMissile = null;
-            } else if (walls.doesCollide(bonusInvaderMissile, explosions) || bonusInvaderMissile.getY() > 535) {
+            } else if (walls.doesCollide(bonusInvaderMissile, explosions) || bonusInvaderMissile.getY() > 533) {
                 bonusInvaderMissile = null;
             } else
                 bonusInvaderMissile.move(0,3);
@@ -189,8 +189,8 @@ var engine = (function() {
         context.fillStyle = "rgb(0,0,0)";
         context.fillRect(0,0,540,580);
 
-        renderPlayer(context);
         renderMissiles(context);
+        renderPlayer(context);
         walls.draw(context);
         renderInvaders(context);
         renderHUD(context);
