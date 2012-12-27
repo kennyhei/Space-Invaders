@@ -1,6 +1,6 @@
 'use strict';
 
-// tiilien x ja y-koordinaatit jokaista nelj‰‰ muuria varten
+// tile coordinates for 4 walls
 var wallData = [
     [[70, 455],
     [110, 455],
@@ -46,9 +46,9 @@ function WallManager() {
         }
     }
     
-    function tormaako(missile) {
+    function doesCollide(missile) {
         for (var i=0; i < walls.length; ++i) {
-            if (walls[i].tormaako(missile))
+            if (walls[i].doesCollide(missile))
                 return true;
         }
     
@@ -57,7 +57,7 @@ function WallManager() {
     
     return {
         draw: draw,
-        tormaako: tormaako
+        doesCollide: doesCollide
     };
 }
 
@@ -83,9 +83,9 @@ function Wall(wallData) {
     
     // checks if random object hits the wall and removes single tile based on
     // where the wall was hit
-    function tormaako(object) {
+    function doesCollide(object) {
         for (var i=0; i < tiles.length; ++i) {
-            if (tiles[i].tormaako(object)) {
+            if (tiles[i].doesCollide(object)) {
                 removeTile(i);
                 return true;
             }
@@ -100,7 +100,7 @@ function Wall(wallData) {
     return {
         draw: draw,
         getTiles: getTiles,
-        tormaako: tormaako
+        doesCollide: doesCollide
     };
 }
 

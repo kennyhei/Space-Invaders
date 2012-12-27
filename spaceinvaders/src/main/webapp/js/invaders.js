@@ -3,7 +3,7 @@ var invaderData = [
     
     // x-coordinate, y-coordinate, row, column
     
-    // 1. row   
+    // 1st row   
     [60, 135,0,0], // 0
     [100, 135,0,1],
     [140, 135,0,2],
@@ -16,7 +16,7 @@ var invaderData = [
     [420, 135,0,9],
     [460, 135,0,10],
 
-    // 2. row
+    // 2nd row
     [60, 160,1,0], // 11
     [100, 160,1,1],
     [140, 160,1,2],
@@ -29,7 +29,7 @@ var invaderData = [
     [420, 160,1,9],
     [460, 160,1,10],
 
-    // 3. row
+    // 3rd row
     [60, 185,2,0], // 22
     [100, 185,2,1],
     [140, 185,2,2],
@@ -42,7 +42,7 @@ var invaderData = [
     [420, 185,2,9],
     [460, 185,2,10],
 
-    // 4. row
+    // 4th row
     [60, 210,3,0], // 33
     [100, 210,3,1],
     [140, 210,3,2],
@@ -55,7 +55,7 @@ var invaderData = [
     [420, 210,3,9],
     [460, 210,3,10],
 
-    // 5. row
+    // 5th row
     [60, 235,4,0], // 44
     [100, 235,4,1],
     [140, 235,4,2],
@@ -93,7 +93,7 @@ function InvaderManager() {
     
     var directionRight = true;
     
-    // invaderit on lueteltu sarakeittain
+    // invaders are grouped into 11 different columns (every column has 5 invaders in it)
     $.each(invaderData, function(index, data) {
         var invader = new Invader(data[0], data[1], data[2], data[3]);
         var realIndex = (index % 11);
@@ -107,30 +107,30 @@ function InvaderManager() {
     });
     
     function update(walls) {
-        tormaakoMuuriin(walls);
+        collidesWithWall(walls);
         
         // invaders touch wall => change direction and go one row lower
-        if (collidesWithWall()) {
+        if (collidesWithEdge()) {
             if (directionRight)
-                siirra(-1-(invadersSpeed),25);
+                move(-1-(invadersSpeed),25);
             else
-                siirra(1+(invadersSpeed),25);
+                move(1+(invadersSpeed),25);
             
             directionRight = !directionRight;
         }
         // move only if sprite changes
         if (spritemanager.changeSprite(invaders)) {
             if (directionRight)
-                siirra(invadersSpeed,0);
+                move(invadersSpeed,0);
             else
-                siirra(-invadersSpeed,0);
+                move(-invadersSpeed,0);
         }
     }
     
-    function siirra(x,y) {
+    function move(x,y) {
         $.each(invaders, function(index, invader) {
             for (var i=0; i < invader.length; ++i) {
-                invader[i].siirra(x,y);
+                invader[i].move(x,y);
             }
         });
     }
@@ -144,16 +144,16 @@ function InvaderManager() {
     }
     
     // if invader is hit by a missile, change its sprite to explosion
-    function tormaako(missile, score) {
+    function doesCollide(missile, score) {
         for (var column=0; column < invaders.length; ++column) {
             for (var row=0; row < invaders[column].length; ++row) {
                 
                 var invader = invaders[column][row];
                 // check collision only if invader hasn't already collided
-                if (!invader.hasCollided() && invader.tormaako(missile)) {
+                if (!invader.hasCollided() && invader.doesCollide(missile)) {
                     
-                    score.raiseScore(invader.getRow()); // tuhottiin otus, kasvatetaan siis pisteitä
-                    invader.explode(); // osuttiin joten invader räjähtää
+                    score.raiseScore(invader.getRow());
+                    invader.explode();
                     deleteInvaderAfterExplosion(column,row);
                     
                     return true;
@@ -163,15 +163,15 @@ function InvaderManager() {
         return false;
     }
     
-    function tormaakoMuuriin(walls) {
+    function collidesWithWall(walls) {
         for (var column=0; column < invaders.length; ++column) {
             for (var row=0; row < invaders[column].length; ++row) {
                 
                 var invader = invaders[column][row];
                 
                 // check collision only if invader hasn't already collided
-                if (!invader.hasCollided() && walls.tormaako(invader)) {
-                    invader.explode(); // osuttiin joten invader räjähtää
+                if (!invader.hasCollided() && walls.doesCollide(invader)) {
+                    invader.explode();
                     deleteInvaderAfterExplosion(column,row);
                 }
             }
@@ -182,7 +182,7 @@ function InvaderManager() {
     function deleteInvaderAfterExplosion(column, row) {
         setTimeout(function() {
             increaseSpeed();
-            poistaInvader(column,row);
+            removeInvader(column,row);
             --numOfInvaders;
         }, 100);
     }
@@ -199,7 +199,7 @@ function InvaderManager() {
     }
     
     function shoot(column) {
-        // jos koko vihollissarake tuhottu, ei jatketa
+        // if the whole column is destroyed, return
         if (column.length > 0) {
             if (Math.random() < chanceOfShooting) {
                 invaderMissiles.push(column[column.length-1].shoot());
@@ -218,10 +218,10 @@ function InvaderManager() {
         return invaders;
     }
 
-    function collidesWithWall() {
+    function collidesWithEdge() {
         for (var i=0; i < invaders.length; ++i) {
             for (var j=0; j < invaders[i].length; ++j) {
-            if (invaders[i][j].collidesWithWall())
+            if (invaders[i][j].collidesWithEdge())
                 return true;
             }
         }
@@ -229,7 +229,7 @@ function InvaderManager() {
         return false;
     }
     
-    function poistaInvader(row, column) {
+    function removeInvader(row, column) {
         invaders[row].splice(column, 1);
     }
     
@@ -248,7 +248,7 @@ function InvaderManager() {
 
     return {
         draw: draw,
-        tormaako: tormaako,
+        doesCollide: doesCollide,
         getNumOfInvaders: getNumOfInvaders,
         shootLogic: shootLogic,
         update: update,
@@ -288,7 +288,7 @@ function Invader(x,y,row,column) {
     }
     
     Invader.prototype.explode = function() {
-        this.animation = new Animation($("#kaboom")[0], 0,0,34,23, 0); // vaihdetaan kuva räjähdykseen, animaatio vaihtuu myös
+        this.animation = new Animation($("#kaboom")[0], 0,0,34,23, 0);
         this.collision = true;
     }
 }

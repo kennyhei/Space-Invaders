@@ -8,7 +8,7 @@ function Drawable(x,y, width, height, column, row) {
     this.row = row;
 }
 
-Drawable.prototype.siirra = function(dx, dy) {
+Drawable.prototype.move = function(dx, dy) {
     this.x += dx;
     this.y += dy;
 }
@@ -37,7 +37,7 @@ Drawable.prototype.getRow = function() {
     return this.row;
 }
 
-Drawable.prototype.tormaako = function(object) {
+Drawable.prototype.doesCollide = function(object) {
     if (intersects(this.x,this.y,this.width,this.height, object.getX(), object.getY(), object.getWidth(), object.getHeight()))
         return true;
     else
@@ -65,7 +65,7 @@ function Movable(x,y,width,height,column,row) {
         return new Missile(this.x+10, this.y+5, this.column);
     }
     
-    Movable.prototype.collidesWithWall = function() {
+    Movable.prototype.collidesWithEdge = function() {
         if (this.x > 514 || this.x < 0)
             return true;
         

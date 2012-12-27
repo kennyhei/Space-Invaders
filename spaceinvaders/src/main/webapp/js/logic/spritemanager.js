@@ -2,7 +2,7 @@ var spritemanager = {};
 
 spritemanager = (function() {
     
-    var frameTime = 0.5; // change animation every ½ seconds
+    var frameTime = 0.5; // change animation every 0.5 seconds
     var lastUpdateTime = 0;
     
     // after certain time, change invaders' sprite
@@ -47,5 +47,4 @@ spritemanager = (function() {
         decreaseFrametime: decreaseFrametime,
         resetFrametime: resetFrametime
     };
-    
 })();
