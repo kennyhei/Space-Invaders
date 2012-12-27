@@ -118,7 +118,7 @@ var engine = (function() {
     
     function bonusInvaderLogic() {
         if (bonusInvader == null && bonus > 0) {
-            if (invaders.getNumOfInvaders() < 55) {
+            if (invaders.getNumOfInvaders() < 35) {
                 
                 if (Math.floor((Math.random()*1000)+1) < 5) {
                     bonusInvader = new BonusInvader();
@@ -144,7 +144,7 @@ var engine = (function() {
     }
     
     function invadersLogic() {
-        invaders.update(walls);
+        invaders.update(walls, explosions);
     }
     
     function invadersMissileLogic() {

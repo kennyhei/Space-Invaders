@@ -106,8 +106,8 @@ function InvaderManager() {
         invaders[realIndex].push(invader);
     });
     
-    function update(walls) {
-        collidesWithWall(walls);
+    function update(walls, explosions) {
+        collidesWithWall(walls, explosions);
         
         // invaders touch wall => change direction and go one row lower
         if (collidesWithEdge()) {
@@ -163,14 +163,14 @@ function InvaderManager() {
         return false;
     }
     
-    function collidesWithWall(walls) {
+    function collidesWithWall(walls, explosions) {
         for (var column=0; column < invaders.length; ++column) {
             for (var row=0; row < invaders[column].length; ++row) {
                 
                 var invader = invaders[column][row];
                 
                 // check collision only if invader hasn't already collided
-                if (!invader.hasCollided() && walls.doesCollide(invader)) {
+                if (!invader.hasCollided() && walls.doesCollide(invader, explosions)) {
                     invader.explode();
                     deleteInvaderAfterExplosion(column,row);
                 }
