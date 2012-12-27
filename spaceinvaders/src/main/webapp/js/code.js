@@ -236,6 +236,7 @@ var engine = (function() {
         
         invaders = new InvaderManager();
         walls = new WallManager();
+        explosions = new ExplosionManager();
         playerMissile = null;
         bonusInvader = null;
         bonus = 1;
