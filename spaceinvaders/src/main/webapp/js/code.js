@@ -16,6 +16,7 @@ var engine = (function() {
     var score = new ScoreManager();
     var walls = new WallManager();
     var invaders = new InvaderManager();
+    var explosions = new ExplosionManager();
     var bonusInvader;
     
     var level = 1;
@@ -100,10 +101,11 @@ var engine = (function() {
             playerMissile = player.shoot();
         
         if (playerMissile != null) {
-            if (walls.doesCollide(playerMissile) || invaders.doesCollide(playerMissile, score))
+            if (walls.doesCollide(playerMissile,explosions) || invaders.doesCollide(playerMissile, score))
                 playerMissile = null;
             else if (bonusInvader != null && bonusInvader.doesCollide(playerMissile)) {
                 playerMissile = null;
+                explosions.newExplosion(bonusInvader.getX(), bonusInvader.getY());
                 bonusInvader = null;
                 score.raiseScore(4);
             }
@@ -116,7 +118,7 @@ var engine = (function() {
     
     function bonusInvaderLogic() {
         if (bonusInvader == null && bonus > 0) {
-            if (invaders.getNumOfInvaders() < 30) {
+            if (invaders.getNumOfInvaders() < 55) {
                 
                 if (Math.floor((Math.random()*1000)+1) < 5) {
                     bonusInvader = new BonusInvader();
@@ -155,11 +157,12 @@ var engine = (function() {
                 
                 if (player.doesCollide(missile)) {
                     player.lives -= 1;
+                    explosions.newExplosion(player.getX(), player.getY());
                     invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i,1);
                     --i;
                     
-                } else if (walls.doesCollide(missile) || missile.getY() > 535) {
+                } else if (walls.doesCollide(missile, explosions) || missile.getY() > 535) {
                     invaderColumnShot[missile.getColumn()] = false;
                     invaderMissiles.splice(i,1);
                     --i;
@@ -171,8 +174,9 @@ var engine = (function() {
         if (bonusInvaderMissile != null) {
             if (player.doesCollide(bonusInvaderMissile)) {
                 player.lives -= 1;
+                explosions.newExplosion(player.getX(), player.getY());
                 bonusInvaderMissile = null;
-            } else if (walls.doesCollide(bonusInvaderMissile) || bonusInvaderMissile.getY() > 535) {
+            } else if (walls.doesCollide(bonusInvaderMissile, explosions) || bonusInvaderMissile.getY() > 535) {
                 bonusInvaderMissile = null;
             } else
                 bonusInvaderMissile.move(0,3);
@@ -191,7 +195,7 @@ var engine = (function() {
         renderInvaders(context);
         renderHUD(context);
         renderScore(context);
-        
+        explosions.update(context);
         if (gameOver) {
             if (player.lives > 0)
                 newGame(context);

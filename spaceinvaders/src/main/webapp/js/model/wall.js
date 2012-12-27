@@ -46,9 +46,9 @@ function WallManager() {
         }
     }
     
-    function doesCollide(missile) {
+    function doesCollide(missile, explosions) {
         for (var i=0; i < walls.length; ++i) {
-            if (walls[i].doesCollide(missile))
+            if (walls[i].doesCollide(missile, explosions))
                 return true;
         }
     
@@ -83,9 +83,10 @@ function Wall(wallData) {
     
     // checks if random object hits the wall and removes single tile based on
     // where the wall was hit
-    function doesCollide(object) {
+    function doesCollide(object, explosions) {
         for (var i=0; i < tiles.length; ++i) {
             if (tiles[i].doesCollide(object)) {
+                explosions.newExplosion(tiles[i].getX(), tiles[i].getY());
                 removeTile(i);
                 return true;
             }
