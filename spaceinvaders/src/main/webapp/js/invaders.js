@@ -69,7 +69,7 @@ var invaderData = [
     [460, 235,4,10]
 ];
 
-// 12 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or is out of the game screen
+// 11 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or is out of the game screen
 var invaderColumnShot = [
     [false,
     false,
@@ -258,7 +258,7 @@ function InvaderManager() {
     };
 }
 
-Invader.prototype = new Drawable();
+Invader.prototype = new Movable();
 Invader.prototype.constructor = Invader;
 
 function Invader(x,y,row,column) {
@@ -274,13 +274,6 @@ function Invader(x,y,row,column) {
         this.animation.draw(context, this.x, this.y, this.width, this.height)
     }
     
-    Invader.prototype.collidesWithWall = function() {
-        if (this.x > 514 || this.x < 0)
-            return true;
-        
-        return false;
-    }
-    
     Invader.prototype.createAnimation = function(invaderSprite) {
         this.sprite = invaderSprite;
         this.animation = new Animation($("#invaders")[0], this.sprite[0], this.sprite[1], this.sprite[2], this.sprite[3], 32);
@@ -288,10 +281,6 @@ function Invader(x,y,row,column) {
     
     Invader.prototype.animate = function() {
         this.animation.next();
-    }
-    
-    Invader.prototype.shoot = function() {
-        return new Missile(this.x+10, this.y+5, this.column);
     }
     
     Invader.prototype.hasCollided = function() {
@@ -304,7 +293,7 @@ function Invader(x,y,row,column) {
     }
 }
 
-BonusInvader.prototype = new Drawable();
+BonusInvader.prototype = new Movable();
 BonusInvader.prototype.constructor = BonusInvader;
 
 function BonusInvader() {
@@ -318,16 +307,5 @@ function BonusInvader() {
     
     BonusInvader.prototype.draw = function(context) {
         context.drawImage(this.img,0,0,52,27, this.x,this.y,this.width, this.height);
-    }
-    
-    BonusInvader.prototype.collidesWithWall = function() {
-        if (this.x > 510 || this.x < 0)
-            return true;
-        
-        return false;
-    }
-    
-    BonusInvader.prototype.shoot = function() {
-        return new Missile(this.x+10, this.y+5);
     }
 }

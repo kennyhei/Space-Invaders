@@ -53,3 +53,22 @@ function intersects(x1, y1, w1, h1, x2, y2, w2, h2) {
     if (y2 > h1 || y1 > h2) return false;
     return true;
 }
+
+Movable.prototype = new Drawable();
+Movable.prototype.constructor = Movable;
+
+function Movable(x,y,width,height,column,row) {
+    
+    Drawable.call(this,x,y,width,height,column,row);
+    
+    Movable.prototype.shoot = function() {
+        return new Missile(this.x+10, this.y+5, this.column);
+    }
+    
+    Movable.prototype.collidesWithWall = function() {
+        if (this.x > 514 || this.x < 0)
+            return true;
+        
+        return false;
+    }
+}
