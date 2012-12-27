@@ -1,4 +1,4 @@
-// "superclass" for Player, Tiili, Missile & Invader
+// "superclass" for Player, Tile, Missile & Invader
 function Drawable(x,y, width, height, column, row) {
     this.x = x;
     this.y = y;

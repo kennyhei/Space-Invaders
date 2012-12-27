@@ -196,6 +196,7 @@ var engine = (function() {
         renderHUD(context);
         renderScore(context);
         explosions.update(context);
+        
         if (gameOver) {
             if (player.lives > 0)
                 newGame(context);
@@ -222,9 +223,9 @@ var engine = (function() {
             
             invaders.setSpeed(3+(level/10));
             if (level % 3 == 0)
-                invaders.setChance(0.01+(level/25));
-            else
                 invaders.setChance(0.01+(level/50));
+            else
+                invaders.setChance(0.01+(level/100));
             
             tick();
         }, 3000);
@@ -238,6 +239,7 @@ var engine = (function() {
         walls = new WallManager();
         explosions = new ExplosionManager();
         playerMissile = null;
+        bonusInvaderMissile = null;
         bonusInvader = null;
         bonus = 1;
         invaderMissiles = null;
@@ -428,6 +430,7 @@ $(document).ready(function() {
     engine.menu(); // show menu first
 });
 
+// unique user id stored in a cookie for user-specific scores
 function createCookie() {
     var id = localStorage.getItem("userId");
     
