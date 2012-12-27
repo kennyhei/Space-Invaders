@@ -79,7 +79,9 @@ var engine = (function() {
     
     function renderScoreList(context) {
         if (gameOver)
-            score.update(context); // update scores and show scorelist
+            score.update(); // update scores
+        
+        score.showScores(context);
     }
     
     function playerLogic() {

@@ -44,13 +44,11 @@ function ScoreManager() {
     }
     
     // send current score to server
-    function update(context) {
+    function update() {
         // save score to Parse
         gameScore.save({
             userID: $.cookie('userId'),
             score: score
-        }, {
-            success: showScores(context) // show scores
         });
 }
     
