@@ -56,6 +56,7 @@ var engine = (function() {
         playerLogic();
         playerMissileLogic();
         bonusInvaderLogic();
+        bonusInvaderMissileLogic();
         invadersLogic();
         invadersMissileLogic();
             
@@ -143,6 +144,19 @@ var engine = (function() {
         }
     }
     
+    function bonusInvaderMissileLogic() {
+        if (bonusInvaderMissile != null) {
+            if (player.doesCollide(bonusInvaderMissile)) {
+                player.lives -= 1;
+                explosions.newExplosion(player.getX(), player.getY());
+                bonusInvaderMissile = null;
+            } else if (walls.doesCollide(bonusInvaderMissile, explosions) || bonusInvaderMissile.getY() > 533) {
+                bonusInvaderMissile = null;
+            } else
+                bonusInvaderMissile.move(0,3);
+        }
+    }
+    
     function invadersLogic() {
         invaders.update(walls, explosions);
     }
@@ -169,17 +183,6 @@ var engine = (function() {
                 } else
                     missile.move(0,1);
             }
-        }
-        
-        if (bonusInvaderMissile != null) {
-            if (player.doesCollide(bonusInvaderMissile)) {
-                player.lives -= 1;
-                explosions.newExplosion(player.getX(), player.getY());
-                bonusInvaderMissile = null;
-            } else if (walls.doesCollide(bonusInvaderMissile, explosions) || bonusInvaderMissile.getY() > 533) {
-                bonusInvaderMissile = null;
-            } else
-                bonusInvaderMissile.move(0,3);
         }
     }
     
@@ -222,10 +225,7 @@ var engine = (function() {
             ++level;
             
             invaders.setSpeed(3+(level/10));
-            if (level % 3 == 0)
-                invaders.setChance(0.005+(level/100));
-            else
-                invaders.setChance(0.005+(level/500));
+            invaders.setChance(0.005+(level/250));
             
             tick();
         }, 3000);
