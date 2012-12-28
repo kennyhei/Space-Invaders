@@ -3,7 +3,7 @@ body {
     padding: 2em;
     width: 60%;
     height: 100%;
-    min-width: 600px;
+    min-width: 540px;
     margin-right: auto;
     text-align: center;
     background-repeat: repeat;
@@ -47,7 +47,6 @@ h2, p {
     margin-top: 2em;
     margin-bottom: 2em;
     width: 100%;
-    background-color: rgb(0,0,0);
     color: rgb(255,255,255);
 }
 
