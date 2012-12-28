@@ -1,12 +1,9 @@
 function ExplosionManager() {
     var explosions = [];
-    var audio = $("#explosion")[0];
-    audio.volume = 0.6;
     
     function newExplosion(x,y) {
         explosions.push(new Explosion(x,y));
-        audio.load();
-        audio.play();
+        soundManager.explosionSound();
     }
     
     function update(context) {

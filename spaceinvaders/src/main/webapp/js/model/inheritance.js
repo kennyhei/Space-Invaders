@@ -60,12 +60,9 @@ Movable.prototype.constructor = Movable;
 function Movable(x,y,width,height,column,row) {
     
     Drawable.call(this,x,y,width,height,column,row);
-    this.audio = $("#laser")[0];
-    this.audio.volume = 0.3;
     
     Movable.prototype.shoot = function() {
-        this.audio.load();
-        this.audio.play();
+        soundManager.laserSound();
         
         if (this.column != null)
             return new Missile(this.x+10, this.y+15, this.column); // if Movable has column, it is invader

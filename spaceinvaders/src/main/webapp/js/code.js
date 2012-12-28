@@ -385,7 +385,11 @@ var engine = (function() {
 })();
 
 $(document).ready(function() {
-    createCookie();
+    if (jQuery.browser.mobile == true){ // checks if user is browsing with mobile device
+        soundManager.disableSounds(); // if true, disable sounds for better performance
+    }
+    
+    createCookie(); // create user id and store it in a cookie for user-specific scores
     
     $(document).keydown(function(eventInformation) {
         keyhandler.keydown(eventInformation.which);
