@@ -387,6 +387,10 @@ var engine = (function() {
 $(document).ready(function() {
     if (jQuery.browser.mobile == true){ // checks if user is browsing with mobile device
         soundManager.disableSounds(); // if true, disable sounds for better performance
+        
+        $("<div/>").attr("id", "left").text("Left").appendTo(".buttons"); // if true, add touchscreen buttons for mobile users
+        $("<div/>").attr("id", "shoot").text("Shoot").appendTo(".buttons");
+        $("<div/>").attr("id", "right").text("Right").appendTo(".buttons");
     }
     
     createCookie(); // create user id and store it in a cookie for user-specific scores
