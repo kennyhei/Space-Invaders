@@ -12,7 +12,7 @@ The more invaders you destroy, the more points you get.
 
 ## Key Features ##
 
-* Supports Android mobile phones
+* Supports Android & iOS mobile phones
 * Awesome explosions
 * High scores
 * Mind-blowing sound effects (for PC users only, sorry!)

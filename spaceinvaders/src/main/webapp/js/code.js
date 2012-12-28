@@ -388,10 +388,6 @@ $(document).ready(function() {
     if (jQuery.browser.mobile == true){ // checks if user is browsing with mobile device
         soundManager.disableSounds(); // if true, disable sounds for better performance
         
-        if (isAppleDevice()) { // current meta-tag doesn't seem to work with Apple devices
-            $("#view").attr("content", "width=540, user-scalable=no");
-        }
-        
         $("<div/>").attr("id", "left").text("Left").appendTo(".buttons"); // if true, add touchscreen buttons for mobile users
         $("<div/>").attr("id", "shoot").text("Shoot").appendTo(".buttons");
         $("<div/>").attr("id", "right").text("Right").appendTo(".buttons");
@@ -465,12 +461,4 @@ function makeId() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
-}
-
-function isAppleDevice(){
-    return (
-        (navigator.userAgent.toLowerCase().indexOf("ipad") > -1) ||
-        (navigator.userAgent.toLowerCase().indexOf("iphone") > -1) ||
-        (navigator.userAgent.toLowerCase().indexOf("ipod") > -1)
-    );
 }
