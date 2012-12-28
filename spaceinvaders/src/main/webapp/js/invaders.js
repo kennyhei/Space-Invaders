@@ -71,7 +71,6 @@ var invaderData = [
 
 // 11 different columns, only 1 invader from 1 column can shoot 1 missile until it has hit something or is out of the game screen
 var invaderColumnShot = [
-    [false,
     false,
     false,
     false,
@@ -81,7 +80,8 @@ var invaderColumnShot = [
     false,
     false,
     false,
-    false]
+    false,
+    false
 ];
 
 function InvaderManager() {
@@ -194,7 +194,6 @@ function InvaderManager() {
                     invaderColumnShot[column] = true;
             }
         }
-        
         return invaderMissiles;
     }
     
