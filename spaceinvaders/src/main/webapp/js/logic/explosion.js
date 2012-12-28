@@ -1,11 +1,11 @@
 function ExplosionManager() {
     var explosions = [];
+    var audio = $("#explosion")[0];
+    audio.volume = 0.6;
     
     function newExplosion(x,y) {
         explosions.push(new Explosion(x,y));
-        var audio = new Audio();
-        audio.src = "audio/explodemini.wav";
-        audio.volume = 0.6;
+        audio.load();
         audio.play();
     }
     

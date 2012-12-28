@@ -287,8 +287,7 @@ function Invader(x,y,row,column) {
     }
     
     Invader.prototype.explode = function() {
-        var audio = new Audio();
-        audio.src = "audio/8bit_bomb_explosion.wav";
+        var audio = $("#8bit-explosion")[0];
         audio.volume = 0.4;
         audio.play();
         
@@ -307,8 +306,7 @@ function BonusInvader() {
     this.img = new Image();
     this.img.src = "img/bonus.png";
     
-    this.audio = new Audio();
-    this.audio.src = "audio/5.wav";
+    this.audio = $("#flight")[0];
     this.audio.volume = 0.1;
     
     this.directionRight = true;
