@@ -223,9 +223,9 @@ var engine = (function() {
             
             invaders.setSpeed(3+(level/10));
             if (level % 3 == 0)
-                invaders.setChance(0.01+(level/100));
+                invaders.setChance(0.005+(level/100));
             else
-                invaders.setChance(0.01+(level/500));
+                invaders.setChance(0.005+(level/500));
             
             tick();
         }, 3000);
@@ -246,6 +246,10 @@ var engine = (function() {
         spritemanager.resetFrametime();
         shootMissile = false;
         gameOver = false;
+        
+        for (var i = 0; i < invaderColumnShot.length; ++i) {
+            invaderColumnShot[i] = false; // every column is allowed to shoot again
+        }
     }
     
     // player lives & current level

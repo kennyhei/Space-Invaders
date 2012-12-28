@@ -15,9 +15,8 @@ var soundManager = (function() {
     }
     
     function explosionSound() {
-        var audio = explodeAudio;
-        
         if (soundsOn) {
+            var audio = explodeAudio;
             audio.volume = 0.6;
             audio.load();
             audio.play();
@@ -25,9 +24,8 @@ var soundManager = (function() {
     }
     
     function eightBitExplosionSound() {
-        var audio = eightBitExplosionAudio;
-        
         if (soundsOn) {
+            var audio = eightBitExplosionAudio;
             audio.volume = 0.4;
             audio.load();
             audio.play();
@@ -35,9 +33,8 @@ var soundManager = (function() {
     }
     
     function laserSound() {
-        var audio = laserAudio;
-        
         if (soundsOn) {
+            var audio = laserAudio;
             audio.volume = 0.3;
             audio.load();
             audio.play();
@@ -45,9 +42,8 @@ var soundManager = (function() {
     }
     
     function flightSound() {
-        var audio = flightAudio;
-        
         if (soundsOn) {
+            var audio = flightAudio;
             audio.volume = 0.1;
             audio.play();
         }
