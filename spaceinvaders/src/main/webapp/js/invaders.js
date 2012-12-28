@@ -89,7 +89,7 @@ function InvaderManager() {
     var numOfInvaders = 55;
     var invaderMissiles = [];
     var invadersSpeed = 3;
-    var chanceOfShooting = 0.01;
+    var chanceOfShooting = 0.005;
     
     var directionRight = true;
     

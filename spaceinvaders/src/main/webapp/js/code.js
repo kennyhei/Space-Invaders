@@ -120,7 +120,7 @@ var engine = (function() {
         if (bonusInvader == null && bonus > 0) {
             if (invaders.getNumOfInvaders() < 35) {
                 
-                if (Math.floor((Math.random()*1000)+1) < 5) {
+                if (Math.floor((Math.random()*1000)+1) < 3) {
                     bonusInvader = new BonusInvader();
                     bonus = 0;
                 }
@@ -223,9 +223,9 @@ var engine = (function() {
             
             invaders.setSpeed(3+(level/10));
             if (level % 3 == 0)
-                invaders.setChance(0.01+(level/50));
-            else
                 invaders.setChance(0.01+(level/100));
+            else
+                invaders.setChance(0.01+(level/500));
             
             tick();
         }, 3000);
