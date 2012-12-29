@@ -3,7 +3,7 @@ var soundManager = (function() {
     
     var eightBitExplosionAudio = $("#8bit-explosion")[0];
     var explodeAudio = $("#explosion")[0];
-    var laserAudio = $("#laser")[0];
+    var missileAudio = $("#missile")[0];
     var flightAudio = $("#flight")[0];
     
     function enableSounds() {
@@ -32,9 +32,9 @@ var soundManager = (function() {
         }
     }
     
-    function laserSound() {
+    function missileSound() {
         if (soundsOn) {
-            var audio = laserAudio;
+            var audio = missileAudio;
             audio.volume = 0.3;
             audio.load();
             audio.play();
@@ -54,7 +54,7 @@ var soundManager = (function() {
         disableSounds: disableSounds,
         explosionSound: explosionSound,
         eightBitExplosionSound: eightBitExplosionSound,
-        laserSound: laserSound,
+        missileSound: missileSound,
         flightSound: flightSound
     };
 })();
