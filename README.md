@@ -10,9 +10,9 @@ If you succeed to destroy all alien invaders, a new level shall begin but there'
 every time you get to the next level, invaders are faster and deadlier!
 The more invaders you destroy, the more points you get.
 
-## Key Features ##
+## About the game ##
 
 * Supports Android & iOS mobile phones
 * Awesome explosions
-* High scores
+* User-specific high scores
 * Mind-blowing sound effects (for PC users only, sorry!)
