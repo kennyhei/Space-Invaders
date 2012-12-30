@@ -18,4 +18,4 @@ The more invaders you destroy, the more points you get.
 * Mind-blowing sound effects (for PC users only, sorry!)
 
 ### Play the game!
-Direct link: [Space Invaders](http://www.cs.helsinki.fi/u/kennyhei/spaceinvaders)
+* Direct link: [Space Invaders](http://www.cs.helsinki.fi/u/kennyhei/spaceinvaders)
