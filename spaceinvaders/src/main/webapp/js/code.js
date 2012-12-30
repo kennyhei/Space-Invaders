@@ -138,7 +138,7 @@ var engine = (function() {
                 bonusInvader.move(-3,0);
         
             if (bonusInvaderMissile == null) {
-                if (Math.random() < 0.5)
+                if (Math.random() < 0.015)
                     bonusInvaderMissile = bonusInvader.shoot();
             }
         }
