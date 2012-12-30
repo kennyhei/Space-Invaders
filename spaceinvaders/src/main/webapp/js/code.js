@@ -218,7 +218,7 @@ var engine = (function() {
         context.font = "20px Courier New";
         context.fillStyle = "rgb(255,255,255)";
         context.fillText("CONGRATULATIONS!", 178, 250);
-        context.fillText("Proceeding to the next level...", 80, 280);
+        context.fillText("Next level is about to start...", 85, 280);
         
         setTimeout(function() {
             resetData();

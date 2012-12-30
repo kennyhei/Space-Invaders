@@ -75,18 +75,17 @@ function Wall(wallData, roundedTilesData) {
     var roundedTiles = new Array();
     var allTiles = new Array();
     
-    $.each(wallData, function(index, coordinates) {
-        var tile = new Tile(coordinates[0], coordinates[1]);
-        tiles.push(tile);
-        allTiles.push(tile);
-    });
-    
     $.each(roundedTilesData, function(index,data) {
         var roundedTile = new RoundedTile(data[0], data[1], data[2]);
         roundedTiles.push(roundedTile);
         allTiles.push(roundedTile);
     });
-
+    
+    $.each(wallData, function(index, coordinates) {
+        var tile = new Tile(coordinates[0], coordinates[1]);
+        tiles.push(tile);
+        allTiles.push(tile);
+    });
     
     function draw(context) {
         for (var i=0; i < allTiles.length; ++i) {
