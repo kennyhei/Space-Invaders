@@ -4,41 +4,49 @@
 var wallData = [
     [[77, 455],
     [119, 455],
-    [77, 435],
     [91, 435],
-    [105, 435],
-    [119, 435]],
+    [105, 435]],
 
     [[187, 455],
     [229, 455],
-    [187, 435],
     [201, 435],
-    [215, 435],
-    [229, 435]],
+    [215, 435]],
 
     [[297, 455],
     [339, 455],
-    [297, 435],
     [311, 435],
-    [325, 435],
-    [339, 435]],
+    [325, 435]],
 
     [[407, 455],
     [449, 455],
-    [407, 435],
     [421, 435],
-    [435, 435],
-    [449, 435]]
+    [435, 435],]
+];
+
+// rounded corners for walls
+// x-coordinate, y-coordinate, is the round corner clockwise/counter-clockwise
+var roundedTilesData = [
+    [[77,435, false],
+    [119,435, true]],
+
+    [[187,435,false],
+    [229,435, true]],
+
+    [[297,435,false],
+    [339,435, true]],
+
+    [[407,435, false],
+    [449,435, true]]
 ];
 
 // list of walls
 function WallManager() {
     var walls = [];
     
-    $.each(wallData, function(index, data) {
-        var wall = new Wall(data);
+    for (var i=0; i < 4; ++i) {
+        var wall = new Wall(wallData[i], roundedTilesData[i]);
         walls.push(wall);
-    });
+    }
     
     function draw(context) {
         for (var i=0; i < walls.length; ++i) {
@@ -62,31 +70,36 @@ function WallManager() {
 }
 
 // wall protecting the player
-function Wall(wallData) {
+function Wall(wallData, roundedTilesData) {
     var tiles = new Array();
+    var roundedTiles = new Array();
+    var allTiles = new Array();
     
     $.each(wallData, function(index, coordinates) {
         var tile = new Tile(coordinates[0], coordinates[1]);
         tiles.push(tile);
+        allTiles.push(tile);
+    });
+    
+    $.each(roundedTilesData, function(index,data) {
+        var roundedTile = new RoundedTile(data[0], data[1], data[2]);
+        roundedTiles.push(roundedTile);
+        allTiles.push(roundedTile);
     });
 
     
     function draw(context) {
-        for (var i=0; i < tiles.length; ++i) {
-            tiles[i].draw(context);
+        for (var i=0; i < allTiles.length; ++i) {
+            allTiles[i].draw(context);
         }
-    }
-    
-    function getTiles() {
-        return tiles;
     }
     
     // checks if random object hits the wall and removes single tile based on
     // where the wall was hit
     function doesCollide(object, explosions) {
-        for (var i=0; i < tiles.length; ++i) {
-            if (tiles[i].doesCollide(object)) {
-                explosions.newExplosion(tiles[i].getX(), tiles[i].getY());
+        for (var i=0; i < allTiles.length; ++i) {
+            if (allTiles[i].doesCollide(object)) {
+                explosions.newExplosion(allTiles[i].getX(), allTiles[i].getY());
                 removeTile(i);
                 return true;
             }
@@ -95,12 +108,11 @@ function Wall(wallData) {
     }
     
     function removeTile(index) {
-        tiles.splice(index, 1);
+        allTiles.splice(index, 1);
     }
     
     return {
         draw: draw,
-        getTiles: getTiles,
         doesCollide: doesCollide
     };
 }
@@ -116,5 +128,45 @@ function Tile(x,y) {
     Tile.prototype.draw = function(context) {
         context.fillStyle = "rgb(0,255,0)";
         context.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+RoundedTile.prototype = new Drawable();
+RoundedTile.prototype.constructor = RoundedTile;
+
+function RoundedTile(x,y,clockwise) {
+    
+    this.clockwise = clockwise; // is the rounded corner clockwise or counter-clockwise
+    Drawable.call(this,x,y,14,20);
+    
+    RoundedTile.prototype.draw = function(context) {
+        context.fillStyle = "rgb(0,255,0)";
+        context.strokeStyle = "rgb(0,255,0)";
+        context.lineWidth = 1;
+        
+        context.beginPath();
+        
+        if (!this.clockwise)
+            this.drawCounterClockWise(context);
+        else
+            this.drawClockWise(context);
+        
+        context.stroke();
+        context.fill();
+    }
+    
+    RoundedTile.prototype.drawClockWise = function(context) {
+        context.moveTo(this.x+0.5, this.y);
+        context.lineTo(this.x+0.5, this.y+this.height-0.5);
+        context.lineTo(this.x+this.width-0.5, this.y+this.height-0.5);
+        context.quadraticCurveTo(this.x+this.width, this.y+1, this.x, this.y+1);
+    }
+    
+    RoundedTile.prototype.drawCounterClockWise = function(context) {
+        var startingX = this.x+this.width;
+        context.moveTo(startingX-0.5, this.y);
+        context.lineTo(startingX-0.5, this.y+this.height-0.5); // 91, 255, check!
+        context.lineTo(startingX-this.width+0.5, this.y+this.height-0.5); // 78, 255, check!
+        context.quadraticCurveTo(startingX-this.width, this.y+1, startingX, this.y+1); // 77, 236, 91, 236
     }
 }
