@@ -156,7 +156,7 @@ function RoundedTile(x,y,clockwise) {
     }
     
     RoundedTile.prototype.drawClockWise = function(context) {
-        context.moveTo(this.x+0.5, this.y-0.5);
+        context.moveTo(this.x+0.5, this.y);
         context.lineTo(this.x+0.5, this.y+this.height-0.5);
         context.lineTo(this.x+this.width-0.5, this.y+this.height-0.5);
         context.quadraticCurveTo(this.x+this.width, this.y+0.5, this.x, this.y+0.5);
