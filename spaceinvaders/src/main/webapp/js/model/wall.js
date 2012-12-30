@@ -156,17 +156,17 @@ function RoundedTile(x,y,clockwise) {
     }
     
     RoundedTile.prototype.drawClockWise = function(context) {
-        context.moveTo(this.x+0.5, this.y);
+        context.moveTo(this.x+0.5, this.y-0.5);
         context.lineTo(this.x+0.5, this.y+this.height-0.5);
         context.lineTo(this.x+this.width-0.5, this.y+this.height-0.5);
-        context.quadraticCurveTo(this.x+this.width, this.y+1, this.x, this.y+1);
+        context.quadraticCurveTo(this.x+this.width, this.y+0.5, this.x, this.y+0.5);
     }
     
     RoundedTile.prototype.drawCounterClockWise = function(context) {
         var startingX = this.x+this.width;
         context.moveTo(startingX-0.5, this.y);
-        context.lineTo(startingX-0.5, this.y+this.height-0.5); // 91, 255, check!
-        context.lineTo(startingX-this.width+0.5, this.y+this.height-0.5); // 78, 255, check!
-        context.quadraticCurveTo(startingX-this.width, this.y+1, startingX, this.y+1); // 77, 236, 91, 236
+        context.lineTo(startingX-0.5, this.y+this.height-0.5);
+        context.lineTo(startingX-this.width+0.5, this.y+this.height-0.5);
+        context.quadraticCurveTo(startingX-this.width, this.y+0.5, startingX, this.y+0.5);
     }
 }
