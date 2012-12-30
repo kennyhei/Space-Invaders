@@ -80,7 +80,7 @@ var engine = (function() {
     
     function renderScoreList(context) {
         if (gameOver)
-            score.update(); // update scores
+            score.postScore(); // post score to the server
         
         score.showScores(context);
     }

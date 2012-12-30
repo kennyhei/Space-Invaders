@@ -36,7 +36,7 @@ function ScoreManager() {
     }
 
     function getHighScore() {
-            return highScore;
+        return highScore;
     }
     
     function getScore() {
@@ -44,7 +44,7 @@ function ScoreManager() {
     }
     
     // send current score to server
-    function update() {
+    function postScore() {
         // save score to Parse
         gameScore.save({
             userID: $.cookie('userId'),
@@ -83,6 +83,6 @@ function ScoreManager() {
         getScore: getScore,
         getHighScore: getHighScore,
         showScores: showScores,
-        update: update
+        postScore: postScore
     };
 }
