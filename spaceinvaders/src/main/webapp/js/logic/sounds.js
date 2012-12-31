@@ -49,12 +49,12 @@ var soundManager = (function() {
         }
     }
     
-    function isSoundsOn() {
+    function areSoundsOn() {
         return soundsOn;
     }
     
     return {
-        isSoundsOn: isSoundsOn,
+        areSoundsOn: areSoundsOn,
         enableSounds: enableSounds,
         disableSounds: disableSounds,
         explosionSound: explosionSound,
