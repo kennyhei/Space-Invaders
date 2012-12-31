@@ -14,10 +14,6 @@ var soundManager = (function() {
         soundsOn = false;
     }
     
-    function switchSounds() {
-        soundsOn = !soundsOn;
-    }
-    
     function explosionSound() {
         if (soundsOn) {
             var audio = explodeAudio;
