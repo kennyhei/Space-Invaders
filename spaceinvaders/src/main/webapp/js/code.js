@@ -198,6 +198,7 @@ var engine = (function() {
         renderInvaders(context);
         renderHUD(context);
         renderScore(context);
+        renderSoundIcon(context);
         explosions.update(context);
         
         if (gameOver) {
@@ -275,6 +276,20 @@ var engine = (function() {
         
         context.fillText("LEVEL", 340, 30);
         context.fillText(level, 340, 50);
+    }
+    
+    function renderSoundIcon(context) {
+        var icon = $("#sound-icon")[0];
+        context.drawImage(icon, 500, 543, 35, 35);
+        
+        if (!soundManager.isSoundsOn()) {
+            context.strokeStyle = "rgb(255,255,255)";
+            context.lineWidth = 2;
+            context.beginPath();
+            context.moveTo(507,571);
+            context.lineTo(529,550);
+            context.stroke();
+        }
     }
     
     // current score and high score

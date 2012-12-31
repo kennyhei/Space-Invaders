@@ -8,6 +8,7 @@ var configuration = (function() {
             buttonEvents(); // add event handlers for touchscreen buttons
         }
         
+        clickEvents();
         keyEvents();
         scores();
     }
@@ -20,6 +21,23 @@ var configuration = (function() {
         $("<div/>").attr("id", "left").text("Left").appendTo(".buttons");
         $("<div/>").attr("id", "shoot").text("Shoot").appendTo(".buttons");
         $("<div/>").attr("id", "right").text("Right").appendTo(".buttons");
+    }
+    
+    function clickEvents() {
+        
+        // click event for disabling/enabling sounds
+        $("#spaceinvaders").click(function(eventInfo) {
+            var x = Math.floor((eventInfo.pageX-$(this).offset().left));
+            var y = Math.floor((eventInfo.pageY-$(this).offset().top));
+        
+            if ( (x >= 502 && x <= 535) && (y >= 545 && y <= 580)) {
+                if (soundManager.isSoundsOn()) {
+                    soundManager.disableSounds();
+                } else {
+                    soundManager.enableSounds();
+                }
+            }
+        });
     }
     
     function keyEvents() {
