@@ -42,13 +42,16 @@ var configuration = (function() {
     
     function keyEvents() {
         $(document).keydown(function(eventInformation) {
+
             keyhandler.keydown(eventInformation.which);
-            eventInformation.preventDefault();
+            if (keyhandler.isValidKey(eventInformation.which))
+                eventInformation.preventDefault();
         });
     
         $(document).keyup(function(eventInformation) {
             keyhandler.keyup(eventInformation.which);
-            eventInformation.preventDefault();
+            if (keyhandler.isValidKey(eventInformation.which))
+                eventInformation.preventDefault();
         });
     }
     

@@ -24,7 +24,7 @@ var keyhandler = (function() {
     
     function keydown(keycode) {
         keys[keycode] = true;
-    }    
+    }
     
     function keyup(keycode) {
         keys[keycode] = false;
@@ -69,6 +69,11 @@ var keyhandler = (function() {
         return movement;
     }
     
+    function isValidKey(keycode) {
+        return (keycode == 38 || keycode == 175 || keycode == 87 || keycode == 32 || keycode == 37 || keycode == 178 || keycode == 65
+                || keycode == 39 || keycode == 177 || keycode == 68 || keycode == 40);
+    }
+    
     function clear() {
         var i = 0;
         while(i < 256) {
@@ -78,6 +83,7 @@ var keyhandler = (function() {
     }
     
     return {
+        isValidKey: isValidKey,
         keydown: keydown,
         keyup: keyup,
         getMovement: getMovement,
