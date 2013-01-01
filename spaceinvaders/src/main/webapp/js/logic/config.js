@@ -6,9 +6,10 @@ var configuration = (function() {
         
             screen(); // if true, add touchscreen buttons for mobile users
             buttonEvents(); // add event handlers for touchscreen buttons
+        } else {
+            clickEvents(); // allow user to enable sounds only if he's not using mobile device
         }
 
-        clickEvents();
         keyEvents();
         scores();
     }
