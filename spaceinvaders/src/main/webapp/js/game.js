@@ -349,15 +349,15 @@ var engine = (function() {
         
         context.fillStyle = "rgb(255,255,255)";
         context.font = "bold 30px Courier New";
-        context.fillText("START GAME", 180, 270);
+        context.fillText("START GAME", 175, 270);
         
-        context.fillText("HIGH SCORES", 180, 320);
+        context.fillText("HIGH SCORES", 175, 320);
         
         var logo = new Image();
-        logo.src = "img/logo.png";
+        logo.src = "img/logo2.png";
         
         logo.onload = function() {
-            context.drawImage(logo, 51, 20);
+            context.drawImage(logo, 44, 20, 450, 200);
             context = null;
         };
     
