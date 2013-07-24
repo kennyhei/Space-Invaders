@@ -1,7 +1,7 @@
 # Space Invaders
 
 Space Invaders is a classic two-dimensional shooter game made by Tomohiro Nishikado in 1978.
-This is my version of the game for a software project.
+This is my version of the game for a software project course.
 
 You are controlling a space ship which can shoot missiles and your goal is to
 destroy alien invaders before they get too close. Unfortunately invaders won't
