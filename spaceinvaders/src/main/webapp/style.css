@@ -3,10 +3,10 @@ body {
     text-align: center;
     background-color: black;
     -webkit-user-select: none;
-    background-image: url('img/wallpaper2.jpg');
+    background-image: url('img/wallpaper.jpg');
     background-size: 80%;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: right;
 }
 
 .wrapper {
