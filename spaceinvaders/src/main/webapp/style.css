@@ -1,17 +1,17 @@
 
 body {
-    padding: 2em;
-    width: 60%;
-    height: 100%;
-    min-width: 540px;
-    margin-right: auto;
     text-align: center;
-    background-repeat: repeat;
-    background-image: url(img/wallpaper4.jpg);
-    background-size: 100%;
-    background-position: right;
-    
+    background-color: black;
     -webkit-user-select: none;
+    background-image: url('img/wallpaper2.jpg');
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.wrapper {
+    width: 540px;
+    margin: 0 auto;
 }
 
 canvas {
@@ -27,8 +27,9 @@ canvas {
 }
 
 .credits {
+    background-color: black;
     margin: auto;
-    width: 40%;
+    width: 35%;
 
     border-radius: 10px;
     -moz-border-radius: 10px;
@@ -53,11 +54,11 @@ h2, p {
 .buttons div {
     padding: 1.5em;
     display: inline;
-    
+
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    
+
     border-style: solid;
     border-width: 1px;
 }
