@@ -23,18 +23,11 @@ MIT LICENSE
 
 # Acknowledgements
 
-Space Invaders Spritesheet & Logo: [GooberBloober22](http://gooperblooper22.deviantart.com/art/Space-Invaders-Sprite-Sheet-135338373)
-
-Player Ship Spritesheet: [Mike Thomas](http://www.atomicrobotdesign.com/)
-
-Ship/Wall/Bonus Invader Explosion Sounds: [Michel Baradari](http://cubeengine.com/forum.php4?action=display_thread&thread_id=2164)
-
->License: [Creative Commons Attribution 3.0 (CC BY 3.0)](http://creativecommons.org/licenses/by/3.0/)
-
-Missile & Bonus Invader Sounds: [DravenX](http://www.dravenxgames.com/)
-
->License: [Creative Commons Attribution 3.0 (CC BY 3.0)](http://creativecommons.org/licenses/by/3.0/)
-
-Wallpaper: [thelowfive](http://thelowfive.deviantart.com/art/Space-Invaders-Wallpaper-189560642)
-
->License: [Cretive Commons Attribution-NonCommercial 3.0 (CC BY-NC 3.0)](http://creativecommons.org/licenses/by-nc/3.0/)
+* Space Invaders Spritesheet & Logo: [GooberBloober22](http://gooperblooper22.deviantart.com/art/Space-Invaders-Sprite-Sheet-135338373)
+* Player Ship Spritesheet: [Mike Thomas](http://www.atomicrobotdesign.com/)
+* Ship/Wall/Bonus Invader Explosion Sounds: [Michel Baradari](http://cubeengine.com/forum.php4?action=display_thread&thread_id=2164)
+  * License: [Creative Commons Attribution 3.0 (CC BY 3.0)](http://creativecommons.org/licenses/by/3.0/)
+* Missile & Bonus Invader Sounds: [DravenX](http://www.dravenxgames.com/)
+  * License: [Creative Commons Attribution 3.0 (CC BY 3.0)](http://creativecommons.org/licenses/by/3.0/)
+* Wallpaper: [thelowfive](http://thelowfive.deviantart.com/art/Space-Invaders-Wallpaper-189560642)
+  * License: [Cretive Commons Attribution-NonCommercial 3.0 (CC BY-NC 3.0)](http://creativecommons.org/licenses/by-nc/3.0/)
