@@ -10,6 +10,8 @@ If you succeed to destroy all alien invaders, a new level shall begin.
 Every time you get to the next level, the invaders are faster and deadlier.
 The more invaders you destroy, the more points you get.
 
+To play it, clone or download this repository and open `index.html` file. I'll upload it to Heroku some day, I promise.
+
 ## About the game ##
 
 * Supports touchscreens (works on some Android and iOS mobile phones)
