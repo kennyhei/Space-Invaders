@@ -4,9 +4,7 @@ body {
     background-color: black;
     -webkit-user-select: none;
     background-image: url('img/wallpaper.jpg');
-    background-size: 80%;
-    background-repeat: no-repeat;
-    background-position: right;
+    background-repeat: repeat;
 }
 
 .wrapper {
