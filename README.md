@@ -7,14 +7,14 @@ You are controlling a space ship which can shoot missiles and your goal is to
 destroy alien invaders before they get too close. Unfortunately invaders won't
 give up without a fight as they can shoot missiles also!
 If you succeed to destroy all alien invaders, a new level shall begin.
-Every time you get to the next level, the invaders are faster and deadlier.
+Every time you get to the next level, the invaders become faster and deadlier.
 The more invaders you destroy, the more points you get.
 
-To play it, clone or download this repository and open `index.html` file. I'll upload it to Heroku some day, I promise.
+Play it on [Heroku](https://infinite-lake-96180.herokuapp.com).
+Alternatively you can clone or download this repository and open `index.html` file.
 
 ## About the game ##
 
-* Supports touchscreens (works on some Android and iOS mobile phones)
 * Awesome explosions
-* User-specific high scores
-* Mind-blowing sound effects (for PC users only, sorry!)
+* High scores
+* Mind-blowing sound effects
