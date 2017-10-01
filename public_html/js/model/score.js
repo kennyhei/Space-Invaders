@@ -1,26 +1,17 @@
-var GameScore = Parse.Object.extend("GameScore");
 
 function ScoreManager() {
-    Parse.initialize("xR4SolA0VPCzrf7Pp9zuBDVOM6EB6KodPAnWbgso", "JoAmAsdAt3lHQCkqAIVPVDDyYMVCRIo9PZrrQfMM");
+
+    var scores = [];
+    if (localStorage.getItem("highscore") !== null ) {
+        scores = JSON.parse(localStorage.getItem("highscore"));
+    }
 
     var score = 0;
     var highScore = 0;
-    var gameScore = new GameScore();
-    var query = new Parse.Query(GameScore);
 
-    // initialize highscore
-    query.equalTo("userID", $.cookie('userId'));
-    query.descending("score");
-    query.limit(1);
-    query.find({
-        success: function(results) {
-            if (results.length == 0) {
-                highScore = 0;
-            } else {
-                highScore = results[0].attributes.score;
-            }
-        }
-    });
+    if (scores.length > 0) {
+        highScore = scores[0];
+    }
 
     function raiseScore(enemyType) {
         if (enemyType < 1) {
@@ -46,39 +37,36 @@ function ScoreManager() {
         return score;
     }
 
-    // send current score to server
     function postScore() {
-        // save score to Parse
-        gameScore.save({
-            userID: $.cookie('userId'),
-            score: score
+
+        scores.push(score);
+        scores.sort(function(a, b) {
+            return b - a;
         });
+
+        scores = scores.slice(0, 5);
+        localStorage.setItem("highscore", JSON.stringify(scores));
 }
 
     function showScores(context) {
         // fetch scores
-        query.equalTo("userID", $.cookie('userId'));
-        query.exists("score");
+        var results = JSON.parse(localStorage.getItem("highscore"));
+        if (results === null) {
+            results = scores;
+        }
 
-        query.descending("score");
-        query.limit(5); // only top 5 scores will be fetched
+        context.font = "20px Courier New";
 
-        query.find({
-            success: function(results) {
-                context.font = "20px Courier New";
+        if (results.length === 0) {
+            context.fillText("No scores yet! Go and play!", 115, 305);
+            return;
+        }
 
-                if (results.length < 1) {
-                    context.fillText("No scores yet! Go and play!", 115, 305);
-                    return;
-                }
-
-                var y = 305;
-                for (var i = 0; i < results.length; ++i) {
-                    context.fillText((i+1)+": "+ results[i].attributes.score, 230, y);
-                    y += 30;
-                }
-            }
-        });
+        var y = 305;
+        for (var i = 0; i < results.length; ++i) {
+            context.fillText((i+1)+": "+ results[i], 230, y);
+            y += 30;
+        }
     }
 
     return {
