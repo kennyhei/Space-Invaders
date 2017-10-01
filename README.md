@@ -10,7 +10,7 @@ If you succeed to destroy all alien invaders, a new level shall begin.
 Every time you get to the next level, the invaders become faster and deadlier.
 The more invaders you destroy, the more points you get.
 
-Play it on [Heroku](https://infinite-lake-96180.herokuapp.com).
+Play it on [Heroku](https://arcane-crag-52898.herokuapp.com).
 Alternatively you can clone or download this repository and open `index.html` file.
 
 ## About the game ##
